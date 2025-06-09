@@ -5,7 +5,18 @@ apis:
   - aid: solo-io:solo-io
     name: Solo.io
     tags:
-      - API
+      - Management
+      - Security
+      - Observability
+      - Resiliency
+      - Traffic Control
+      - Platform
+      - Automation
+      - Analytics
+      - Monetization
+      - Gateways
+      - AI Gateway
+      - Service Mesh
     humanURL: https://www.solo.io/
     properties:
       - url: https://www.solo.io/
