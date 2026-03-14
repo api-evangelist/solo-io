@@ -1,0 +1,545 @@
+openapi: 3.1.0
+info:
+  title: Solo.io Gloo Portal Server API
+  description: >-
+    The Gloo Platform Portal Server API provides REST endpoints to manage user
+    access to both the developer portal and the API resources exposed by the
+    portal. It enables developers to discover available APIs, view API schemas
+    and documentation, manage API keys, and review usage plans. The portal
+    server is deployed as part of the Gloo Mesh Gateway installation and serves
+    as the backend for the Gloo developer portal experience.
+  version: 1.0.0
+  contact:
+    name: Solo.io
+    url: https://www.solo.io/
+  license:
+    name: Proprietary
+    url: https://www.solo.io/
+servers:
+  - url: https://{portalHost}/v1
+    description: Gloo Portal Server
+    variables:
+      portalHost:
+        default: portal.example.com
+        description: The hostname where the Gloo Portal server is deployed
+paths:
+  /me:
+    get:
+      operationId: getCurrentUser
+      summary: Get current user
+      description: >-
+        Looks up the user for the current session and returns user information
+        if the user session exists and is not expired. Used to determine the
+        identity and permissions of the currently authenticated user.
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved user information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized - user session is invalid or expired
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    options:
+      operationId: optionsCurrentUser
+      summary: CORS preflight for current user
+      description: Handles CORS preflight requests for the current user endpoint.
+      tags:
+        - Users
+      responses:
+        '204':
+          description: CORS preflight response
+  /apis:
+    get:
+      operationId: listApis
+      summary: List available APIs
+      description: >-
+        Lists all APIs visible to the current user. Returns both public and
+        private API products that the authenticated user has access to. Each
+        API includes metadata such as name, version, description, and
+        associated usage plans.
+      tags:
+        - APIs
+      security:
+        - bearerAuth: []
+        - {}
+      parameters:
+        - name: offset
+          in: query
+          description: Pagination offset for the list of APIs
+          schema:
+            type: integer
+            default: 0
+        - name: limit
+          in: query
+          description: Maximum number of APIs to return
+          schema:
+            type: integer
+            default: 25
+      responses:
+        '200':
+          description: Successfully retrieved list of APIs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApiProduct'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /apis/{apiId}:
+    get:
+      operationId: getApi
+      summary: Get API details
+      description: >-
+        Retrieves the details of a specific API product by its identifier.
+        Returns metadata including the API name, version, description,
+        available endpoints, and associated usage plans.
+      tags:
+        - APIs
+      security:
+        - bearerAuth: []
+        - {}
+      parameters:
+        - name: apiId
+          in: path
+          required: true
+          description: Unique identifier of the API product
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved API details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProduct'
+        '404':
+          description: API not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /apis/{apiId}/schema:
+    get:
+      operationId: getApiSchema
+      summary: Get API schema
+      description: >-
+        Gets the OpenAPI specification schema for a specific API. Returns the
+        schema only if the API ID exists and, when authentication is enforced,
+        only if the user has access to the API. The schema can be rendered in
+        Swagger or Redocly format by the developer portal frontend.
+      tags:
+        - APIs
+      security:
+        - bearerAuth: []
+        - {}
+      parameters:
+        - name: apiId
+          in: path
+          required: true
+          description: Unique identifier of the API product
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved API schema
+          content:
+            application/json:
+              schema:
+                type: object
+                description: The OpenAPI specification for the requested API
+            application/x-yaml:
+              schema:
+                type: string
+                description: The OpenAPI specification in YAML format
+        '403':
+          description: Forbidden - user does not have access to this API
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: API not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /usage-plans:
+    get:
+      operationId: listUsagePlans
+      summary: List usage plans
+      description: >-
+        Lists all usage plans available to the current user. Usage plans define
+        rate limiting policies, quotas, and access levels for API products.
+        Developers can view available plans to understand the terms under which
+        they can consume APIs.
+      tags:
+        - Usage Plans
+      security:
+        - bearerAuth: []
+        - {}
+      responses:
+        '200':
+          description: Successfully retrieved list of usage plans
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UsagePlan'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api-keys:
+    get:
+      operationId: listApiKeys
+      summary: List API keys
+      description: >-
+        Lists all API keys belonging to the current user. API keys are used
+        to authenticate requests to API products exposed through the Gloo
+        developer portal.
+      tags:
+        - API Keys
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully retrieved list of API keys
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApiKey'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: createApiKey
+      summary: Create API key
+      description: >-
+        Creates a new API key for the current user. The API key can be
+        associated with a specific usage plan and API product. The generated
+        key value is returned only once in the response and should be stored
+        securely by the developer.
+      tags:
+        - API Keys
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApiKeyRequest'
+      responses:
+        '201':
+          description: Successfully created API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyWithSecret'
+        '400':
+          description: Bad request - invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api-keys/{apiKeyId}:
+    delete:
+      operationId: deleteApiKey
+      summary: Delete API key
+      description: >-
+        Deletes a specific API key belonging to the current user. Once deleted,
+        the API key can no longer be used to authenticate requests to API
+        products.
+      tags:
+        - API Keys
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: apiKeyId
+          in: path
+          required: true
+          description: Unique identifier of the API key to delete
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successfully deleted API key
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: API key not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /login:
+    get:
+      operationId: login
+      summary: Login to developer portal
+      description: >-
+        Initiates the login flow for the developer portal. This endpoint is
+        used as the callback path in the ExtAuthPolicy OIDC configuration.
+        It redirects the user to the configured identity provider for
+        authentication.
+      tags:
+        - Authentication
+      responses:
+        '302':
+          description: Redirect to identity provider for authentication
+          headers:
+            Location:
+              schema:
+                type: string
+              description: URL of the identity provider login page
+  /logout:
+    get:
+      operationId: logout
+      summary: Logout from developer portal
+      description: >-
+        Logs out the current user from the developer portal by invalidating
+        the current session.
+      tags:
+        - Authentication
+      security:
+        - bearerAuth: []
+      responses:
+        '302':
+          description: Redirect after successful logout
+          headers:
+            Location:
+              schema:
+                type: string
+              description: URL to redirect to after logout
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >-
+        OAuth 2.0 Bearer token obtained through the OIDC login flow
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: api-key
+      description: API key for accessing API products
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the user
+        email:
+          type: string
+          format: email
+          description: Email address of the user
+        username:
+          type: string
+          description: Username of the user
+        name:
+          type: string
+          description: Display name of the user
+        groups:
+          type: array
+          items:
+            type: string
+          description: Groups the user belongs to
+    ApiProduct:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the API product
+        name:
+          type: string
+          description: Name of the API product
+        description:
+          type: string
+          description: Description of the API product
+        version:
+          type: string
+          description: Version of the API product
+        contact:
+          type: string
+          description: Contact information for the API product owner
+        license:
+          type: string
+          description: License information for the API product
+        termsOfService:
+          type: string
+          description: Terms of service URL
+        usagePlans:
+          type: array
+          items:
+            type: string
+          description: List of usage plan IDs associated with this API product
+        apiVersions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiVersion'
+          description: Available versions of this API
+        visibility:
+          type: string
+          enum:
+            - public
+            - private
+          description: Visibility setting of the API product
+    ApiVersion:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the API version
+        version:
+          type: string
+          description: Version string
+        schemaType:
+          type: string
+          enum:
+            - openapi
+            - graphql
+            - grpc
+          description: Type of schema for this API version
+    UsagePlan:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the usage plan
+        name:
+          type: string
+          description: Name of the usage plan
+        description:
+          type: string
+          description: Description of the usage plan
+        rateLimitPolicy:
+          type: object
+          properties:
+            requestsPerUnit:
+              type: integer
+              description: Number of allowed requests per time unit
+            unit:
+              type: string
+              enum:
+                - SECOND
+                - MINUTE
+                - HOUR
+                - DAY
+              description: Time unit for rate limiting
+          description: Rate limiting configuration for this plan
+        apiProducts:
+          type: array
+          items:
+            type: string
+          description: List of API product IDs available under this plan
+    ApiKey:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the API key
+        name:
+          type: string
+          description: Name or label for the API key
+        apiProductId:
+          type: string
+          description: ID of the API product this key grants access to
+        usagePlanId:
+          type: string
+          description: ID of the usage plan associated with this key
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the API key was created
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+          description: Additional metadata associated with the API key
+    ApiKeyWithSecret:
+      allOf:
+        - $ref: '#/components/schemas/ApiKey'
+        - type: object
+          properties:
+            apiKey:
+              type: string
+              description: >-
+                The generated API key value. This is only returned once at
+                creation time and cannot be retrieved again.
+    CreateApiKeyRequest:
+      type: object
+      required:
+        - name
+        - usagePlanId
+        - apiProductId
+      properties:
+        name:
+          type: string
+          description: Name or label for the API key
+        usagePlanId:
+          type: string
+          description: ID of the usage plan to associate with the key
+        apiProductId:
+          type: string
+          description: ID of the API product to grant access to
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+          description: Additional metadata to associate with the API key
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+        code:
+          type: integer
+          description: Error code
+        status:
+          type: string
+          description: HTTP status text
+tags:
+  - name: Authentication
+    description: Login and logout operations for the developer portal
+  - name: Users
+    description: User profile and session management
+  - name: APIs
+    description: API product discovery and schema retrieval
+  - name: API Keys
+    description: API key lifecycle management
+  - name: Usage Plans
+    description: Usage plan discovery and selection

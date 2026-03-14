@@ -2,28 +2,44 @@ aid: solo-io
 url: >-
   https://raw.githubusercontent.com/api-evangelist/solo-io/refs/heads/main/apis.yml
 apis:
-  - aid: solo-io:solo-io
-    name: Solo.io
+  - aid: solo-io:gloo-portal-server-api
+    name: Solo.io Gloo Portal Server API
     tags:
-      - Management
-      - Security
-      - Observability
-      - Resiliency
-      - Traffic Control
-      - Platform
-      - Automation
-      - Analytics
-      - Monetization
-      - Gateways
-      - AI Gateway
-      - Service Mesh
-    humanURL: https://www.solo.io/
+      - API Management
+      - Developer Portal
+      - API Keys
+      - API Gateway
+    humanURL: https://docs.solo.io/gloo-mesh-gateway/latest/portal/openapi/
     properties:
-      - url: https://www.solo.io/
+      - url: https://docs.solo.io/gloo-mesh-gateway/latest/portal/openapi/
         type: Documentation
+      - url: openapi/solo-io-gloo-portal-server-api-openapi.yml
+        type: OpenAPI
     description: >-
-      Fully connect your APIs and services from end  to end user and win in the
-      cloud-native era.
+      The Gloo Platform Portal Server API provides REST endpoints to manage user
+      access to the developer portal and API resources. It enables developers to
+      discover available APIs, view API schemas and documentation, manage API
+      keys, and review usage plans for the Gloo developer portal.
+  - aid: solo-io:gloo-gateway-management-api
+    name: Solo.io Gloo Gateway Management API
+    tags:
+      - API Gateway
+      - Traffic Management
+      - Service Mesh
+      - Envoy Proxy
+      - Cloud Native
+    humanURL: https://docs.solo.io/gloo-edge/latest/reference/api/
+    properties:
+      - url: https://docs.solo.io/gloo-edge/latest/reference/api/
+        type: Documentation
+      - url: openapi/solo-io-gloo-gateway-management-api-openapi.yml
+        type: OpenAPI
+    description: >-
+      The Gloo Gateway Management API provides administrative REST endpoints for
+      managing and monitoring Gloo Gateway deployments. Gloo Gateway is a
+      cloud-native API gateway and AI gateway built on Envoy Proxy that provides
+      ingress control, traffic management, security, observability, and
+      function-level routing for Kubernetes environments.
 name: Solo.io
 tags:
   - Management
@@ -42,7 +58,7 @@ type: Contract
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
 created: '2025-01-08'
-modified: '2025-06-09'
+modified: '2026-03-14'
 position: Consuming
 description: >-
   Cloud-native API management and service connectivity to automate security,

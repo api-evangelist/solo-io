@@ -1,0 +1,576 @@
+openapi: 3.1.0
+info:
+  title: Solo.io Gloo Gateway Management API
+  description: >-
+    The Gloo Gateway Management API provides administrative REST endpoints for
+    managing and monitoring Gloo Gateway deployments. Gloo Gateway is a
+    cloud-native API gateway and AI gateway built on Envoy Proxy that provides
+    ingress control, traffic management, security, observability, and
+    function-level routing. This API enables operators to manage upstreams,
+    virtual services, route tables, proxies, and other gateway resources
+    through RESTful interactions with the Gloo control plane.
+  version: 1.0.0
+  contact:
+    name: Solo.io
+    url: https://www.solo.io/
+  license:
+    name: Proprietary
+    url: https://www.solo.io/
+servers:
+  - url: https://{gatewayHost}/api/v1
+    description: Gloo Gateway Management Server
+    variables:
+      gatewayHost:
+        default: gloo.example.com
+        description: The hostname of the Gloo Gateway management server
+paths:
+  /upstreams:
+    get:
+      operationId: listUpstreams
+      summary: List upstreams
+      description: >-
+        Lists all upstream destinations registered with Gloo Gateway. Upstreams
+        represent backend services that the gateway can route traffic to,
+        including Kubernetes services, static hosts, AWS Lambda functions,
+        and other function providers.
+      tags:
+        - Upstreams
+      parameters:
+        - name: namespace
+          in: query
+          description: Filter upstreams by namespace
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved list of upstreams
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Upstream'
+  /upstreams/{namespace}/{name}:
+    get:
+      operationId: getUpstream
+      summary: Get upstream details
+      description: >-
+        Retrieves detailed information about a specific upstream by namespace
+        and name, including its configuration, health status, and associated
+        functions.
+      tags:
+        - Upstreams
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved upstream details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Upstream'
+        '404':
+          description: Upstream not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /virtualservices:
+    get:
+      operationId: listVirtualServices
+      summary: List virtual services
+      description: >-
+        Lists all virtual services configured in Gloo Gateway. Virtual services
+        define the routing rules, security policies, and traffic management
+        settings for incoming requests.
+      tags:
+        - Virtual Services
+      parameters:
+        - name: namespace
+          in: query
+          description: Filter virtual services by namespace
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved list of virtual services
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VirtualService'
+  /virtualservices/{namespace}/{name}:
+    get:
+      operationId: getVirtualService
+      summary: Get virtual service details
+      description: >-
+        Retrieves the configuration of a specific virtual service, including
+        its domains, routes, rate limiting, authentication, and transformation
+        settings.
+      tags:
+        - Virtual Services
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved virtual service details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VirtualService'
+        '404':
+          description: Virtual service not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /proxies:
+    get:
+      operationId: listProxies
+      summary: List proxies
+      description: >-
+        Lists all proxy configurations managed by Gloo Gateway. Proxies
+        represent the compiled Envoy configuration generated from virtual
+        services, upstreams, and other gateway resources.
+      tags:
+        - Proxies
+      parameters:
+        - name: namespace
+          in: query
+          description: Filter proxies by namespace
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved list of proxies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Proxy'
+  /proxies/{namespace}/{name}:
+    get:
+      operationId: getProxy
+      summary: Get proxy details
+      description: >-
+        Retrieves the compiled proxy configuration including all listeners,
+        routes, and clusters derived from the gateway resources.
+      tags:
+        - Proxies
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved proxy details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proxy'
+        '404':
+          description: Proxy not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /routetables:
+    get:
+      operationId: listRouteTables
+      summary: List route tables
+      description: >-
+        Lists all route tables configured in Gloo Gateway. Route tables provide
+        a way to modularize and delegate routing configuration across teams
+        and namespaces.
+      tags:
+        - Route Tables
+      parameters:
+        - name: namespace
+          in: query
+          description: Filter route tables by namespace
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved list of route tables
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RouteTable'
+  /routetables/{namespace}/{name}:
+    get:
+      operationId: getRouteTable
+      summary: Get route table details
+      description: >-
+        Retrieves the configuration of a specific route table, including
+        all defined routes, matchers, and destination references.
+      tags:
+        - Route Tables
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved route table details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RouteTable'
+        '404':
+          description: Route table not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /gateways:
+    get:
+      operationId: listGateways
+      summary: List gateways
+      description: >-
+        Lists all gateway resources. Gateways define the listeners and bind
+        addresses that Envoy uses to accept incoming connections.
+      tags:
+        - Gateways
+      parameters:
+        - name: namespace
+          in: query
+          description: Filter gateways by namespace
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved list of gateways
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Gateway'
+  /gateways/{namespace}/{name}:
+    get:
+      operationId: getGateway
+      summary: Get gateway details
+      description: >-
+        Retrieves the configuration of a specific gateway including its
+        listeners, TLS settings, and bound virtual services.
+      tags:
+        - Gateways
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully retrieved gateway details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gateway'
+        '404':
+          description: Gateway not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /check:
+    get:
+      operationId: healthCheck
+      summary: Health check
+      description: >-
+        Performs a health check on the Gloo Gateway control plane and returns
+        the status of its components including the translator, discovery
+        services, and xDS server.
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Control plane is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+        '503':
+          description: Control plane is unhealthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+components:
+  schemas:
+    Upstream:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/ResourceMetadata'
+        status:
+          $ref: '#/components/schemas/ResourceStatus'
+        upstreamType:
+          type: string
+          enum:
+            - kube
+            - static
+            - aws
+            - azure
+            - consul
+          description: Type of upstream destination
+        host:
+          type: string
+          description: Hostname or address of the upstream
+        port:
+          type: integer
+          description: Port number of the upstream service
+        serviceSpec:
+          type: object
+          properties:
+            rest:
+              type: object
+              description: REST service specification including discovered functions
+            grpc:
+              type: object
+              description: gRPC service specification including discovered services
+          description: Service specification for function-level routing
+        sslConfig:
+          type: object
+          description: TLS/SSL configuration for the upstream connection
+        healthChecks:
+          type: array
+          items:
+            type: object
+          description: Health check configuration for the upstream
+    VirtualService:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/ResourceMetadata'
+        status:
+          $ref: '#/components/schemas/ResourceStatus'
+        displayName:
+          type: string
+          description: Human-readable name for the virtual service
+        domains:
+          type: array
+          items:
+            type: string
+          description: List of domains that this virtual service handles
+        routes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Route'
+          description: Ordered list of routing rules
+        sslConfig:
+          type: object
+          description: TLS/SSL configuration for the virtual service
+        virtualHost:
+          type: object
+          description: Virtual host configuration including options
+    Route:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the route
+        matchers:
+          type: array
+          items:
+            type: object
+            properties:
+              prefix:
+                type: string
+              exact:
+                type: string
+              regex:
+                type: string
+              headers:
+                type: array
+                items:
+                  type: object
+              methods:
+                type: array
+                items:
+                  type: string
+          description: Request matchers for this route
+        routeAction:
+          type: object
+          description: Action to take when the route matches
+        options:
+          type: object
+          description: Route-level options including transformations and policies
+    Proxy:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/ResourceMetadata'
+        status:
+          $ref: '#/components/schemas/ResourceStatus'
+        listeners:
+          type: array
+          items:
+            type: object
+          description: List of listeners configured on this proxy
+        compressedSpec:
+          type: string
+          description: Compressed representation of the full proxy specification
+    RouteTable:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/ResourceMetadata'
+        status:
+          $ref: '#/components/schemas/ResourceStatus'
+        routes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Route'
+          description: List of routes defined in this route table
+        weight:
+          type: integer
+          description: Weight for route table ordering
+    Gateway:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/ResourceMetadata'
+        status:
+          $ref: '#/components/schemas/ResourceStatus'
+        bindAddress:
+          type: string
+          description: Address the gateway listens on
+        bindPort:
+          type: integer
+          description: Port the gateway listens on
+        ssl:
+          type: boolean
+          description: Whether SSL/TLS is enabled on this gateway
+        httpGateway:
+          type: object
+          description: HTTP gateway configuration
+        tcpGateway:
+          type: object
+          description: TCP gateway configuration
+    ResourceMetadata:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the resource
+        namespace:
+          type: string
+          description: Namespace of the resource
+        cluster:
+          type: string
+          description: Cluster where the resource resides
+        labels:
+          type: object
+          additionalProperties:
+            type: string
+          description: Labels attached to the resource
+        annotations:
+          type: object
+          additionalProperties:
+            type: string
+          description: Annotations attached to the resource
+        resourceVersion:
+          type: string
+          description: Version identifier for optimistic concurrency
+    ResourceStatus:
+      type: object
+      properties:
+        state:
+          type: string
+          enum:
+            - Pending
+            - Accepted
+            - Rejected
+            - Warning
+          description: Current state of the resource
+        reason:
+          type: string
+          description: Reason for the current state
+        reportedBy:
+          type: string
+          description: Component that reported this status
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - healthy
+            - unhealthy
+          description: Overall health status
+        components:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              status:
+                type: string
+              message:
+                type: string
+          description: Health status of individual components
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+        code:
+          type: integer
+          description: Error code
+tags:
+  - name: Upstreams
+    description: Backend service destination management
+  - name: Virtual Services
+    description: Routing and traffic management configuration
+  - name: Route Tables
+    description: Modular and delegated route configuration
+  - name: Proxies
+    description: Compiled Envoy proxy configuration
+  - name: Gateways
+    description: Listener and ingress configuration
+  - name: Health
+    description: Control plane health monitoring
