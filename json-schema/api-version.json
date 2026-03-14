@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/api-evangelist/solo-io/blob/main/json-schema/api-version.json",
+  "title": "Solo.io Gloo Portal API Version",
+  "description": "A version of an API product, specifying the schema type used for its definition.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the API version."
+    },
+    "version": {
+      "type": "string",
+      "description": "Version string."
+    },
+    "schemaType": {
+      "type": "string",
+      "enum": ["openapi", "graphql", "grpc"],
+      "description": "Type of schema for this API version."
+    }
+  }
+}

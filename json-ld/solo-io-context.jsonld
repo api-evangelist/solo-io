@@ -1,0 +1,165 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "gloo": "https://docs.solo.io/gloo-edge/latest/reference/api/",
+    "portal": "https://docs.solo.io/gloo-mesh-gateway/latest/portal/",
+    "User": {
+      "@id": "portal:user",
+      "@context": {
+        "id": "https://schema.org/identifier",
+        "email": "https://schema.org/email",
+        "username": "https://schema.org/identifier",
+        "name": "https://schema.org/name",
+        "groups": "https://schema.org/memberOf"
+      }
+    },
+    "ApiProduct": {
+      "@id": "portal:api-product",
+      "@context": {
+        "id": "https://schema.org/identifier",
+        "name": "https://schema.org/name",
+        "description": "https://schema.org/description",
+        "version": "https://schema.org/version",
+        "contact": "https://schema.org/contactPoint",
+        "license": "https://schema.org/license",
+        "termsOfService": "https://schema.org/termsOfService",
+        "usagePlans": {
+          "@id": "portal:usage-plan",
+          "@type": "@id"
+        },
+        "apiVersions": {
+          "@id": "portal:api-version",
+          "@type": "@id"
+        },
+        "visibility": "https://schema.org/accessMode"
+      }
+    },
+    "ApiVersion": {
+      "@id": "portal:api-version",
+      "@context": {
+        "id": "https://schema.org/identifier",
+        "version": "https://schema.org/version",
+        "schemaType": "https://schema.org/encodingFormat"
+      }
+    },
+    "UsagePlan": {
+      "@id": "portal:usage-plan",
+      "@context": {
+        "id": "https://schema.org/identifier",
+        "name": "https://schema.org/name",
+        "description": "https://schema.org/description",
+        "rateLimitPolicy": "https://schema.org/actionOption",
+        "apiProducts": {
+          "@id": "portal:api-product",
+          "@type": "@id"
+        }
+      }
+    },
+    "ApiKey": {
+      "@id": "portal:api-key",
+      "@context": {
+        "id": "https://schema.org/identifier",
+        "name": "https://schema.org/name",
+        "apiProductId": {
+          "@id": "portal:api-product",
+          "@type": "@id"
+        },
+        "usagePlanId": {
+          "@id": "portal:usage-plan",
+          "@type": "@id"
+        },
+        "createdAt": "https://schema.org/dateCreated",
+        "metadata": "https://schema.org/additionalProperty"
+      }
+    },
+    "Upstream": {
+      "@id": "gloo:upstream",
+      "@context": {
+        "metadata": "https://schema.org/identifier",
+        "status": "https://schema.org/status",
+        "upstreamType": "https://schema.org/category",
+        "host": "https://schema.org/url",
+        "port": "https://schema.org/identifier",
+        "serviceSpec": "https://schema.org/serviceType",
+        "sslConfig": "https://schema.org/actionOption",
+        "healthChecks": "https://schema.org/healthCondition"
+      }
+    },
+    "VirtualService": {
+      "@id": "gloo:virtual-service",
+      "@context": {
+        "metadata": "https://schema.org/identifier",
+        "status": "https://schema.org/status",
+        "displayName": "https://schema.org/name",
+        "domains": "https://schema.org/url",
+        "routes": {
+          "@id": "gloo:route",
+          "@type": "@id"
+        },
+        "sslConfig": "https://schema.org/actionOption",
+        "virtualHost": "https://schema.org/hasPart"
+      }
+    },
+    "Route": {
+      "@id": "gloo:route",
+      "@context": {
+        "name": "https://schema.org/name",
+        "matchers": "https://schema.org/urlTemplate",
+        "routeAction": "https://schema.org/potentialAction",
+        "options": "https://schema.org/actionOption"
+      }
+    },
+    "RouteTable": {
+      "@id": "gloo:route-table",
+      "@context": {
+        "metadata": "https://schema.org/identifier",
+        "status": "https://schema.org/status",
+        "routes": {
+          "@id": "gloo:route",
+          "@type": "@id"
+        },
+        "weight": "https://schema.org/position"
+      }
+    },
+    "Gateway": {
+      "@id": "gloo:gateway",
+      "@context": {
+        "metadata": "https://schema.org/identifier",
+        "status": "https://schema.org/status",
+        "bindAddress": "https://schema.org/url",
+        "bindPort": "https://schema.org/identifier",
+        "ssl": "https://schema.org/actionOption",
+        "httpGateway": "https://schema.org/hasPart",
+        "tcpGateway": "https://schema.org/hasPart"
+      }
+    },
+    "Proxy": {
+      "@id": "gloo:proxy",
+      "@context": {
+        "metadata": "https://schema.org/identifier",
+        "status": "https://schema.org/status",
+        "listeners": "https://schema.org/hasPart",
+        "compressedSpec": "https://schema.org/text"
+      }
+    },
+    "ResourceMetadata": {
+      "@id": "gloo:resource-metadata",
+      "@context": {
+        "name": "https://schema.org/name",
+        "namespace": "https://schema.org/identifier",
+        "cluster": "https://schema.org/identifier",
+        "labels": "https://schema.org/keywords",
+        "annotations": "https://schema.org/additionalProperty",
+        "resourceVersion": "https://schema.org/version"
+      }
+    },
+    "ResourceStatus": {
+      "@id": "gloo:resource-status",
+      "@context": {
+        "state": "https://schema.org/status",
+        "reason": "https://schema.org/description",
+        "reportedBy": "https://schema.org/creator"
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/api-evangelist/solo-io/blob/main/json-schema/upstream.json",
+  "title": "Solo.io Gloo Gateway Upstream",
+  "description": "An upstream destination registered with Gloo Gateway, representing a backend service such as a Kubernetes service, static host, AWS Lambda function, or other function provider.",
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "$ref": "resource-metadata.json",
+      "description": "Resource metadata including name, namespace, and labels."
+    },
+    "status": {
+      "$ref": "resource-status.json",
+      "description": "Current status of the upstream resource."
+    },
+    "upstreamType": {
+      "type": "string",
+      "enum": ["kube", "static", "aws", "azure", "consul"],
+      "description": "Type of upstream destination."
+    },
+    "host": {
+      "type": "string",
+      "description": "Hostname or address of the upstream."
+    },
+    "port": {
+      "type": "integer",
+      "description": "Port number of the upstream service."
+    },
+    "serviceSpec": {
+      "type": "object",
+      "properties": {
+        "rest": {
+          "type": "object",
+          "description": "REST service specification including discovered functions."
+        },
+        "grpc": {
+          "type": "object",
+          "description": "gRPC service specification including discovered services."
+        }
+      },
+      "description": "Service specification for function-level routing."
+    },
+    "sslConfig": {
+      "type": "object",
+      "description": "TLS/SSL configuration for the upstream connection."
+    },
+    "healthChecks": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Health check configuration for the upstream."
+    }
+  }
+}

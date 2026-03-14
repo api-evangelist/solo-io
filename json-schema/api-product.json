@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/api-evangelist/solo-io/blob/main/json-schema/api-product.json",
+  "title": "Solo.io Gloo Portal API Product",
+  "description": "An API product exposed through the Gloo developer portal, containing metadata, versioning, visibility settings, and associated usage plans.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the API product."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the API product."
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the API product."
+    },
+    "version": {
+      "type": "string",
+      "description": "Version of the API product."
+    },
+    "contact": {
+      "type": "string",
+      "description": "Contact information for the API product owner."
+    },
+    "license": {
+      "type": "string",
+      "description": "License information for the API product."
+    },
+    "termsOfService": {
+      "type": "string",
+      "description": "Terms of service URL."
+    },
+    "usagePlans": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of usage plan IDs associated with this API product."
+    },
+    "apiVersions": {
+      "type": "array",
+      "items": {
+        "$ref": "api-version.json"
+      },
+      "description": "Available versions of this API."
+    },
+    "visibility": {
+      "type": "string",
+      "enum": ["public", "private"],
+      "description": "Visibility setting of the API product."
+    }
+  }
+}

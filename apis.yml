@@ -15,6 +15,18 @@ apis:
         type: Documentation
       - url: openapi/solo-io-gloo-portal-server-api-openapi.yml
         type: OpenAPI
+      - url: json-schema/user.json
+        type: JSONSchema
+      - url: json-schema/api-product.json
+        type: JSONSchema
+      - url: json-schema/api-version.json
+        type: JSONSchema
+      - url: json-schema/usage-plan.json
+        type: JSONSchema
+      - url: json-schema/api-key.json
+        type: JSONSchema
+      - url: json-ld/solo-io-context.jsonld
+        type: JSONLD
     description: >-
       The Gloo Platform Portal Server API provides REST endpoints to manage user
       access to the developer portal and API resources. It enables developers to
@@ -34,6 +46,24 @@ apis:
         type: Documentation
       - url: openapi/solo-io-gloo-gateway-management-api-openapi.yml
         type: OpenAPI
+      - url: json-schema/upstream.json
+        type: JSONSchema
+      - url: json-schema/virtual-service.json
+        type: JSONSchema
+      - url: json-schema/route.json
+        type: JSONSchema
+      - url: json-schema/route-table.json
+        type: JSONSchema
+      - url: json-schema/gateway.json
+        type: JSONSchema
+      - url: json-schema/proxy.json
+        type: JSONSchema
+      - url: json-schema/resource-metadata.json
+        type: JSONSchema
+      - url: json-schema/resource-status.json
+        type: JSONSchema
+      - url: json-ld/solo-io-context.jsonld
+        type: JSONLD
     description: >-
       The Gloo Gateway Management API provides administrative REST endpoints for
       managing and monitoring Gloo Gateway deployments. Gloo Gateway is a

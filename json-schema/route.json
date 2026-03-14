@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/api-evangelist/solo-io/blob/main/json-schema/route.json",
+  "title": "Solo.io Gloo Gateway Route",
+  "description": "A route definition within a virtual service or route table, specifying request matchers and the action to take when matched.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the route."
+    },
+    "matchers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "prefix": {
+            "type": "string",
+            "description": "URL path prefix to match."
+          },
+          "exact": {
+            "type": "string",
+            "description": "Exact URL path to match."
+          },
+          "regex": {
+            "type": "string",
+            "description": "Regex pattern for URL path matching."
+          },
+          "headers": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "Header matchers."
+          },
+          "methods": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "HTTP methods to match."
+          }
+        }
+      },
+      "description": "Request matchers for this route."
+    },
+    "routeAction": {
+      "type": "object",
+      "description": "Action to take when the route matches."
+    },
+    "options": {
+      "type": "object",
+      "description": "Route-level options including transformations and policies."
+    }
+  }
+}

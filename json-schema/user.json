@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/api-evangelist/solo-io/blob/main/json-schema/user.json",
+  "title": "Solo.io Gloo Portal User",
+  "description": "A user of the Gloo developer portal, representing an authenticated identity with associated groups and permissions.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the user."
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email address of the user."
+    },
+    "username": {
+      "type": "string",
+      "description": "Username of the user."
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the user."
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Groups the user belongs to for access control."
+    }
+  }
+}

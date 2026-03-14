@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/api-evangelist/solo-io/blob/main/json-schema/route-table.json",
+  "title": "Solo.io Gloo Gateway Route Table",
+  "description": "A route table that provides modular and delegated routing configuration across teams and namespaces in Gloo Gateway.",
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "$ref": "resource-metadata.json",
+      "description": "Resource metadata including name, namespace, and labels."
+    },
+    "status": {
+      "$ref": "resource-status.json",
+      "description": "Current status of the route table resource."
+    },
+    "routes": {
+      "type": "array",
+      "items": {
+        "$ref": "route.json"
+      },
+      "description": "List of routes defined in this route table."
+    },
+    "weight": {
+      "type": "integer",
+      "description": "Weight for route table ordering."
+    }
+  }
+}

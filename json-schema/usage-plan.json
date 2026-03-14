@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/api-evangelist/solo-io/blob/main/json-schema/usage-plan.json",
+  "title": "Solo.io Gloo Portal Usage Plan",
+  "description": "A usage plan that defines rate limiting policies, quotas, and access levels for API products in the Gloo developer portal.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the usage plan."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the usage plan."
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the usage plan."
+    },
+    "rateLimitPolicy": {
+      "type": "object",
+      "properties": {
+        "requestsPerUnit": {
+          "type": "integer",
+          "description": "Number of allowed requests per time unit."
+        },
+        "unit": {
+          "type": "string",
+          "enum": ["SECOND", "MINUTE", "HOUR", "DAY"],
+          "description": "Time unit for rate limiting."
+        }
+      },
+      "description": "Rate limiting configuration for this plan."
+    },
+    "apiProducts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of API product IDs available under this plan."
+    }
+  }
+}

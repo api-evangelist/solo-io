@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/api-evangelist/solo-io/blob/main/json-schema/virtual-service.json",
+  "title": "Solo.io Gloo Gateway Virtual Service",
+  "description": "A virtual service that defines routing rules, security policies, and traffic management settings for incoming requests to Gloo Gateway.",
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "$ref": "resource-metadata.json",
+      "description": "Resource metadata including name, namespace, and labels."
+    },
+    "status": {
+      "$ref": "resource-status.json",
+      "description": "Current status of the virtual service resource."
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Human-readable name for the virtual service."
+    },
+    "domains": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of domains that this virtual service handles."
+    },
+    "routes": {
+      "type": "array",
+      "items": {
+        "$ref": "route.json"
+      },
+      "description": "Ordered list of routing rules."
+    },
+    "sslConfig": {
+      "type": "object",
+      "description": "TLS/SSL configuration for the virtual service."
+    },
+    "virtualHost": {
+      "type": "object",
+      "description": "Virtual host configuration including options."
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/api-evangelist/solo-io/blob/main/json-schema/proxy.json",
+  "title": "Solo.io Gloo Gateway Proxy",
+  "description": "A proxy resource representing the compiled Envoy configuration generated from virtual services, upstreams, and other gateway resources.",
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "$ref": "resource-metadata.json",
+      "description": "Resource metadata including name, namespace, and labels."
+    },
+    "status": {
+      "$ref": "resource-status.json",
+      "description": "Current status of the proxy resource."
+    },
+    "listeners": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "List of listeners configured on this proxy."
+    },
+    "compressedSpec": {
+      "type": "string",
+      "description": "Compressed representation of the full proxy specification."
+    }
+  }
+}

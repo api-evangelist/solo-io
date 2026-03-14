@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/api-evangelist/solo-io/blob/main/json-schema/api-key.json",
+  "title": "Solo.io Gloo Portal API Key",
+  "description": "An API key used to authenticate requests to API products exposed through the Gloo developer portal.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the API key."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name or label for the API key."
+    },
+    "apiProductId": {
+      "type": "string",
+      "description": "ID of the API product this key grants access to."
+    },
+    "usagePlanId": {
+      "type": "string",
+      "description": "ID of the usage plan associated with this key."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the API key was created."
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Additional metadata associated with the API key."
+    }
+  }
+}

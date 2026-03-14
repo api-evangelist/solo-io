@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/api-evangelist/solo-io/blob/main/json-schema/resource-status.json",
+  "title": "Solo.io Gloo Gateway Resource Status",
+  "description": "Status information for a Gloo Gateway resource, indicating whether it has been accepted, rejected, or is pending.",
+  "type": "object",
+  "properties": {
+    "state": {
+      "type": "string",
+      "enum": ["Pending", "Accepted", "Rejected", "Warning"],
+      "description": "Current state of the resource."
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason for the current state."
+    },
+    "reportedBy": {
+      "type": "string",
+      "description": "Component that reported this status."
+    }
+  }
+}

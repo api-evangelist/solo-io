@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/api-evangelist/solo-io/blob/main/json-schema/resource-metadata.json",
+  "title": "Solo.io Gloo Gateway Resource Metadata",
+  "description": "Common metadata for Gloo Gateway resources, including Kubernetes-style name, namespace, labels, and annotations.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the resource."
+    },
+    "namespace": {
+      "type": "string",
+      "description": "Namespace of the resource."
+    },
+    "cluster": {
+      "type": "string",
+      "description": "Cluster where the resource resides."
+    },
+    "labels": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Labels attached to the resource."
+    },
+    "annotations": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Annotations attached to the resource."
+    },
+    "resourceVersion": {
+      "type": "string",
+      "description": "Version identifier for optimistic concurrency."
+    }
+  }
+}
