@@ -5,10 +5,10 @@ apis:
   - aid: solo-io:gloo-portal-server-api
     name: Solo.io Gloo Portal Server API
     tags:
+      - API Gateway
+      - API Keys
       - API Management
       - Developer Portal
-      - API Keys
-      - API Gateway
     humanURL: https://docs.solo.io/gloo-mesh-gateway/latest/portal/openapi/
     properties:
       - url: https://docs.solo.io/gloo-mesh-gateway/latest/portal/openapi/
@@ -36,10 +36,10 @@ apis:
     name: Solo.io Gloo Gateway Management API
     tags:
       - API Gateway
-      - Traffic Management
-      - Service Mesh
-      - Envoy Proxy
       - Cloud Native
+      - Envoy Proxy
+      - Service Mesh
+      - Traffic Management
     humanURL: https://docs.solo.io/gloo-edge/latest/reference/api/
     properties:
       - url: https://docs.solo.io/gloo-edge/latest/reference/api/
@@ -72,18 +72,18 @@ apis:
       function-level routing for Kubernetes environments.
 name: Solo.io
 tags:
-  - Management
-  - Security
-  - Observability
-  - Resiliency
-  - Traffic Control
-  - Platform
-  - Automation
-  - Analytics
-  - Monetization
-  - Gateways
   - AI Gateway
+  - Analytics
+  - Automation
+  - Gateways
+  - Management
+  - Monetization
+  - Observability
+  - Platform
+  - Resiliency
+  - Security
   - Service Mesh
+  - Traffic Control
 type: Contract
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party

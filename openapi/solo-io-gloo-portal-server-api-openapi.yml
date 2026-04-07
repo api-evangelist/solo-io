@@ -66,8 +66,7 @@ paths:
         private API products that the authenticated user has access to. Each
         API includes metadata such as name, version, description, and
         associated usage plans.
-      tags:
-        - APIs
+      tags: []
       security:
         - bearerAuth: []
         - {}
@@ -107,8 +106,7 @@ paths:
         Retrieves the details of a specific API product by its identifier.
         Returns metadata including the API name, version, description,
         available endpoints, and associated usage plans.
-      tags:
-        - APIs
+      tags: []
       security:
         - bearerAuth: []
         - {}
@@ -141,8 +139,7 @@ paths:
         schema only if the API ID exists and, when authentication is enforced,
         only if the user has access to the API. The schema can be rendered in
         Swagger or Redocly format by the developer portal frontend.
-      tags:
-        - APIs
+      tags: []
       security:
         - bearerAuth: []
         - {}
@@ -533,13 +530,11 @@ components:
           type: string
           description: HTTP status text
 tags:
-  - name: Authentication
-    description: Login and logout operations for the developer portal
-  - name: Users
-    description: User profile and session management
-  - name: APIs
-    description: API product discovery and schema retrieval
   - name: API Keys
     description: API key lifecycle management
+  - name: Authentication
+    description: Login and logout operations for the developer portal
   - name: Usage Plans
     description: Usage plan discovery and selection
+  - name: Users
+    description: User profile and session management

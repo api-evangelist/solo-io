@@ -562,15 +562,15 @@ components:
           type: integer
           description: Error code
 tags:
-  - name: Upstreams
-    description: Backend service destination management
-  - name: Virtual Services
-    description: Routing and traffic management configuration
-  - name: Route Tables
-    description: Modular and delegated route configuration
-  - name: Proxies
-    description: Compiled Envoy proxy configuration
   - name: Gateways
     description: Listener and ingress configuration
   - name: Health
     description: Control plane health monitoring
+  - name: Proxies
+    description: Compiled Envoy proxy configuration
+  - name: Route Tables
+    description: Modular and delegated route configuration
+  - name: Upstreams
+    description: Backend service destination management
+  - name: Virtual Services
+    description: Routing and traffic management configuration
