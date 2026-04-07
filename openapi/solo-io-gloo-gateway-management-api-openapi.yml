@@ -27,7 +27,7 @@ paths:
   /upstreams:
     get:
       operationId: listUpstreams
-      summary: List upstreams
+      summary: Solo.io List upstreams
       description: >-
         Lists all upstream destinations registered with Gloo Gateway. Upstreams
         represent backend services that the gateway can route traffic to,
@@ -53,7 +53,7 @@ paths:
   /upstreams/{namespace}/{name}:
     get:
       operationId: getUpstream
-      summary: Get upstream details
+      summary: Solo.io Get upstream details
       description: >-
         Retrieves detailed information about a specific upstream by namespace
         and name, including its configuration, health status, and associated
@@ -87,7 +87,7 @@ paths:
   /virtualservices:
     get:
       operationId: listVirtualServices
-      summary: List virtual services
+      summary: Solo.io List virtual services
       description: >-
         Lists all virtual services configured in Gloo Gateway. Virtual services
         define the routing rules, security policies, and traffic management
@@ -112,7 +112,7 @@ paths:
   /virtualservices/{namespace}/{name}:
     get:
       operationId: getVirtualService
-      summary: Get virtual service details
+      summary: Solo.io Get virtual service details
       description: >-
         Retrieves the configuration of a specific virtual service, including
         its domains, routes, rate limiting, authentication, and transformation
@@ -146,7 +146,7 @@ paths:
   /proxies:
     get:
       operationId: listProxies
-      summary: List proxies
+      summary: Solo.io List proxies
       description: >-
         Lists all proxy configurations managed by Gloo Gateway. Proxies
         represent the compiled Envoy configuration generated from virtual
@@ -171,7 +171,7 @@ paths:
   /proxies/{namespace}/{name}:
     get:
       operationId: getProxy
-      summary: Get proxy details
+      summary: Solo.io Get proxy details
       description: >-
         Retrieves the compiled proxy configuration including all listeners,
         routes, and clusters derived from the gateway resources.
@@ -204,7 +204,7 @@ paths:
   /routetables:
     get:
       operationId: listRouteTables
-      summary: List route tables
+      summary: Solo.io List route tables
       description: >-
         Lists all route tables configured in Gloo Gateway. Route tables provide
         a way to modularize and delegate routing configuration across teams
@@ -229,7 +229,7 @@ paths:
   /routetables/{namespace}/{name}:
     get:
       operationId: getRouteTable
-      summary: Get route table details
+      summary: Solo.io Get route table details
       description: >-
         Retrieves the configuration of a specific route table, including
         all defined routes, matchers, and destination references.
@@ -262,7 +262,7 @@ paths:
   /gateways:
     get:
       operationId: listGateways
-      summary: List gateways
+      summary: Solo.io List gateways
       description: >-
         Lists all gateway resources. Gateways define the listeners and bind
         addresses that Envoy uses to accept incoming connections.
@@ -286,7 +286,7 @@ paths:
   /gateways/{namespace}/{name}:
     get:
       operationId: getGateway
-      summary: Get gateway details
+      summary: Solo.io Get gateway details
       description: >-
         Retrieves the configuration of a specific gateway including its
         listeners, TLS settings, and bound virtual services.
@@ -319,7 +319,7 @@ paths:
   /check:
     get:
       operationId: healthCheck
-      summary: Health check
+      summary: Solo.io Health check
       description: >-
         Performs a health check on the Gloo Gateway control plane and returns
         the status of its components including the translator, discovery

@@ -26,7 +26,7 @@ paths:
   /me:
     get:
       operationId: getCurrentUser
-      summary: Get current user
+      summary: Solo.io Get current user
       description: >-
         Looks up the user for the current session and returns user information
         if the user session exists and is not expired. Used to determine the
@@ -50,7 +50,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     options:
       operationId: optionsCurrentUser
-      summary: CORS preflight for current user
+      summary: Solo.io CORS preflight for current user
       description: Handles CORS preflight requests for the current user endpoint.
       tags:
         - Users
@@ -60,7 +60,7 @@ paths:
   /apis:
     get:
       operationId: listApis
-      summary: List available APIs
+      summary: Solo.io List available APIs
       description: >-
         Lists all APIs visible to the current user. Returns both public and
         private API products that the authenticated user has access to. Each
@@ -102,7 +102,7 @@ paths:
   /apis/{apiId}:
     get:
       operationId: getApi
-      summary: Get API details
+      summary: Solo.io Get API details
       description: >-
         Retrieves the details of a specific API product by its identifier.
         Returns metadata including the API name, version, description,
@@ -135,7 +135,7 @@ paths:
   /apis/{apiId}/schema:
     get:
       operationId: getApiSchema
-      summary: Get API schema
+      summary: Solo.io Get API schema
       description: >-
         Gets the OpenAPI specification schema for a specific API. Returns the
         schema only if the API ID exists and, when authentication is enforced,
@@ -180,7 +180,7 @@ paths:
   /usage-plans:
     get:
       operationId: listUsagePlans
-      summary: List usage plans
+      summary: Solo.io List usage plans
       description: >-
         Lists all usage plans available to the current user. Usage plans define
         rate limiting policies, quotas, and access levels for API products.
@@ -209,7 +209,7 @@ paths:
   /api-keys:
     get:
       operationId: listApiKeys
-      summary: List API keys
+      summary: Solo.io List API keys
       description: >-
         Lists all API keys belonging to the current user. API keys are used
         to authenticate requests to API products exposed through the Gloo
@@ -235,7 +235,7 @@ paths:
                 $ref: '#/components/schemas/Error'
     post:
       operationId: createApiKey
-      summary: Create API key
+      summary: Solo.io Create API key
       description: >-
         Creates a new API key for the current user. The API key can be
         associated with a specific usage plan and API product. The generated
@@ -273,7 +273,7 @@ paths:
   /api-keys/{apiKeyId}:
     delete:
       operationId: deleteApiKey
-      summary: Delete API key
+      summary: Solo.io Delete API key
       description: >-
         Deletes a specific API key belonging to the current user. Once deleted,
         the API key can no longer be used to authenticate requests to API
@@ -307,7 +307,7 @@ paths:
   /login:
     get:
       operationId: login
-      summary: Login to developer portal
+      summary: Solo.io Login to developer portal
       description: >-
         Initiates the login flow for the developer portal. This endpoint is
         used as the callback path in the ExtAuthPolicy OIDC configuration.
@@ -326,7 +326,7 @@ paths:
   /logout:
     get:
       operationId: logout
-      summary: Logout from developer portal
+      summary: Solo.io Logout from developer portal
       description: >-
         Logs out the current user from the developer portal by invalidating
         the current session.
