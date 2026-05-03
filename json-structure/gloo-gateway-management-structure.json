@@ -1,0 +1,105 @@
+{
+  "name": "Gloo Gateway Management API Structure",
+  "description": "JSON structure documentation for Solo.io Gloo Gateway Management API resources",
+  "resources": [
+    {
+      "name": "Upstream",
+      "description": "Backend destination service registered with Gloo Gateway",
+      "fields": [
+        { "name": "metadata", "type": "ResourceMetadata", "required": false, "description": "Kubernetes resource metadata" },
+        { "name": "status", "type": "ResourceStatus", "required": false, "description": "Current resource status" },
+        { "name": "upstreamType", "type": "string", "enum": ["kube", "static", "aws", "azure", "consul"], "required": false, "description": "Type of upstream" },
+        { "name": "host", "type": "string", "required": false, "description": "Hostname or address" },
+        { "name": "port", "type": "integer", "required": false, "description": "Port number" },
+        { "name": "serviceSpec", "type": "object", "required": false, "description": "REST or gRPC service specification" },
+        { "name": "sslConfig", "type": "object", "required": false, "description": "TLS/SSL configuration" },
+        { "name": "healthChecks", "type": "array", "required": false, "description": "Health check configurations" }
+      ]
+    },
+    {
+      "name": "VirtualService",
+      "description": "Routing rules, security policies, and traffic management for incoming requests",
+      "fields": [
+        { "name": "metadata", "type": "ResourceMetadata", "required": false, "description": "Kubernetes resource metadata" },
+        { "name": "status", "type": "ResourceStatus", "required": false, "description": "Current resource status" },
+        { "name": "displayName", "type": "string", "required": false, "description": "Human-readable name" },
+        { "name": "domains", "type": "array", "items": "string", "required": false, "description": "Handled domains" },
+        { "name": "routes", "type": "array", "items": "Route", "required": false, "description": "Ordered routing rules" },
+        { "name": "sslConfig", "type": "object", "required": false, "description": "TLS configuration" },
+        { "name": "virtualHost", "type": "object", "required": false, "description": "Virtual host configuration" }
+      ]
+    },
+    {
+      "name": "Route",
+      "description": "Individual routing rule with matchers and action",
+      "fields": [
+        { "name": "name", "type": "string", "required": false, "description": "Route name" },
+        { "name": "matchers", "type": "array", "required": false, "description": "Request matchers (prefix, exact, regex, headers, methods)" },
+        { "name": "routeAction", "type": "object", "required": false, "description": "Routing action on match" },
+        { "name": "options", "type": "object", "required": false, "description": "Route-level transformation and policy options" }
+      ]
+    },
+    {
+      "name": "RouteTable",
+      "description": "Delegated routing configuration for modular multi-team routing",
+      "fields": [
+        { "name": "metadata", "type": "ResourceMetadata", "required": false, "description": "Kubernetes resource metadata" },
+        { "name": "status", "type": "ResourceStatus", "required": false, "description": "Current resource status" },
+        { "name": "routes", "type": "array", "items": "Route", "required": false, "description": "Routes defined in this table" },
+        { "name": "weight", "type": "integer", "required": false, "description": "Table ordering weight" }
+      ]
+    },
+    {
+      "name": "Proxy",
+      "description": "Compiled Envoy proxy configuration generated from gateway resources",
+      "fields": [
+        { "name": "metadata", "type": "ResourceMetadata", "required": false, "description": "Kubernetes resource metadata" },
+        { "name": "status", "type": "ResourceStatus", "required": false, "description": "Current resource status" },
+        { "name": "listeners", "type": "array", "required": false, "description": "Envoy listener configurations" },
+        { "name": "compressedSpec", "type": "string", "required": false, "description": "Compressed full proxy specification" }
+      ]
+    },
+    {
+      "name": "Gateway",
+      "description": "Listener definition binding virtual services to addresses and ports",
+      "fields": [
+        { "name": "metadata", "type": "ResourceMetadata", "required": false, "description": "Kubernetes resource metadata" },
+        { "name": "status", "type": "ResourceStatus", "required": false, "description": "Current resource status" },
+        { "name": "bindAddress", "type": "string", "required": false, "description": "Listen address" },
+        { "name": "bindPort", "type": "integer", "required": false, "description": "Listen port" },
+        { "name": "ssl", "type": "boolean", "required": false, "description": "TLS enabled" },
+        { "name": "httpGateway", "type": "object", "required": false, "description": "HTTP gateway config" },
+        { "name": "tcpGateway", "type": "object", "required": false, "description": "TCP gateway config" }
+      ]
+    },
+    {
+      "name": "ResourceMetadata",
+      "description": "Standard Kubernetes-style resource metadata",
+      "fields": [
+        { "name": "name", "type": "string", "required": false, "description": "Resource name" },
+        { "name": "namespace", "type": "string", "required": false, "description": "Kubernetes namespace" },
+        { "name": "cluster", "type": "string", "required": false, "description": "Cluster identifier" },
+        { "name": "labels", "type": "object", "required": false, "description": "Label key-value pairs" },
+        { "name": "annotations", "type": "object", "required": false, "description": "Annotation key-value pairs" },
+        { "name": "resourceVersion", "type": "string", "required": false, "description": "Optimistic concurrency version" }
+      ]
+    },
+    {
+      "name": "ResourceStatus",
+      "description": "Status and health of a Gloo gateway resource",
+      "fields": [
+        { "name": "state", "type": "string", "enum": ["Pending", "Accepted", "Rejected", "Warning"], "required": false, "description": "Current state" },
+        { "name": "reason", "type": "string", "required": false, "description": "State reason" },
+        { "name": "reportedBy", "type": "string", "required": false, "description": "Reporting component" }
+      ]
+    },
+    {
+      "name": "HealthStatus",
+      "description": "Health status of the Gloo Gateway control plane",
+      "fields": [
+        { "name": "status", "type": "string", "enum": ["healthy", "unhealthy"], "required": false, "description": "Overall health" },
+        { "name": "components", "type": "object", "required": false, "description": "Per-component health details" }
+      ]
+    }
+  ]
+}

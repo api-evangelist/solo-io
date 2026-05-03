@@ -1,0 +1,80 @@
+{
+  "name": "Gloo Portal Server API Structure",
+  "description": "JSON structure documentation for the Solo.io Gloo Portal Server API resources",
+  "resources": [
+    {
+      "name": "User",
+      "description": "Authenticated user profile and group memberships in the Gloo developer portal",
+      "fields": [
+        { "name": "id", "type": "string", "required": false, "description": "Unique identifier for the user" },
+        { "name": "email", "type": "string", "format": "email", "required": false, "description": "Email address" },
+        { "name": "username", "type": "string", "required": false, "description": "Username" },
+        { "name": "name", "type": "string", "required": false, "description": "Display name" },
+        { "name": "groups", "type": "array", "items": "string", "required": false, "description": "Group memberships" }
+      ]
+    },
+    {
+      "name": "ApiProduct",
+      "description": "An API product exposed through the Gloo developer portal",
+      "fields": [
+        { "name": "id", "type": "string", "required": false, "description": "Unique identifier" },
+        { "name": "name", "type": "string", "required": false, "description": "Name of the API product" },
+        { "name": "description", "type": "string", "required": false, "description": "Description" },
+        { "name": "version", "type": "string", "required": false, "description": "Version string" },
+        { "name": "contact", "type": "string", "required": false, "description": "Contact information" },
+        { "name": "license", "type": "string", "required": false, "description": "License information" },
+        { "name": "termsOfService", "type": "string", "required": false, "description": "Terms of service URL" },
+        { "name": "usagePlans", "type": "array", "items": "string", "required": false, "description": "Associated usage plan IDs" },
+        { "name": "apiVersions", "type": "array", "items": "ApiVersion", "required": false, "description": "Available API versions" },
+        { "name": "visibility", "type": "string", "enum": ["public", "private"], "required": false, "description": "Visibility setting" }
+      ]
+    },
+    {
+      "name": "ApiVersion",
+      "description": "A specific version of an API product with its schema type",
+      "fields": [
+        { "name": "id", "type": "string", "required": false, "description": "Version identifier" },
+        { "name": "version", "type": "string", "required": false, "description": "Version string" },
+        { "name": "schemaType", "type": "string", "enum": ["openapi", "graphql", "grpc"], "required": false, "description": "Schema format" }
+      ]
+    },
+    {
+      "name": "UsagePlan",
+      "description": "Rate limiting policy and quota configuration for API access",
+      "fields": [
+        { "name": "id", "type": "string", "required": false, "description": "Usage plan identifier" },
+        { "name": "name", "type": "string", "required": false, "description": "Plan name" },
+        { "name": "description", "type": "string", "required": false, "description": "Plan description" },
+        { "name": "rateLimitPolicy", "type": "object", "required": false, "description": "Rate limiting configuration",
+          "fields": [
+            { "name": "requestsPerUnit", "type": "integer", "required": false, "description": "Allowed requests per time unit" },
+            { "name": "unit", "type": "string", "enum": ["SECOND", "MINUTE", "HOUR", "DAY"], "required": false, "description": "Time unit" }
+          ]
+        },
+        { "name": "apiProducts", "type": "array", "items": "string", "required": false, "description": "API product IDs under this plan" }
+      ]
+    },
+    {
+      "name": "ApiKey",
+      "description": "API key for authenticating requests to portal API products",
+      "fields": [
+        { "name": "id", "type": "string", "required": false, "description": "API key identifier" },
+        { "name": "name", "type": "string", "required": false, "description": "Key label" },
+        { "name": "apiProductId", "type": "string", "required": false, "description": "Associated API product ID" },
+        { "name": "usagePlanId", "type": "string", "required": false, "description": "Associated usage plan ID" },
+        { "name": "createdAt", "type": "string", "format": "date-time", "required": false, "description": "Creation timestamp" },
+        { "name": "metadata", "type": "object", "required": false, "description": "Additional metadata key-value pairs" }
+      ]
+    },
+    {
+      "name": "CreateApiKeyRequest",
+      "description": "Request body for creating a new API key",
+      "fields": [
+        { "name": "name", "type": "string", "required": true, "description": "Key label" },
+        { "name": "usagePlanId", "type": "string", "required": true, "description": "Usage plan to associate" },
+        { "name": "apiProductId", "type": "string", "required": true, "description": "API product to grant access to" },
+        { "name": "metadata", "type": "object", "required": false, "description": "Additional metadata" }
+      ]
+    }
+  ]
+}

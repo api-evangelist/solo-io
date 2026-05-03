@@ -1,0 +1,61 @@
+[
+  {
+    "metadata": {
+      "name": "default-petstore-8080",
+      "namespace": "gloo-system",
+      "cluster": "production",
+      "labels": {
+        "app": "petstore",
+        "discovered_by": "gloo"
+      },
+      "annotations": {},
+      "resourceVersion": "12345"
+    },
+    "status": {
+      "state": "Accepted",
+      "reason": "",
+      "reportedBy": "gloo"
+    },
+    "upstreamType": "kube",
+    "host": "petstore.default.svc.cluster.local",
+    "port": 8080,
+    "serviceSpec": {
+      "rest": {
+        "swaggerInfo": {
+          "url": "http://petstore.default.svc.cluster.local:8080/swagger.json"
+        }
+      }
+    },
+    "healthChecks": [
+      {
+        "timeout": "5s",
+        "interval": "10s",
+        "healthyThreshold": 1,
+        "unhealthyThreshold": 3,
+        "httpHealthCheck": {
+          "path": "/health"
+        }
+      }
+    ]
+  },
+  {
+    "metadata": {
+      "name": "aws-lambda-payments",
+      "namespace": "gloo-system",
+      "cluster": "production",
+      "labels": {
+        "type": "lambda"
+      },
+      "annotations": {},
+      "resourceVersion": "12346"
+    },
+    "status": {
+      "state": "Accepted",
+      "reason": "",
+      "reportedBy": "gloo"
+    },
+    "upstreamType": "aws",
+    "host": "lambda.us-east-1.amazonaws.com",
+    "port": 443
+  }
+]

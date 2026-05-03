@@ -1,0 +1,84 @@
+rules:
+  solo-io-operation-summary-title-case:
+    description: All operation summaries must use Title Case
+    message: Operation summary "{{value}}" must use Title Case
+    severity: warn
+    given: "$.paths[*][*].summary"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z][a-z]*(\\s[A-Z][a-z]*)*$"
+
+  solo-io-operation-id-required:
+    description: All operations must have an operationId
+    message: Operation must have an operationId
+    severity: error
+    given: "$.paths[*][get,post,put,patch,delete,options,head]"
+    then:
+      field: operationId
+      function: truthy
+
+  solo-io-tags-required:
+    description: All operations must have at least one tag
+    message: Operation must have at least one tag
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: tags
+      function: truthy
+
+  solo-io-namespace-name-path-params:
+    description: Resource paths should use namespace and name path parameters
+    message: >-
+      Gloo resource paths should use {namespace}/{name} pattern for individual
+      resource access
+    severity: info
+    given: "$.paths"
+    then:
+      function: pattern
+      functionOptions:
+        match: ".*"
+
+  solo-io-200-response-required:
+    description: All GET operations must have a 200 response
+    message: GET operation must define a 200 response
+    severity: error
+    given: "$.paths[*].get.responses"
+    then:
+      field: "200"
+      function: truthy
+
+  solo-io-response-schema-required:
+    description: Successful responses must include a schema
+    message: Response 200/201 must include a content schema
+    severity: warn
+    given: "$.paths[*][get,post].responses[200,201].content"
+    then:
+      function: truthy
+
+  solo-io-security-defined:
+    description: Operations accessing user data must define security requirements
+    message: Operation should define security requirements
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: security
+      function: truthy
+
+  solo-io-kebab-case-paths:
+    description: Path segments must use kebab-case
+    message: Path segment "{{value}}" must use kebab-case (lowercase with hyphens)
+    severity: warn
+    given: "$.paths"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(\\/([a-z][a-z0-9-]*|\\{[a-zA-Z]+\\}))*$"
+
+  solo-io-bearer-auth-scheme:
+    description: Authentication must use bearer token scheme consistent with Solo.io OIDC
+    message: Security scheme must be bearerAuth or apiKeyAuth
+    severity: info
+    given: "$.components.securitySchemes"
+    then:
+      function: truthy

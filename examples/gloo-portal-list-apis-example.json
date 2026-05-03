@@ -1,0 +1,36 @@
+[
+  {
+    "id": "petstore-api-v1",
+    "name": "Petstore API",
+    "description": "A sample pet store REST API demonstrating Gloo portal capabilities.",
+    "version": "1.0.0",
+    "contact": "api-team@example.com",
+    "license": "Apache 2.0",
+    "termsOfService": "https://example.com/terms",
+    "usagePlans": ["basic-plan", "pro-plan"],
+    "apiVersions": [
+      {
+        "id": "petstore-v1",
+        "version": "1.0.0",
+        "schemaType": "openapi"
+      }
+    ],
+    "visibility": "public"
+  },
+  {
+    "id": "payments-api-v2",
+    "name": "Payments API",
+    "description": "Internal payments processing API for authorized partners.",
+    "version": "2.1.0",
+    "contact": "payments@example.com",
+    "usagePlans": ["partner-plan"],
+    "apiVersions": [
+      {
+        "id": "payments-v2",
+        "version": "2.1.0",
+        "schemaType": "openapi"
+      }
+    ],
+    "visibility": "private"
+  }
+]

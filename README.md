@@ -1,46 +1,96 @@
-# Solo.io (solo-io)
+# Solo.io
+
 Cloud-native API management and service connectivity to automate security, observability, resiliency, and traffic control for any API or workload in any environment.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/solo-io/refs/heads/main/apis.yml)
+**URL:** [https://raw.githubusercontent.com/api-evangelist/solo-io/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/solo-io/refs/heads/main/apis.yml)
 
 ## Scope
 
-- **Type:** Contract 
-- **Position:** Consuming 
-- **Access:** 3rd-Party 
+- **Type:** Contract
+- **Position:** Consuming
+- **Access:** 3rd-Party
 
-## Tags:
+## Tags
 
- - Management, Security, Observability, Resiliency, Traffic Control, Platform, Automation, Analytics, Monetization, Gateways, AI Gateway, Service Mesh
-
-## Timestamps
-
-- **Created:** 2025-01-08 
-- **Modified:** 2025-06-09 
+AI Gateway, Analytics, Automation, Gateways, Management, Monetization, Observability, Platform, Resiliency, Security, Service Mesh, Traffic Control
 
 ## APIs
 
-### Solo.io
-Fully connect your APIs and services from end  to end user and win in the cloud-native era.
+### Gloo Portal Server API
 
-**Human URL:** [https://www.solo.io/](https://www.solo.io/)
+REST endpoints to manage user access to the Gloo developer portal and API resources. Enables API key management, usage plan discovery, and API catalog browsing.
 
+- **Documentation:** [https://docs.solo.io/gloo-mesh-gateway/latest/portal/openapi/](https://docs.solo.io/gloo-mesh-gateway/latest/portal/openapi/)
+- **OpenAPI:** [openapi/solo-io-gloo-portal-server-api-openapi.yml](openapi/solo-io-gloo-portal-server-api-openapi.yml)
 
-#### Tags:
+**Operations:** Get Current User, List Available Apis, Get Api Details, Get Api Schema, List Usage Plans, List Api Keys, Create Api Key, Delete Api Key, Login To Developer Portal, Logout From Developer Portal
 
- - Management, Security, Observability, Resiliency, Traffic Control, Platform, Automation, Analytics, Monetization, Gateways, AI Gateway, Service Mesh
+### Gloo Gateway Management API
 
-#### Properties
+Administrative REST endpoints for managing Gloo Gateway deployments built on Envoy Proxy. Manages upstreams, virtual services, route tables, proxies, and gateways.
 
-- [Documentation](https://www.solo.io/)
+- **Documentation:** [https://docs.solo.io/gloo-edge/latest/reference/api/](https://docs.solo.io/gloo-edge/latest/reference/api/)
+- **OpenAPI:** [openapi/solo-io-gloo-gateway-management-api-openapi.yml](openapi/solo-io-gloo-gateway-management-api-openapi.yml)
+
+**Operations:** List Upstreams, Get Upstream Details, List Virtual Services, Get Virtual Service Details, List Proxies, Get Proxy Details, List Route Tables, Get Route Table Details, List Gateways, Get Gateway Details, Health Check
+
+## Artifacts
+
+### JSON Schemas
+
+- [json-schema/user.json](json-schema/user.json)
+- [json-schema/api-product.json](json-schema/api-product.json)
+- [json-schema/api-version.json](json-schema/api-version.json)
+- [json-schema/usage-plan.json](json-schema/usage-plan.json)
+- [json-schema/api-key.json](json-schema/api-key.json)
+- [json-schema/upstream.json](json-schema/upstream.json)
+- [json-schema/virtual-service.json](json-schema/virtual-service.json)
+- [json-schema/route.json](json-schema/route.json)
+- [json-schema/route-table.json](json-schema/route-table.json)
+- [json-schema/gateway.json](json-schema/gateway.json)
+- [json-schema/proxy.json](json-schema/proxy.json)
+- [json-schema/resource-metadata.json](json-schema/resource-metadata.json)
+- [json-schema/resource-status.json](json-schema/resource-status.json)
+
+### JSON Structures
+
+- [json-structure/gloo-portal-structure.json](json-structure/gloo-portal-structure.json) — Portal API resource structures
+- [json-structure/gloo-gateway-management-structure.json](json-structure/gloo-gateway-management-structure.json) — Gateway Management API resource structures
+
+### JSON-LD
+
+- [json-ld/solo-io-context.jsonld](json-ld/solo-io-context.jsonld) — Linked data context for Solo.io resources
+
+### Spectral Rules
+
+- [rules/solo-io-rules.yml](rules/solo-io-rules.yml) — API governance rules for Solo.io OpenAPI specs
+
+### Naftiko Capabilities
+
+| Capability | Description |
+|---|---|
+| [capabilities/gateway-operations.yaml](capabilities/gateway-operations.yaml) | Unified workflow: Gateway Management + Portal APIs (17 tools) |
+| [capabilities/shared/gloo-portal.yaml](capabilities/shared/gloo-portal.yaml) | Shared: Gloo Portal Server API (8 tools) |
+| [capabilities/shared/gloo-gateway-management.yaml](capabilities/shared/gloo-gateway-management.yaml) | Shared: Gloo Gateway Management API (11 tools) |
+
+### Examples
+
+- [examples/gloo-portal-list-apis-example.json](examples/gloo-portal-list-apis-example.json) — List available APIs response
+- [examples/gloo-portal-create-api-key-example.json](examples/gloo-portal-create-api-key-example.json) — Create API key request/response
+- [examples/gloo-gateway-list-upstreams-example.json](examples/gloo-gateway-list-upstreams-example.json) — List upstreams response
+- [examples/gloo-gateway-get-virtual-service-example.json](examples/gloo-gateway-get-virtual-service-example.json) — Get virtual service response
+
+### Vocabulary
+
+- [vocabulary/solo-io-vocabulary.yml](vocabulary/solo-io-vocabulary.yml) — Domain vocabulary for Solo.io cloud-native API management
 
 ## Common Properties
 
 - [Customers](https://www.solo.io/customers)
-- [CaseStudies](https://www.solo.io/resources/case-study)
+- [Case Studies](https://www.solo.io/resources/case-study)
 - [Blog](https://www.solo.io/blog)
 - [Documentation](https://www.solo.io/docs)
-- [WhitePapers](https://www.solo.io/resources/white-paper)
+- [White Papers](https://www.solo.io/resources/white-paper)
 - [Videos](https://www.solo.io/resources/video)
 - [Webinars](https://www.solo.io/resources/webinar)
 - [eBooks](https://www.solo.io/resources/ebook)
@@ -51,6 +101,4 @@ Fully connect your APIs and services from end  to end user and win in the cloud-
 ## Maintainers
 
 **FN:** Kin Lane
-
-**Email:** info@apievangelist.com
-
+**Email:** kin@apievangelist.com

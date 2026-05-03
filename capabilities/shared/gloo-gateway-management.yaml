@@ -1,0 +1,492 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Solo.io Gloo Gateway Management API"
+  description: >-
+    Administrative REST endpoints for managing and monitoring Gloo Gateway
+    deployments built on Envoy Proxy. Enables operators to manage upstreams,
+    virtual services, route tables, proxies, and gateways through the Gloo
+    control plane REST API.
+  tags:
+    - API Gateway
+    - Cloud Native
+    - Envoy Proxy
+    - Service Mesh
+    - Traffic Management
+    - Solo.io
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      GLOO_GATEWAY_BEARER_TOKEN: GLOO_GATEWAY_BEARER_TOKEN
+
+capability:
+  consumes:
+    - type: http
+      namespace: gloo-gateway
+      baseUri: https://gloo.example.com/api/v1
+      description: "Gloo Gateway Management API for control plane administration"
+      authentication:
+        type: bearer
+        token: "{{GLOO_GATEWAY_BEARER_TOKEN}}"
+      resources:
+        - name: upstreams
+          path: /upstreams
+          description: "Backend upstream destination management"
+          operations:
+            - name: list-upstreams
+              method: GET
+              description: "List all upstream destinations registered with Gloo Gateway"
+              inputParameters:
+                - name: namespace
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter upstreams by namespace"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+            - name: get-upstream
+              method: GET
+              description: "Get detailed information about a specific upstream"
+              inputParameters:
+                - name: namespace
+                  in: path
+                  type: string
+                  required: true
+                  description: "Kubernetes namespace of the upstream"
+                - name: name
+                  in: path
+                  type: string
+                  required: true
+                  description: "Name of the upstream"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: virtual-services
+          path: /virtualservices
+          description: "Virtual service routing and traffic management"
+          operations:
+            - name: list-virtual-services
+              method: GET
+              description: "List all virtual services with routing rules and policies"
+              inputParameters:
+                - name: namespace
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter virtual services by namespace"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+            - name: get-virtual-service
+              method: GET
+              description: "Get configuration of a specific virtual service"
+              inputParameters:
+                - name: namespace
+                  in: path
+                  type: string
+                  required: true
+                  description: "Kubernetes namespace of the virtual service"
+                - name: name
+                  in: path
+                  type: string
+                  required: true
+                  description: "Name of the virtual service"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: route-tables
+          path: /routetables
+          description: "Modular route table management"
+          operations:
+            - name: list-route-tables
+              method: GET
+              description: "List all route tables for delegated routing configuration"
+              inputParameters:
+                - name: namespace
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter route tables by namespace"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+            - name: get-route-table
+              method: GET
+              description: "Get configuration of a specific route table"
+              inputParameters:
+                - name: namespace
+                  in: path
+                  type: string
+                  required: true
+                  description: "Kubernetes namespace of the route table"
+                - name: name
+                  in: path
+                  type: string
+                  required: true
+                  description: "Name of the route table"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: proxies
+          path: /proxies
+          description: "Compiled Envoy proxy configuration management"
+          operations:
+            - name: list-proxies
+              method: GET
+              description: "List all proxy configurations managed by Gloo Gateway"
+              inputParameters:
+                - name: namespace
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter proxies by namespace"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+            - name: get-proxy
+              method: GET
+              description: "Get the compiled proxy configuration including listeners and routes"
+              inputParameters:
+                - name: namespace
+                  in: path
+                  type: string
+                  required: true
+                  description: "Kubernetes namespace of the proxy"
+                - name: name
+                  in: path
+                  type: string
+                  required: true
+                  description: "Name of the proxy"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: gateways
+          path: /gateways
+          description: "Gateway listener and ingress configuration"
+          operations:
+            - name: list-gateways
+              method: GET
+              description: "List all gateway resources with listener configurations"
+              inputParameters:
+                - name: namespace
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter gateways by namespace"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+            - name: get-gateway
+              method: GET
+              description: "Get configuration of a specific gateway including TLS settings"
+              inputParameters:
+                - name: namespace
+                  in: path
+                  type: string
+                  required: true
+                  description: "Kubernetes namespace of the gateway"
+                - name: name
+                  in: path
+                  type: string
+                  required: true
+                  description: "Name of the gateway"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: health
+          path: /check
+          description: "Control plane health monitoring"
+          operations:
+            - name: health-check
+              method: GET
+              description: "Check health of Gloo Gateway control plane components"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8101
+      namespace: gloo-gateway-rest
+      resources:
+        - path: /v1/upstreams
+          name: upstreams
+          description: "Upstream management"
+          operations:
+            - method: GET
+              name: list-upstreams
+              description: "List all upstreams"
+              call: "gloo-gateway.list-upstreams"
+              with:
+                namespace: "rest.namespace"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/upstreams/{namespace}/{name}
+          name: upstream-detail
+          description: "Individual upstream details"
+          operations:
+            - method: GET
+              name: get-upstream
+              description: "Get upstream details"
+              call: "gloo-gateway.get-upstream"
+              with:
+                namespace: "rest.namespace"
+                name: "rest.name"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/virtual-services
+          name: virtual-services
+          description: "Virtual service management"
+          operations:
+            - method: GET
+              name: list-virtual-services
+              description: "List all virtual services"
+              call: "gloo-gateway.list-virtual-services"
+              with:
+                namespace: "rest.namespace"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/virtual-services/{namespace}/{name}
+          name: virtual-service-detail
+          description: "Individual virtual service details"
+          operations:
+            - method: GET
+              name: get-virtual-service
+              description: "Get virtual service details"
+              call: "gloo-gateway.get-virtual-service"
+              with:
+                namespace: "rest.namespace"
+                name: "rest.name"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/route-tables
+          name: route-tables
+          description: "Route table management"
+          operations:
+            - method: GET
+              name: list-route-tables
+              description: "List all route tables"
+              call: "gloo-gateway.list-route-tables"
+              with:
+                namespace: "rest.namespace"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/proxies
+          name: proxies
+          description: "Proxy configuration management"
+          operations:
+            - method: GET
+              name: list-proxies
+              description: "List all proxies"
+              call: "gloo-gateway.list-proxies"
+              with:
+                namespace: "rest.namespace"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/gateways
+          name: gateways
+          description: "Gateway management"
+          operations:
+            - method: GET
+              name: list-gateways
+              description: "List all gateways"
+              call: "gloo-gateway.list-gateways"
+              with:
+                namespace: "rest.namespace"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/health
+          name: health
+          description: "Control plane health"
+          operations:
+            - method: GET
+              name: health-check
+              description: "Health check"
+              call: "gloo-gateway.health-check"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9101
+      namespace: gloo-gateway-mcp
+      transport: http
+      tools:
+        - name: list-upstreams
+          description: "List all upstream backend services registered with Gloo Gateway"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "gloo-gateway.list-upstreams"
+          with:
+            namespace: "tools.namespace"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-upstream
+          description: "Get details of a specific upstream including health and TLS config"
+          hints:
+            readOnly: true
+          call: "gloo-gateway.get-upstream"
+          with:
+            namespace: "tools.namespace"
+            name: "tools.name"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-virtual-services
+          description: "List all virtual services with routing rules and security policies"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "gloo-gateway.list-virtual-services"
+          with:
+            namespace: "tools.namespace"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-virtual-service
+          description: "Get a virtual service's domains, routes, rate limits, and auth config"
+          hints:
+            readOnly: true
+          call: "gloo-gateway.get-virtual-service"
+          with:
+            namespace: "tools.namespace"
+            name: "tools.name"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-route-tables
+          description: "List all route tables for delegated routing across teams"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "gloo-gateway.list-route-tables"
+          with:
+            namespace: "tools.namespace"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-route-table
+          description: "Get route table configuration with matchers and destinations"
+          hints:
+            readOnly: true
+          call: "gloo-gateway.get-route-table"
+          with:
+            namespace: "tools.namespace"
+            name: "tools.name"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-proxies
+          description: "List all compiled Envoy proxy configurations"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "gloo-gateway.list-proxies"
+          with:
+            namespace: "tools.namespace"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-proxy
+          description: "Get compiled proxy configuration including all listeners and clusters"
+          hints:
+            readOnly: true
+          call: "gloo-gateway.get-proxy"
+          with:
+            namespace: "tools.namespace"
+            name: "tools.name"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-gateways
+          description: "List all gateway resources defining listener addresses and ports"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "gloo-gateway.list-gateways"
+          with:
+            namespace: "tools.namespace"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-gateway
+          description: "Get gateway listener configuration including TLS and virtual service bindings"
+          hints:
+            readOnly: true
+          call: "gloo-gateway.get-gateway"
+          with:
+            namespace: "tools.namespace"
+            name: "tools.name"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: health-check
+          description: "Check health status of Gloo Gateway control plane components"
+          hints:
+            readOnly: true
+          call: "gloo-gateway.health-check"
+          outputParameters:
+            - type: object
+              mapping: "$."

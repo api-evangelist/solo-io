@@ -1,0 +1,338 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Solo.io Gloo Portal Server API"
+  description: >-
+    REST endpoints to manage user access to the Gloo developer portal and API
+    resources. Enables API key management, usage plan discovery, and user
+    profile retrieval for the Gloo Mesh Gateway developer portal experience.
+  tags:
+    - API Gateway
+    - API Keys
+    - API Management
+    - Developer Portal
+    - Solo.io
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      GLOO_PORTAL_BEARER_TOKEN: GLOO_PORTAL_BEARER_TOKEN
+
+capability:
+  consumes:
+    - type: http
+      namespace: gloo-portal
+      baseUri: https://portal.example.com/v1
+      description: "Gloo Portal Server API for developer portal management"
+      authentication:
+        type: bearer
+        token: "{{GLOO_PORTAL_BEARER_TOKEN}}"
+      resources:
+        - name: users
+          path: /me
+          description: "User profile and session management"
+          operations:
+            - name: get-current-user
+              method: GET
+              description: "Get the current authenticated user's profile and permissions"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: apis
+          path: /apis
+          description: "API product discovery and schema retrieval"
+          operations:
+            - name: list-apis
+              method: GET
+              description: "List all APIs visible to the current user"
+              inputParameters:
+                - name: offset
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Pagination offset"
+                - name: limit
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Maximum number of APIs to return"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+            - name: get-api
+              method: GET
+              description: "Get details of a specific API product"
+              inputParameters:
+                - name: apiId
+                  in: path
+                  type: string
+                  required: true
+                  description: "Unique identifier of the API product"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+            - name: get-api-schema
+              method: GET
+              description: "Get the OpenAPI schema for a specific API product"
+              inputParameters:
+                - name: apiId
+                  in: path
+                  type: string
+                  required: true
+                  description: "Unique identifier of the API product"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: usage-plans
+          path: /usage-plans
+          description: "Usage plan discovery for rate limiting and quota management"
+          operations:
+            - name: list-usage-plans
+              method: GET
+              description: "List all usage plans available to the current user"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: api-keys
+          path: /api-keys
+          description: "API key lifecycle management"
+          operations:
+            - name: list-api-keys
+              method: GET
+              description: "List all API keys for the current user"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+            - name: create-api-key
+              method: POST
+              description: "Create a new API key for a usage plan and API product"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  name: "{{tools.name}}"
+                  usagePlanId: "{{tools.usagePlanId}}"
+                  apiProductId: "{{tools.apiProductId}}"
+
+            - name: delete-api-key
+              method: DELETE
+              description: "Delete a specific API key"
+              inputParameters:
+                - name: apiKeyId
+                  in: path
+                  type: string
+                  required: true
+                  description: "Unique identifier of the API key to delete"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8100
+      namespace: gloo-portal-rest
+      resources:
+        - path: /v1/me
+          name: current-user
+          description: "Current user profile"
+          operations:
+            - method: GET
+              name: get-current-user
+              description: "Get authenticated user profile"
+              call: "gloo-portal.get-current-user"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/apis
+          name: apis
+          description: "API product listings"
+          operations:
+            - method: GET
+              name: list-apis
+              description: "List available APIs"
+              call: "gloo-portal.list-apis"
+              with:
+                offset: "rest.offset"
+                limit: "rest.limit"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/apis/{apiId}
+          name: api-detail
+          description: "API product details"
+          operations:
+            - method: GET
+              name: get-api
+              description: "Get API product details"
+              call: "gloo-portal.get-api"
+              with:
+                apiId: "rest.apiId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/usage-plans
+          name: usage-plans
+          description: "Usage plan listings"
+          operations:
+            - method: GET
+              name: list-usage-plans
+              description: "List usage plans"
+              call: "gloo-portal.list-usage-plans"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/api-keys
+          name: api-keys
+          description: "API key management"
+          operations:
+            - method: GET
+              name: list-api-keys
+              description: "List API keys"
+              call: "gloo-portal.list-api-keys"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-api-key
+              description: "Create API key"
+              call: "gloo-portal.create-api-key"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/api-keys/{apiKeyId}
+          name: api-key-detail
+          description: "Individual API key management"
+          operations:
+            - method: DELETE
+              name: delete-api-key
+              description: "Delete an API key"
+              call: "gloo-portal.delete-api-key"
+              with:
+                apiKeyId: "rest.apiKeyId"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9100
+      namespace: gloo-portal-mcp
+      transport: http
+      tools:
+        - name: get-current-user
+          description: "Get the current authenticated user's profile and group memberships"
+          hints:
+            readOnly: true
+          call: "gloo-portal.get-current-user"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-apis
+          description: "List all APIs available in the Gloo developer portal"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "gloo-portal.list-apis"
+          with:
+            offset: "tools.offset"
+            limit: "tools.limit"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-api
+          description: "Get details for a specific API product including versions and usage plans"
+          hints:
+            readOnly: true
+          call: "gloo-portal.get-api"
+          with:
+            apiId: "tools.apiId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-api-schema
+          description: "Retrieve the OpenAPI or GraphQL schema for a specific API"
+          hints:
+            readOnly: true
+          call: "gloo-portal.get-api-schema"
+          with:
+            apiId: "tools.apiId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-usage-plans
+          description: "List usage plans with rate limits and quotas for API access"
+          hints:
+            readOnly: true
+          call: "gloo-portal.list-usage-plans"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-api-keys
+          description: "List all API keys for the authenticated user"
+          hints:
+            readOnly: true
+          call: "gloo-portal.list-api-keys"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: create-api-key
+          description: "Create a new API key for a specific API product and usage plan"
+          hints:
+            readOnly: false
+          call: "gloo-portal.create-api-key"
+          with:
+            name: "tools.name"
+            usagePlanId: "tools.usagePlanId"
+            apiProductId: "tools.apiProductId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: delete-api-key
+          description: "Delete an API key permanently"
+          hints:
+            readOnly: false
+            destructive: true
+            idempotent: true
+          call: "gloo-portal.delete-api-key"
+          with:
+            apiKeyId: "tools.apiKeyId"
+          outputParameters:
+            - type: object
+              mapping: "$."

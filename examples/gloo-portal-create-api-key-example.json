@@ -1,0 +1,23 @@
+{
+  "request": {
+    "name": "my-petstore-key",
+    "usagePlanId": "basic-plan",
+    "apiProductId": "petstore-api-v1",
+    "metadata": {
+      "environment": "development",
+      "team": "backend"
+    }
+  },
+  "response": {
+    "id": "key-abc123def456",
+    "name": "my-petstore-key",
+    "apiProductId": "petstore-api-v1",
+    "usagePlanId": "basic-plan",
+    "createdAt": "2026-05-02T10:30:00Z",
+    "metadata": {
+      "environment": "development",
+      "team": "backend"
+    },
+    "apiKey": "sk-gloo-portal-xK9mN2pQrT8vY3wZ"
+  }
+}
