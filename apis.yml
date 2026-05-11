@@ -114,6 +114,10 @@ description: >-
   Cloud-native API management and service connectivity to automate security,
   observability, resiliency, and traffic control for any API or workload in any
   environment.
+integrations:
+  - name: Partner with Solo.io
+  - name: AWS logo
+  - name: Google cloud logo
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
@@ -171,3 +175,5 @@ common:
     description: Domain vocabulary for Solo.io cloud-native API management platform
     url: vocabulary/solo-io-vocabulary.yml
     type: Vocabulary
+  - type: Integrations
+    url: https://www.solo.io/partners
