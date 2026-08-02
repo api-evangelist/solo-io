@@ -1,0 +1,121 @@
+generated: '2026-08-02'
+method: searched
+source: >-
+  https://docs.solo.io/gloo-mesh-enterprise/main/reference/cli/meshctl/ ,
+  https://docs.solo.io/agentregistry/latest/reference/cli/ ,
+  https://docs.solo.io/gloo-edge/main/reference/cli/glooctl/ ,
+  https://formulae.brew.sh/api/formula/glooctl.json ,
+  https://formulae.brew.sh/api/formula/kagent.json
+note: >-
+  Solo.io ships several first-party CLIs, one per product line, rather than one
+  company-wide CLI. Command surfaces below are transcribed from the published CLI
+  reference pages; only commands the docs list are recorded.
+clis:
+- name: meshctl
+  product: Solo Enterprise for Istio (Gloo Mesh Enterprise)
+  docs: https://docs.solo.io/gloo-mesh-enterprise/main/reference/cli/meshctl/
+  description: Command-line interface for installing, operating, and debugging Gloo
+    products across Kubernetes clusters.
+  global_flags:
+  - --kubeconfig
+  - --kubecontext
+  - -n, --namespace (default gloo-mesh)
+  - --plain
+  - -v, --verbose
+  commands:
+  - name: check
+    description: Perform health checks on the Gloo setup.
+  - name: cluster
+    description: Manage registered workload clusters.
+  - name: dashboard
+    description: Port-forward and open the Gloo UI.
+  - name: debug
+    description: Debug the Gloo environment.
+  - name: experimental
+    description: Experimental commands, subject to change.
+  - name: external-workload
+    description: Manage onboarded external (non-Kubernetes) workloads.
+  - name: generate
+    description: Generate Gloo custom resources.
+  - name: hubble
+    description: Hubble tooling.
+  - name: install
+    description: Install Gloo products with a license key.
+  - name: license
+    description: Manage product licenses.
+  - name: logs
+    description: Display logs for Gloo components.
+  - name: migrate
+    description: Migration utilities.
+  - name: precheck
+    description: Run compatibility checks before an upgrade.
+  - name: proxy
+    description: Port-forward to Gloo components.
+  - name: uninstall
+    description: Remove Gloo components and resources.
+  - name: version
+    description: Display version information.
+- name: arctl
+  product: Agentregistry Enterprise
+  docs: https://docs.solo.io/agentregistry/latest/reference/cli/
+  description: Agent Registry Control — scaffold, build, run, and publish agents and
+    MCP servers into the Solo.io agent registry.
+  install:
+  - method: script
+    command: 'curl -sSL https://storage.googleapis.com/agentregistry-enterprise/install.sh
+      | ARCTL_VERSION=v2026.7.1 sh'
+    note: then export PATH=$HOME/.arctl/bin:$PATH
+  commands:
+  - name: apply
+    description: Apply one or more resources from a YAML file.
+  - name: build
+    description: Build a Docker image for a declarative resource project.
+  - name: delete
+    description: Remove registry resources.
+  - name: get
+    description: List or retrieve registry resources.
+  - name: init
+    description: Scaffold a new resource project with declarative YAML.
+  - name: pull
+    description: Fetch a registry resource's source repo to local.
+  - name: run
+    description: Run the agent or MCP server in the current directory.
+  - name: user
+    description: Handle authentication operations.
+  - name: runtime
+    description: Bootstrap runtime helpers.
+  - name: configure
+    description: Adjust client connections.
+  - name: completion
+    description: Generate shell autocompletion scripts.
+  - name: version
+    description: Display version details.
+- name: glooctl
+  product: Gloo Gateway / Gloo Edge
+  docs: https://docs.solo.io/gloo-edge/main/reference/cli/glooctl/
+  version: 1.21.12
+  description: CLI for installing, configuring, and debugging the Gloo Gateway control
+    plane and its Envoy proxies.
+  install:
+  - method: homebrew
+    command: brew install glooctl
+    url: https://formulae.brew.sh/formula/glooctl
+- name: kagent
+  product: Kagent (Kubernetes-native agent runtime)
+  docs: https://kagent.dev/docs/kagent/getting-started/quickstart
+  version: 0.9.12
+  origin: kagent project (created by Solo.io, CNCF sandbox)
+  description: CLI for installing and operating the kagent runtime and its agents in
+    Kubernetes.
+  install:
+  - method: homebrew
+    command: brew install kagent
+    url: https://formulae.brew.sh/formula/kagent
+- name: kmcp
+  product: kmcp
+  repository: https://github.com/kagent-dev/kmcp
+  origin: kagent project (created by Solo.io)
+  description: CLI tool and Kubernetes controller for building, testing, and deploying
+    MCP servers.
+  x-note: command surface not transcribed — the published reference page was not located
+    during this pass.

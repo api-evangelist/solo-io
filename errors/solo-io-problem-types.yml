@@ -1,0 +1,93 @@
+generated: '2026-08-02'
+method: derived
+source: openapi/solo-io-portal-server-openapi.yml, openapi/solo-io-portal-backend-openapi.yml,
+  openapi/solo-io-gloo-platform-portal-openapi.yml, openapi/solo-io-portal-idp-connect-openapi.yml,
+  openapi/solo-io-ai-gateway-guardrail-webhook-openapi.yml
+format: http-status
+rfc9457: false
+note: >-
+  None of the harvested Solo.io contracts uses `application/problem+json`, and no
+  `type`/`title`/`detail` problem envelope is declared. Errors are plain HTTP status codes
+  with a JSON body on 400/404/422/500 and, on several 401/403/409 responses, no body at
+  all. Two distinct envelopes exist: the IdP Connect API declares an `Error` schema, and
+  the guardrail webhook declares FastAPI-style `HTTPValidationError`/`ValidationError`. The
+  portal server and backend APIs declare no named error schema — the shape is
+  documentation prose only.
+envelopes:
+- name: Error
+  schema: openapi/solo-io-portal-idp-connect-openapi.yml#/components/schemas/Error
+  applies_to: Gloo Portal IdP Connect API
+- name: HTTPValidationError
+  schema: openapi/solo-io-ai-gateway-guardrail-webhook-openapi.yml#/components/schemas/HTTPValidationError
+  applies_to: AI Gateway Guardrail Webhook API
+  detail_schema: ValidationError
+- name: none-declared
+  applies_to: Gloo Portal Server API, Gloo Portal Backend API, Gloo Platform Portal API
+  note: error responses are described in prose without a referenced schema
+problems:
+- status: 400
+  title: Bad request
+  meaning: A required identifier or body field is missing or malformed — the descriptions
+    name the specific field (API Id, API Key Name, OAuth client credential ID, appId, usage
+    plan Ids, or an invalid request body).
+  media_type: application/json
+  operations_affected: 33
+  remediation: Fix the named parameter or body field. Do not retry unchanged.
+- status: 401
+  title: Unauthorized
+  meaning: Authentication required, or the user's identity token is invalid or expired.
+  media_type: none
+  operations_affected: 60
+  remediation: Re-run the OIDC login flow (`LoginRedirect`, `GET /login`) to refresh the
+    `id_token`/`access_token` cookie, or refresh the bearer token, then retry.
+- status: 403
+  title: Forbidden
+  meaning: The identity token is valid but the user lacks permission for this action — most
+    often team membership or admin access on the portal.
+  media_type: none
+  operations_affected: 27
+  remediation: Grant the caller the team role or admin access the operation needs. Retrying
+    with the same identity will not succeed.
+- status: 404
+  title: Not found
+  meaning: The referenced API product, app, team, subscription, API key, or OAuth credential
+    does not exist.
+  media_type: application/json
+  operations_affected: 43
+  remediation: Re-resolve the identifier with the matching list operation. On delete
+    operations, a 404 is safe to treat as already-deleted when reconciling.
+- status: 409
+  title: Conflict
+  meaning: The resource already exists (team, app, API key name, OAuth credential), or the
+    resource cannot be deleted because dependents remain (an app with API keys or OAuth
+    credentials must have them removed first).
+  media_type: none
+  operations_affected: 13
+  remediation: Read the existing resource instead of creating it, or delete the dependent
+    credentials before deleting the parent. Never blind-retry a create on 409 — there is no
+    idempotency key on these APIs.
+- status: 422
+  title: Validation error
+  meaning: Request body failed schema validation on the guardrail webhook.
+  media_type: application/json
+  schema: HTTPValidationError
+  operations_affected: 2
+  remediation: Correct the request body to match `GuardrailsPromptRequest` /
+    `GuardrailsResponseRequest`.
+- status: 500
+  title: Internal server error
+  meaning: Unexpected server-side failure. Several descriptions are specific — for example
+    "Stitched schema associated with route table is not an openAPI schema" on
+    `GetApiSchema`.
+  media_type: application/json
+  operations_affected: 68
+  remediation: The docs say "Try again in a few moments" on several operations, so a bounded
+    retry with backoff is appropriate. For the stitched-schema case, fix the ApiDoc/route
+    table configuration rather than retrying.
+- status: 503
+  title: Service unavailable — API products not loaded
+  meaning: The portal backend has not finished loading its API product catalog.
+  media_type: none
+  operations_affected: 3
+  source_operations: [ListApiProducts, GetApiProduct, ListApiProductVersions]
+  remediation: Retry with backoff — this is a readiness condition, not a client error.

@@ -1,0 +1,117 @@
+info:
+  title: 'Gloo Portal IdP Connect API'
+  version: 1.0.0
+  description: Before you begin, set up Gloo Portal with your OpenID Connect (OIDC) Identity Provider (IdP), and install IdP Connect to integrate it with your Gloo Gateway installation. Then, you can use this IdP Connect API to manage the clients in your OIDC provider that are associated with your Portal apps. This way, your Portal users can provision their own OAuth credentials to access the Portal apps. For more information, see the [Portal OAuth guide](https://docs.solo.io/gateway/latest/portal/guides/frontend-portal/credential-management/oauth/) in the Gloo Gateway docs.
+openapi: 3.0.0
+servers:
+  - url: https://api.gloo-platform-portal.com/v1
+paths:
+  /applications:
+    post:
+      description: Create an OAuth2 client in the OIDC provider that you set up to protect your Gloo Portal APIs. This secret is shown to you only once at creation time, so keep this secret to make future requests to API products in the Portal. If you lose this secret, your admin can retrieve it in the OIDC provider. Note that the secret is not stored in the Portal database.
+      operationId: CreateOAuthApplication
+      parameters:
+        - in: header
+          name: "token"
+          description: Token of origin user invoking the request.
+          schema:
+            type: string
+      requestBody:
+        description: (Required) Unique identifier for creating client.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: string
+                  example: "a0897e6d0ea94f589c38278bca4e9342"
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthApplication'
+          description: Successfully created client.
+        '400':
+          description: Invalid input.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Unexpected error creating client.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      summary: Creates an OAuth2 client.
+      tags:
+        - Applications
+  /applications/{id}:
+    delete:
+      description: Delete an OAuth2 client.
+      operationId: DeleteOAuthApplication
+      parameters:
+        - in: path
+          name: "id"
+          required: true
+          description: (Required) ID for client to delete.
+          schema:
+            type: string
+        - in: header
+          name: "token"
+          description: Token of origin user invoking the request.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successfully deleted client.
+        '404':
+          description: Application not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Unexpected error deleting client.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      summary: Delete a client in the OIDC provider.
+      tags:
+        - Applications
+components:
+  schemas:
+    OAuthApplication:
+      required:
+        - clientId
+        - clientSecret
+      properties:
+        clientId:
+          type: string
+          example: a0897e6d0ea94f589c38278bca4e9342
+        clientSecret:
+          type: string
+          example: c94dbd582d594e8aa04934f9c7ef0f52
+        clientName:
+          type: string
+          example: "example-user-pool-developer-1"
+    Error:
+      required:
+        - code
+        - message
+        - reason
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+          example: "Status Code Message"
+        reason:
+          type: string
+          example: "Error reason"

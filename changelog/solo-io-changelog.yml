@@ -1,0 +1,78 @@
+generated: '2026-08-02'
+method: searched
+source: >-
+  https://api.github.com/repos/solo-io/gloo/releases ,
+  https://api.github.com/repos/kgateway-dev/kgateway/releases ,
+  https://docs.solo.io/gateway/latest/reference/changelog/ ,
+  https://docs.solo.io/agentgateway/latest/reference/changelog/ ,
+  https://docs.solo.io/gloo-mesh-enterprise/main/reference/changelog/
+scheme: semver, per product line
+note: >-
+  Solo.io does not publish one company-wide dated changelog. Each product line has a
+  versioned changelog on docs.solo.io (split into release notes, open-source changelogs, and
+  enterprise changelogs), and the open-source projects publish dated GitHub releases. The
+  entries below are the dated releases fetched from the GitHub Releases API on 2026-08-02 —
+  the recent window only; the live changelogs remain the source of truth.
+changelog_pages:
+- product: Kgateway Enterprise / Gloo Gateway
+  url: https://docs.solo.io/gateway/latest/reference/changelog/
+  sections: [release notes, open source changelogs, enterprise changelogs]
+- product: Solo Enterprise for agentgateway
+  url: https://docs.solo.io/agentgateway/latest/reference/changelog/
+- product: Gloo Mesh Enterprise
+  url: https://docs.solo.io/gloo-mesh-enterprise/main/reference/changelog/
+current:
+- product: gloo (open source)
+  repository: https://github.com/solo-io/gloo
+  latest_stable: v1.21.12
+  latest_prerelease_line: v1.22.0-beta11
+- product: kgateway
+  repository: https://github.com/kgateway-dev/kgateway
+  latest_stable: v2.4.1
+  origin: created by Solo.io, donated to the CNCF
+entries:
+- product: kgateway
+  version: v2.4.1
+  date: '2026-07-27'
+- product: kgateway
+  version: v2.4.0
+  date: '2026-07-23'
+- product: kgateway
+  version: v2.4.0-rc.1
+  date: '2026-07-20'
+  prerelease: true
+- product: kgateway
+  version: v2.4.0-beta.2
+  date: '2026-07-16'
+  prerelease: true
+- product: kgateway
+  version: v2.3.6
+  date: '2026-07-13'
+- product: kgateway
+  version: v2.2.9
+  date: '2026-07-13'
+- product: gloo
+  version: v1.22.0-beta11
+  date: '2026-07-31'
+- product: gloo
+  version: v1.21.12
+  date: '2026-07-16'
+- product: gloo
+  version: v1.21.11
+  date: '2026-06-29'
+- product: gloo
+  version: v1.20.21
+  date: '2026-06-29'
+- product: gloo
+  version: v1.19.19
+  date: '2026-06-29'
+- product: gloo
+  version: v1.18.40
+  date: '2026-06-29'
+x-evidence:
+  fetched: '2026-08-02'
+  method: GitHub Releases API
+  note: >-
+    Highlights and breaking-change annotations were not transcribed — the docs changelog
+    index is an index page and the per-release notes were not fetched in this pass. Version
+    numbers and dates above are verbatim from the API.

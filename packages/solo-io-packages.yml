@@ -1,0 +1,135 @@
+generated: '2026-08-02'
+method: searched
+source: >-
+  npm registry, PyPI, pkg.go.dev, Homebrew formulae API, and the Solo.io public Helm
+  chart repositories; every entry below was fetched and returned HTTP 200 on
+  2026-08-02.
+note: >-
+  Solo.io ships self-hosted Kubernetes software rather than a hosted SaaS API, so its
+  distribution surface is Go modules, Helm charts, CLI binaries and a small set of
+  npm/PyPI libraries — not a per-language REST client SDK family. Packages published
+  by projects Solo.io created and donated to the CNCF (kgateway, kagent) are marked
+  with an `origin` note rather than being claimed as solo-io org packages.
+packages:
+- language: go
+  registry: pkg.go.dev
+  name: github.com/solo-io/gloo
+  url: https://pkg.go.dev/github.com/solo-io/gloo
+  install: go get github.com/solo-io/gloo
+  description: Gloo — the Envoy-powered cloud-native API gateway and AI gateway; the
+    module that carries the Gloo v1 resource APIs (Proxy, Upstream, Settings, Secret).
+  official: true
+- language: go
+  registry: pkg.go.dev
+  name: github.com/solo-io/solo-kit
+  url: https://pkg.go.dev/github.com/solo-io/solo-kit
+  install: go get github.com/solo-io/solo-kit
+  description: Toolkit for developing stateless, event-driven, declarative API systems;
+    the code-generation and xDS foundation under Gloo.
+  official: true
+- language: go
+  registry: pkg.go.dev
+  name: github.com/solo-io/skv2
+  url: https://pkg.go.dev/github.com/solo-io/skv2
+  install: go get github.com/solo-io/skv2
+  description: Solo-Kit V2 — the Solo.io Kubernetes operator framework used across
+    Gloo Mesh and Gloo Gateway controllers.
+  official: true
+- language: go
+  registry: pkg.go.dev
+  name: github.com/solo-io/go-utils
+  url: https://pkg.go.dev/github.com/solo-io/go-utils
+  install: go get github.com/solo-io/go-utils
+  description: Shared Go utility libraries used across Solo.io projects.
+  official: true
+- language: javascript
+  registry: npm
+  name: '@solo.io/platform-portal-backstage-plugin-backend'
+  url: https://www.npmjs.com/package/@solo.io/platform-portal-backstage-plugin-backend
+  install: npm install @solo.io/platform-portal-backstage-plugin-backend
+  description: Backstage backend plugin that synchronizes Gloo Platform Portal APIs
+    with the Backstage catalog.
+  source: https://github.com/solo-io/platform-portal-backstage-plugin-backend
+  official: true
+- language: javascript
+  registry: npm
+  name: '@solo.io/graphql-schema-viewer'
+  version: 0.0.3
+  url: https://www.npmjs.com/package/@solo.io/graphql-schema-viewer
+  install: npm install @solo.io/graphql-schema-viewer
+  description: React component for rendering a GraphQL schema UI, published from the
+    solo-io/npm-packages repository.
+  source: https://github.com/solo-io/npm-packages
+  official: true
+- language: javascript
+  registry: npm
+  name: '@solo-io/proxy-runtime'
+  version: 0.1.15
+  url: https://www.npmjs.com/package/@solo-io/proxy-runtime
+  install: npm install @solo-io/proxy-runtime
+  description: AssemblyScript SDK for writing Envoy proxy-WASM ABI extensions.
+  source: https://github.com/solo-io/proxy-runtime
+  official: true
+- language: javascript
+  registry: npm
+  name: istio-bug-report-analyzer-mcp
+  version: 0.3.1
+  url: https://www.npmjs.com/package/istio-bug-report-analyzer-mcp
+  install: npx istio-bug-report-analyzer-mcp@latest setup
+  description: MCP server that analyzes `istioctl bug-report` archives, identifies
+    common problems, and suggests remediation. Apache-2.0.
+  source: https://github.com/solo-io/istio-bug-report-analyzer-mcp
+  official: true
+- language: python
+  registry: pypi
+  name: kagent-adk
+  version: 0.9.12
+  url: https://pypi.org/project/kagent-adk/
+  install: pip install kagent-adk
+  description: SDK for integrating ADK agents with kagent, the Kubernetes-native agent
+    runtime.
+  origin: kagent project (created by Solo.io, CNCF sandbox)
+  official: true
+- language: binary
+  registry: homebrew
+  name: glooctl
+  version: 1.21.12
+  url: https://formulae.brew.sh/formula/glooctl
+  install: brew install glooctl
+  description: CLI for the Gloo Gateway / Gloo Edge control plane.
+  docs: https://docs.solo.io/gloo-edge/main/reference/cli/glooctl/
+  official: true
+- language: binary
+  registry: homebrew
+  name: kagent
+  version: 0.9.12
+  url: https://formulae.brew.sh/formula/kagent
+  install: brew install kagent
+  description: CLI for kagent, the Kubernetes-native agent runtime.
+  origin: kagent project (created by Solo.io, CNCF sandbox)
+  official: true
+- language: helm
+  registry: helm
+  name: solo-public-helm
+  url: https://storage.googleapis.com/solo-public-helm/index.yaml
+  install: helm repo add solo-public https://storage.googleapis.com/solo-public-helm
+  description: Public Solo.io Helm chart repository (Gloo, Gloo Mesh, and related open-source
+    charts).
+  official: true
+- language: helm
+  registry: helm
+  name: gloo-ee-helm
+  url: https://storage.googleapis.com/gloo-ee-helm/index.yaml
+  install: helm repo add gloo-ee https://storage.googleapis.com/gloo-ee-helm
+  description: Solo.io enterprise Helm chart repository (Gloo Gateway Enterprise and
+    related enterprise charts; a license key is required at install time).
+  official: true
+not_found:
+- registry: pypi
+  query: solo-io / kmcp
+  result: no first-party Solo.io package
+- registry: crates.io
+  query: agentgateway
+  result: no first-party Solo.io crate published under the agentgateway name
+- registry: nuget
+  result: not probed — Solo.io publishes no .NET client

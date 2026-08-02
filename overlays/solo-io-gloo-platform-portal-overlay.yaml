@@ -1,0 +1,20 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Gloo Platform Portal API
+  version: 1.0.0
+extends: openapi/solo-io-gloo-platform-portal-openapi.yml
+x-generated: '2026-08-02'
+x-method: generated
+x-source: openapi/solo-io-gloo-platform-portal-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: solo-io
+    x-apievangelist-harvested: '2026-08-02'
+    x-apievangelist-operations: 7
+    x-apievangelist-artifacts:
+    - authentication/solo-io-authentication.yml
+    - errors/solo-io-problem-types.yml
+    - conventions/solo-io-conventions.yml
+    - data-model/solo-io-data-model.yml
+    - conformance/solo-io-conformance.yml

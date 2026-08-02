@@ -1,0 +1,108 @@
+generated: '2026-08-02'
+method: derived
+source: openapi/*.yml + https://docs.solo.io/gateway/latest/portal/
+note: >-
+  Solo.io's REST surface is the Gloo Portal family, shipped as self-hosted Kubernetes
+  software. Several conventions that a hosted SaaS would publish (idempotency keys,
+  pagination, rate-limit headers, request-id tracing) are simply not present in the
+  contracts, and are recorded here as absent rather than assumed. Nothing below was
+  inferred beyond what the specs and docs actually declare.
+authentication:
+  style: OIDC session cookie, with bearer token as an alternative
+  schemes:
+  - name: identityToken
+    type: apiKey
+    in: cookie
+    parameter: id_token
+  - name: accessToken
+    type: apiKey
+    in: cookie
+    parameter: access_token
+  - name: bearerAuth
+    type: http
+    scheme: bearer
+    note: declared only on the Gloo Portal Backend API
+  browser_flow:
+    login: GET /login (LoginRedirect, 302)
+    logout: GET /logout (LogoutRedirect, 302)
+  idp: customer-operated OpenID Connect provider; Solo.io hosts no identity service
+  artifact: authentication/solo-io-authentication.yml
+idempotency:
+  supported: false
+  header: none
+  evidence: >-
+    No Idempotency-Key parameter, header, or extension appears in any of the five harvested
+    OpenAPI documents, and the docs describe no idempotency contract.
+  guidance: >-
+    Guard creates by reading first (ListTeams / ListTeamApps / ListAppSubscriptions /
+    ListAppApiKeys) and treat 409 Conflict as "already exists". Credential-minting
+    operations (CreateAppApiKey, CreateApplicationAPIKey,
+    GenerateApplicationOAuthCredential, CreateOAuthApplication) must never be blind-retried
+    — the secret is returned once and a retry mints a second credential.
+pagination:
+  supported: false
+  evidence: >-
+    No limit / offset / page / cursor / pageSize parameters are declared on any list
+    operation across the five specs. List operations return the full collection.
+  filtering:
+    supported: partial
+    parameters:
+    - {api: portal-backend, name: status, in: query, on: ListSubscriptions}
+    - {api: portal-backend, name: apiProductId, in: query, on: ListSubscriptions}
+    - {api: portal-backend, name: apiKey, in: query, on: GetCredentialMetadata}
+    - {api: portal-backend, name: accessToken, in: query, on: GetCredentialMetadata}
+    - {api: portal-server, name: status, in: query, on: ListSubscriptionsByStatus}
+    - {api: gloo-platform-portal, name: usagePlans, in: query, on: ListAPIKeys}
+field_expansion:
+  supported: false
+  evidence: no expand/fields/include parameters declared
+metadata:
+  supported: true
+  description: >-
+    Portal apps and subscriptions carry operator-set metadata. The backend API exposes
+    SetAppMetadata (POST /apps/{appID}/metadata) and SetSubscriptionMetadata
+    (POST /subscriptions/{subscriptionID}/metadata) with a SetMetadataRequest body; the
+    portal server API models it as ApplicationMetadata and SubscriptionMetadata.
+request_tracing:
+  request_id_header: none declared
+  evidence: no X-Request-Id / traceparent parameter or response header in any spec
+  note: >-
+    Solo.io's products are themselves the observability layer (Envoy access logs, OpenTelemetry
+    tracing through the gateway and mesh), so per-request correlation is configured on the
+    data plane rather than contracted in the portal API.
+versioning:
+  api_scheme: uri-path
+  current: v1
+  evidence: 'base path /v1 on the portal server, portal backend, Gloo Platform Portal, and
+    IdP Connect contracts'
+  product_scheme: >-
+    Product releases are versioned independently and the docs are versioned per minor
+    release (docs.solo.io/gateway/1.22.x, docs.solo.io/agentgateway/2.3.x,
+    docs.solo.io/kgateway/2.3.x). Agentgateway and kagent enterprise builds additionally
+    publish dated LTS trains (for example 2026.7.1 LTS).
+  artifact: lifecycle/solo-io-lifecycle.yml
+error_envelope:
+  format: http-status
+  problem_json: false
+  named_schemas: [Error (IdP Connect), HTTPValidationError (guardrail webhook)]
+  artifact: errors/solo-io-problem-types.yml
+rate_limit_signaling:
+  supported: false
+  evidence: >-
+    No X-RateLimit-* or Retry-After response headers are declared on the portal APIs.
+  note: >-
+    Rate limiting is a *feature Solo.io sells*, not a limit it imposes on these APIs: the
+    portal data model carries RateLimit and RateLimitPolicy objects describing the limits an
+    operator applies to the API products exposed through the gateway.
+content_types:
+  request: application/json
+  response: application/json
+  redirects: 302 on the OIDC login/logout endpoints
+deletes:
+  convention: 204 No Content with no body on every delete operation across the portal APIs
+cross_links:
+  authentication: authentication/solo-io-authentication.yml
+  errors: errors/solo-io-problem-types.yml
+  lifecycle: lifecycle/solo-io-lifecycle.yml
+  data_model: data-model/solo-io-data-model.yml
+  conformance: conformance/solo-io-conformance.yml

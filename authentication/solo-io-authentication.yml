@@ -1,0 +1,33 @@
+generated: '2026-08-02'
+method: derived
+source: openapi/solo-io-gloo-platform-portal-openapi.yml, openapi/solo-io-portal-backend-openapi.yml,
+  openapi/solo-io-portal-server-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - cookie
+schemes:
+- name: identityToken
+  type: apiKey
+  in: cookie
+  parameter: id_token
+  description: id token cookie from the identity provider used to authenticate the user
+  sources:
+  - openapi/solo-io-gloo-platform-portal-openapi.yml
+  - openapi/solo-io-portal-backend-openapi.yml
+  - openapi/solo-io-portal-server-openapi.yml
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: Bearer token passed in the Authorization header
+  sources:
+  - openapi/solo-io-portal-backend-openapi.yml
+- name: accessToken
+  type: apiKey
+  in: cookie
+  parameter: access_token
+  description: access_token cookie set by the identity provider after OIDC login
+  sources:
+  - openapi/solo-io-portal-backend-openapi.yml

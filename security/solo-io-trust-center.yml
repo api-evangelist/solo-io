@@ -1,0 +1,31 @@
+generated: '2026-08-02'
+method: probed
+probe: true
+url: https://trust.solo.io/
+title: Solo Trust Center
+platform: Vanta
+certifications: []
+certifications_note: >-
+  The trust center resolves (HTTP 200) and is titled "Solo Trust Center", but it is a
+  Vanta-hosted single-page application: every path under trust.solo.io — including
+  /resources and /documents — returns the identical 4.5 KB HTML shell to a client that does
+  not execute JavaScript. No certification names could be read without rendering, and no
+  SOC 2 / ISO 27001 / PCI DSS / HIPAA / FedRAMP claim appears on any statically fetchable
+  Solo.io page. The list above is left EMPTY rather than populated by inference.
+description_from_page: >-
+  "Solo.io is a cloud-native software company founded in 2017 delivering API gateway,
+  service mesh, and agentic AI connectivity products — including Solo Enterprise for Istio,
+  kgateway, agentgateway, and kagent — built on the open-source Envoy and Istio projects."
+x-evidence:
+- {source: 'https://trust.solo.io/', http_status: 200, content_type: text/html, bytes: 4477,
+   detected: Vanta trust report shell}
+- {source: 'https://trust.solo.io/resources', http_status: 200, note: SPA catch-all — same
+   shell}
+- {source: 'https://www.solo.io/security', http_status: 200, note: links to the trust center;
+   no certifications listed}
+related:
+  security_policy: https://www.solo.io/security
+  vulnerability_disclosure: security/solo-io-vulnerability-disclosure.yml
+  legal: https://legal.solo.io/
+  subprocessors: https://legal.solo.io/#subprocessors
+  dpa: https://legal.solo.io/#subscriber-dpa

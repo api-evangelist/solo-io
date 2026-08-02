@@ -1,0 +1,99 @@
+generated: '2026-08-02'
+method: probed
+source: live GET of /.well-known/* on every Solo.io host in apis.yml and the OpenAPI servers[]
+note: >-
+  No /.well-known/ discovery documents are served on any Solo.io host. The Solo.io
+  products are self-hosted Kubernetes software, so OIDC/OAuth discovery documents
+  belong to the customer's own identity provider rather than to a Solo.io host.
+  Absence here is a valid, recorded result — nothing was fabricated.
+hosts:
+- host: https://www.solo.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://solo.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://docs.solo.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://kgateway.dev
+  note: open-source project site for kgateway (donated to CNCF, created by Solo.io)
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /llms.txt
+    status: 200
+- host: https://agentgateway.dev
+  note: open-source project site for agentgateway
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /llms.txt
+    status: 200
+- host: https://kagent.dev
+  note: open-source project site for kagent
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+- host: https://ambientmesh.io
+  note: Solo.io-run site for Istio ambient mesh
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /llms.txt
+    status: 200
+security_txt: none
+agent_card: none

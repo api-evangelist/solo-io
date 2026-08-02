@@ -1,0 +1,79 @@
+generated: '2026-08-02'
+method: searched
+status: published
+source: https://github.com/solo-io/istio-bug-report-analyzer-mcp
+server:
+  name: istio-bug-report-analyzer-mcp
+  transport: stdio
+  hosted: false
+  package: istio-bug-report-analyzer-mcp
+  registry: npm
+  version: 0.3.1
+  license: Apache-2.0
+  install: npx istio-bug-report-analyzer-mcp@latest setup
+  repository: https://github.com/solo-io/istio-bug-report-analyzer-mcp
+  description: >-
+    First-party Solo.io MCP server that analyzes `istioctl bug-report` archives,
+    identifies common Istio problems, and suggests remediation steps. It ships with a
+    packaged agent skill (`/istio-report-assessment`) that drives a guided assessment
+    workflow, and a `SOLO_MODE=true` switch that enables integration with Solo.io
+    internal tools for enriched analysis.
+x-evidence:
+  fetched: '2026-08-02'
+  repo_api: https://api.github.com/repos/solo-io/istio-bug-report-analyzer-mcp
+  npm: https://registry.npmjs.org/istio-bug-report-analyzer-mcp
+  readme_tool_table: true
+  live_tools_list: not-probed
+  live_tools_list_reason: >-
+    The server is a stdio server launched through npx, not a hosted HTTP endpoint, so
+    there is no remote `tools/list` to POST against. The tool names and descriptions
+    below are transcribed verbatim from the repository README's tool table; input
+    schemas require running the server locally.
+tools:
+- name: collect_bug_report
+  description: Run `istioctl bug-report` against a cluster and load results.
+- name: load_bug_report
+  description: Load an existing archive or directory.
+- name: get_overview
+  description: High-level mesh overview.
+- name: get_versions
+  description: Version matrix with skew detection.
+- name: get_analyze_results
+  description: '`istioctl analyze` results (IST codes).'
+- name: get_cluster_resources
+  description: Query Kubernetes resources by kind/namespace/name.
+- name: get_proxy_config
+  description: Envoy proxy configuration for a pod.
+- name: get_logs
+  description: Component logs with filtering.
+- name: get_istiod_debug
+  description: Istiod debug endpoints (syncz, configz, mesh, etc.).
+- name: run_diagnostics
+  description: Run diagnostic templates against the archive.
+- name: find_errors
+  description: Scan logs for errors, deduplicate by pattern.
+- name: estimate_resource_savings
+  description: CPU/memory impact analysis for sidecar-to-ambient migration.
+- name: list_files
+  description: List all files in the archive.
+- name: get_raw_file
+  description: Read any file from the archive.
+skills:
+- name: istio-report-assessment
+  file: skills/solo-io-istio-report-assessment.md
+  source: https://github.com/solo-io/istio-bug-report-analyzer-mcp/blob/main/skills/istio-report-assessment.md
+related_mcp_surface:
+  note: >-
+    Solo.io is also a producer of MCP *infrastructure*, distinct from running a hosted
+    MCP server of its own. These are recorded for context, not counted as Solo.io MCP
+    endpoints.
+  products:
+  - name: Agentgateway / Agentgateway Enterprise
+    role: AI-native gateway that routes, secures, and observes MCP, A2A, and LLM traffic
+    docs: https://docs.solo.io/agentgateway/latest/mcp/
+  - name: Agentregistry / Agentregistry Enterprise
+    role: registry for agents, MCP servers, and AI tools
+    docs: https://docs.solo.io/agentregistry/latest/
+  - name: kmcp
+    role: CLI and Kubernetes controller for building, testing, and deploying MCP servers
+    repository: https://github.com/kagent-dev/kmcp

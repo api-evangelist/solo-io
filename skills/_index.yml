@@ -1,0 +1,40 @@
+generated: '2026-08-02'
+method: searched
+source: >-
+  https://github.com/solo-io/istio-bug-report-analyzer-mcp/blob/main/skills/istio-report-assessment.md
+  (provider-published, saved verbatim) plus skills generated from the harvested Solo.io
+  OpenAPI contracts.
+skills:
+- file: solo-io-istio-report-assessment.md
+  name: istio-report-assessment
+  description: Run a full Istio health assessment — collect or load an istioctl bug-report,
+    analyze the mesh configuration, identify issues, and generate a structured assessment
+    document with remediation guidance.
+  method: searched
+  source: https://github.com/solo-io/istio-bug-report-analyzer-mcp/blob/main/skills/istio-report-assessment.md
+  api: mcp/solo-io-mcp.yml
+  operations: [collect_bug_report, load_bug_report, get_overview, get_versions, get_analyze_results,
+    run_diagnostics, find_errors, estimate_resource_savings]
+- file: solo-io-subscribe-app-to-api-product.md
+  name: Subscribe an app to a Gloo Portal API product
+  description: Create the team, create the app, subscribe it to an API product version, and
+    issue the API key.
+  method: generated
+  api: openapi/solo-io-portal-backend-openapi.yml
+  operations: [GetCurrentUser, ListApiProducts, ListApiProductVersions, CreateTeam, CreateTeamApp,
+    CreateAppSubscription, CreateAppApiKey, ListAppSubscriptions]
+- file: solo-io-provision-oauth-credentials.md
+  name: Provision OAuth credentials for a Gloo Portal app
+  description: Generate and revoke OAuth2 client credentials through the portal server API
+    and the IdP Connect SPI.
+  method: generated
+  api: openapi/solo-io-portal-server-openapi.yml
+  operations: [GetCurrentUser, GetApplicationById, GenerateApplicationOAuthCredential, GetApplicationOAuthCredential,
+    DeleteOAuthCredential, CreateOAuthApplication, DeleteOAuthApplication]
+- file: solo-io-implement-ai-guardrail-webhook.md
+  name: Implement the Solo.io AI guardrail webhook
+  description: Implement the /request and /response endpoints the AI gateway calls to pass,
+    mask, or reject LLM prompts and responses.
+  method: generated
+  api: openapi/solo-io-ai-gateway-guardrail-webhook-openapi.yml
+  operations: [process_prompts_request_post, process_responses_response_post]

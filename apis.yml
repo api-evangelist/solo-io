@@ -1,18 +1,145 @@
 aid: solo-io
 name: Solo.io
-description: 'Solo.io is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: 'Solo.io is a cloud-native application-networking company founded in 2017
+  that builds enterprise and open-source API gateways, service mesh, and agentic-AI
+  infrastructure. Its products include Kgateway Enterprise (formerly Gloo Gateway),
+  an Envoy-powered Kubernetes Gateway API ingress and API gateway; Solo Enterprise
+  for Istio (formerly Gloo Mesh), a hardened Istio service mesh with ambient mode;
+  Agentgateway Enterprise, a Rust-based AI-native gateway for LLM, MCP, and A2A traffic;
+  Kagent Enterprise, a Kubernetes-native agent runtime; and Agentregistry Enterprise,
+  a registry for agents, MCP servers, and AI tools. Solo.io also ships Gloo Portal,
+  a developer portal whose Portal Server REST API manages API products, teams, apps,
+  subscriptions, API keys, and OAuth credentials, and contributes the kgateway, agentgateway,
+  kagent, and Istio ambient-mesh open-source projects.'
 url: https://raw.githubusercontent.com/api-evangelist/solo-io/refs/heads/main/apis.yml
+image: https://cdn.prod.website-files.com/66dba20a96c0aa281999f399/6704540db9215a5c14c38c6c_Webclip.png
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-02'
 modified: '2026-08-02'
 tags:
 - Company
-apis: []
+- API Gateway
+- Service Mesh
+- Kubernetes
+- Istio
+- Envoy
+- AI Gateway
+- Agentic AI
+- Model Context Protocol
+- Developer Portal
+- Cloud Native
+- Open Source
+apis:
+- aid: solo-io:portal-server
+  name: Gloo Portal Server API
+  description: 'The Gloo Portal Server REST API backs the Solo.io developer portal
+    for Kgateway Enterprise / Gloo Gateway. It lets portal users look up their session
+    user, browse API products and product versions, create and manage teams and team
+    applications, subscribe applications to API products, and self-provision credentials
+    (API keys and OAuth client credentials) for the APIs exposed through the portal.'
+  humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
+  baseURL: https://portal.example.com/v1
+  x-baseurl-note: Solo.io publishes the portal server as self-hosted software; its
+    own OpenAPI declares the example host http://portal.example.com/v1. The production
+    host is deployment-specific.
+  tags:
+  - Developer Portal
+  - API Management
+  - API Keys
+  - OAuth
+  properties:
+  - type: OpenAPI
+    url: openapi/solo-io-portal-server-openapi.yml
+  - type: Overlay
+    url: overlays/solo-io-portal-server-overlay.yaml
+  - type: Documentation
+    url: https://docs.solo.io/gateway/latest/portal/
+  - type: APIReference
+    url: https://docs.solo.io/gateway/latest/portal/openapi/
+- aid: solo-io:portal-backend
+  name: Gloo Portal Backend API
+  description: 'The portal backend server API for the kgateway 2.x generation of Gloo
+    Portal. It exposes health and readiness probes, the API product catalog and product
+    versions, user and team management, team applications, application subscriptions,
+    API keys, OAuth credentials, application metadata, and the OIDC login/logout redirect
+    endpoints used by the frontend portal.'
+  humanURL: https://docs.solo.io/kgateway/latest/portal/
+  baseURL: https://portal.example.com/v1
+  x-baseurl-note: The OpenAPI declares the relative base path /v1; the portal backend
+    is self-hosted, so the host is deployment-specific.
+  tags:
+  - Developer Portal
+  - API Management
+  - Teams
+  - Subscriptions
+  properties:
+  - type: OpenAPI
+    url: openapi/solo-io-portal-backend-openapi.yml
+  - type: Overlay
+    url: overlays/solo-io-portal-backend-overlay.yaml
+  - type: Documentation
+    url: https://docs.solo.io/kgateway/latest/portal/
+- aid: solo-io:gloo-platform-portal
+  name: Gloo Platform Portal API
+  description: 'The Gloo Platform portal API covers the endpoint specifications for
+    managing user access to the developer portal and to the resources the portal exposes
+    — the current user session, the list of APIs and their schemas, usage plans, and
+    the API key lifecycle.'
+  humanURL: https://docs.solo.io/gloo-mesh-gateway/latest/portal/
+  baseURL: https://api.gloo-platform-portal.com/v1
+  tags:
+  - Developer Portal
+  - Usage Plans
+  - API Keys
+  properties:
+  - type: OpenAPI
+    url: openapi/solo-io-gloo-platform-portal-openapi.yml
+  - type: Overlay
+    url: overlays/solo-io-gloo-platform-portal-overlay.yaml
+- aid: solo-io:portal-idp-connect
+  name: Gloo Portal IdP Connect API
+  description: 'The IdP Connect SPI that Gloo Portal calls to create and delete OAuth2
+    clients in the OpenID Connect identity provider protecting Portal APIs, so portal
+    users can provision their own OAuth credentials for the API products they subscribe
+    to.'
+  humanURL: https://docs.solo.io/gateway/latest/portal/guides/frontend-portal/credential-management/oauth/
+  baseURL: https://api.gloo-platform-portal.com/v1
+  tags:
+  - OAuth
+  - Identity Provider
+  - Credential Management
+  properties:
+  - type: OpenAPI
+    url: openapi/solo-io-portal-idp-connect-openapi.yml
+  - type: Overlay
+    url: overlays/solo-io-portal-idp-connect-overlay.yaml
+  - type: SourceCode
+    url: https://github.com/solo-io/gloo-portal-idp-connect
+- aid: solo-io:ai-guardrail-webhook
+  name: AI Gateway Guardrail Webhook API
+  description: 'The webhook contract for the Guardrail feature in kgateway, Agentgateway
+    Enterprise, and Gloo Gateway. Two endpoints — /request and /response — intercept
+    prompts on the way to a large language model and responses on the way back, and
+    return a Pass, Mask, or Reject action so operators can implement their own content
+    filtering and guardrails across LLM providers.'
+  humanURL: https://docs.solo.io/agentgateway/latest/llm/guardrails/
+  baseURL: https://guardrail-webhook.example.com
+  x-baseurl-note: This is a webhook contract the operator implements and the gateway
+    calls; the host is deployment-specific.
+  tags:
+  - AI Gateway
+  - Guardrails
+  - LLM
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/solo-io-ai-gateway-guardrail-webhook-openapi.yml
+  - type: Overlay
+    url: overlays/solo-io-ai-gateway-guardrail-webhook-overlay.yaml
+  - type: Documentation
+    url: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +147,89 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://forgeglobal.com/solo-io_stock/
+  url: https://www.solo.io/
+- type: DeveloperPortal
+  url: https://www.solo.io/docs
+- type: Documentation
+  url: https://docs.solo.io/
+- type: APIReference
+  url: https://docs.solo.io/gateway/latest/portal/openapi/
+- type: GettingStarted
+  url: https://www.solo.io/get-started
+- type: Support
+  url: https://www.solo.io/company/get-support
+- type: Blog
+  url: https://www.solo.io/blog
+- type: BlogRSS
+  url: https://www.solo.io/blog/rss.xml
+- type: GitHubOrganization
+  url: https://github.com/solo-io
+- type: Pricing
+  url: https://www.solo.io/pricing
+- type: SignUp
+  url: https://www.solo.io/get-started
+- type: TermsOfService
+  url: https://legal.solo.io/#website-terms-of-use
+- type: PrivacyPolicy
+  url: https://legal.solo.io/#privacy-policy
+- type: Legal
+  url: https://legal.solo.io/
+- type: Security
+  url: https://www.solo.io/security
+- type: TrustCenter
+  url: https://trust.solo.io/
+- type: Community
+  url: https://www.solo.io/community
+- type: ChangeLog
+  url: https://docs.solo.io/gateway/latest/reference/changelog/
+- type: LLMsTxt
+  url: llms/solo-io-llms.txt
+- type: Packages
+  url: packages/solo-io-packages.yml
+- type: SDKs
+  url: packages/solo-io-packages.yml
+- type: CLI
+  url: cli/solo-io-cli.yml
+- type: Authentication
+  url: authentication/solo-io-authentication.yml
+- type: Conventions
+  url: conventions/solo-io-conventions.yml
+- type: ErrorCatalog
+  url: errors/solo-io-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/solo-io-lifecycle.yml
+- type: Deprecation
+  url: https://docs.solo.io/gloo-mesh-enterprise/main/reference/version/versions/
+- type: Conformance
+  url: conformance/solo-io-conformance.yml
+- type: Compliance
+  url: https://www.solo.io/topics/security-and-compliance/fips
+- type: DataModel
+  url: data-model/solo-io-data-model.yml
+- type: DomainSecurity
+  url: security/solo-io-domain-security.yml
+- type: VulnerabilityDisclosure
+  url: security/solo-io-vulnerability-disclosure.yml
+- type: TrustCenter
+  url: security/solo-io-trust-center.yml
+- type: WellKnown
+  url: well-known/solo-io-well-known.yml
+- type: Protobuf
+  name: Gloo v1 resource protos (Proxy, Upstream, Endpoint, Secret, Artifact)
+  url: grpc/solo-io-gloo-v1-proxy.proto
+- type: Webhooks
+  url: asyncapi/solo-io-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: MCPServer
+  url: mcp/solo-io-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/solo-io-tool-crosswalk.yml
+- type: ChangeLog
+  url: changelog/solo-io-changelog.yml
+
+x-enrichment:
+  date: 2026-08-02
+  status: enriched
+  artifacts_added: 37
+  pass: local-v1

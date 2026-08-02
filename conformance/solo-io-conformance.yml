@@ -1,0 +1,106 @@
+generated: '2026-08-02'
+method: derived
+source: openapi/*.yml, https://www.solo.io/security, https://www.solo.io/topics/security-and-compliance/fips,
+  https://docs.solo.io/
+note: >-
+  Two very different conformance stories sit side by side here. Solo.io's *products* are
+  built to conform to a stack of upstream specifications (Kubernetes Gateway API, Envoy xDS,
+  Istio, OIDC, MCP, A2A) — that is the company's core claim. Solo.io's own *REST contracts*
+  (the Gloo Portal family) are plain OpenAPI 3.x with cookie/bearer auth and no
+  cross-cutting HTTP conventions. Both are recorded; neither is inflated.
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: 'openapi: 3.0.0 / 3.0.3 in four harvested specs'
+- id: openapi-3.1
+  conforms: true
+  evidence: 'openapi: 3.1.0 in openapi/solo-io-ai-gateway-guardrail-webhook-openapi.yml'
+- id: oidc
+  conforms: true
+  evidence: portal authentication is an OIDC identity-token cookie issued by the customer's
+    OpenID Connect provider; LoginRedirect/LogoutRedirect implement the browser flow
+- id: oauth2
+  conforms: true
+  evidence: the Gloo Portal IdP Connect API creates and deletes OAuth2 clients in the OIDC
+    provider; the portal server generates OAuth client credentials for portal apps
+- id: oauth2-scopes-declared
+  conforms: false
+  evidence: no oauth2 securityScheme with a scopes map appears in any harvested spec — the
+    OAuth surface is client provisioning, not scoped API authorization
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: no application/problem+json response is declared in any spec
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: no Sunset or Deprecation response header is declared or documented
+- id: idempotency
+  conforms: false
+  evidence: no Idempotency-Key parameter or header in any spec
+- id: pagination
+  conforms: false
+  evidence: no limit/offset/cursor parameters on any list operation
+- id: json-api
+  conforms: false
+- id: odata
+  conforms: false
+- id: scim
+  conforms: false
+- id: fhir
+  conforms: false
+- id: fapi
+  conforms: false
+- id: psd2
+  conforms: false
+product_conformance:
+  note: >-
+    Standards Solo.io's products implement or extend. These are documented product claims,
+    not properties of the Gloo Portal REST contracts above.
+  standards:
+  - id: kubernetes-gateway-api
+    conforms: true
+    evidence: >-
+      "Gloo Gateway is fully conformant with the Kubernetes Gateway API and extends its
+      functionality with Solo's custom Gateway APIs, such as RouteOption, VirtualHostOption,
+      Upstreams, RateLimitConfig, or AuthConfig."
+    source: https://docs.solo.io/gateway/1.21.x/about/overview/
+  - id: envoy-xds
+    conforms: true
+    evidence: Gloo is an Envoy control plane; grpc/solo-io-gloo-v1-proxy.proto and the
+      solo-kit xDS service define the resource surface
+  - id: istio
+    conforms: true
+    evidence: Solo Enterprise for Istio ships hardened Istio builds including ambient mode
+  - id: model-context-protocol
+    conforms: true
+    evidence: agentgateway routes and secures MCP traffic; agentregistry is a registry for
+      MCP servers; solo-io publishes an MCP server (mcp/solo-io-mcp.yml)
+    source: https://docs.solo.io/agentgateway/latest/mcp/
+  - id: a2a
+    conforms: true
+    evidence: '"With agentgateway, you can route to agent-to-agent (A2A) servers and expose
+      their tools securely."'
+    source: https://docs.solo.io/agentgateway/2.3.x/agent/a2a/
+  - id: fips-140-2
+    conforms: true
+    evidence: >-
+      Solo.io publishes FIPS-compliant builds of Gloo and Istio using FIPS-validated
+      cryptographic modules; documented per product (Gloo Edge, Gloo Mesh, Gloo Gateway).
+    source: https://www.solo.io/topics/security-and-compliance/fips
+  - id: fips-140-3
+    conforms: in-progress
+    evidence: Solo.io states FIPS 140-3 certification for Solo products is in progress with
+      CMVP
+    source: https://www.solo.io/topics/security-and-compliance/fips
+  - id: nist-800-207-zero-trust
+    conforms: claimed
+    evidence: Solo.io markets a zero-trust architecture aligned to NIST SP 800-204A and
+      800-207
+    source: https://www.solo.io/topics/security-and-compliance/zero-trust-architecture
+compliance_program:
+  trust_center: https://trust.solo.io/
+  certifications_published: unknown
+  certifications_note: >-
+    The Solo Trust Center is a Vanta-hosted single-page app; every path under trust.solo.io
+    returns the same HTML shell to a non-JavaScript client, so no certification list could be
+    read without rendering. No SOC 2, ISO 27001, PCI DSS, HIPAA, or FedRAMP claim was found
+    on any statically fetchable Solo.io page. Recorded as unknown rather than asserted.

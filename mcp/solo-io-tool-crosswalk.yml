@@ -1,0 +1,113 @@
+generated: '2026-08-02'
+method: derived
+source: mcp/solo-io-mcp.yml + openapi/*.yml
+summary: >-
+  Solo.io's MCP surface and its REST surface do not overlap at all. The published MCP
+  server (istio-bug-report-analyzer-mcp) operates on `istioctl bug-report` archives and
+  live Kubernetes clusters through the local kubeconfig — none of its tools is backed by
+  a public Solo.io REST operation. The published OpenAPI surface is the Gloo Portal
+  server/backend family, which has no MCP tools bound to it. Recording the divergence is
+  the point of this artifact: neither surface is a superset of the other, and nothing was
+  mapped that does not exist.
+surfaces:
+  openapi:
+  - file: openapi/solo-io-portal-server-openapi.yml
+    title: Gloo Portal Server API
+    operations: 28
+  - file: openapi/solo-io-portal-backend-openapi.yml
+    title: Gloo Portal Backend API
+    operations: 39
+  - file: openapi/solo-io-gloo-platform-portal-openapi.yml
+    title: Gloo Platform Portal API
+    operations: 7
+  - file: openapi/solo-io-portal-idp-connect-openapi.yml
+    title: Gloo Portal IdP Connect API
+    operations: 2
+  - file: openapi/solo-io-ai-gateway-guardrail-webhook-openapi.yml
+    title: AI Gateway Guardrail Webhook API
+    operations: 2
+    note: inbound webhook contract implemented by the operator, not a Solo.io endpoint
+  graphql: none
+  mcp:
+    server: istio-bug-report-analyzer-mcp
+    transport: stdio
+    gated: false
+    live_introspection: not applicable — stdio server, no remote tools/list endpoint
+crosswalk: []
+mcp_only:
+- tool: collect_bug_report
+  reason: shells out to `istioctl bug-report` against the caller's cluster; no REST equivalent
+- tool: load_bug_report
+  reason: local filesystem archive loading; no REST equivalent
+- tool: get_overview
+  reason: derived from an offline bug-report archive
+- tool: get_versions
+  reason: derived from an offline bug-report archive
+- tool: get_analyze_results
+  reason: wraps `istioctl analyze`; no REST equivalent
+- tool: get_cluster_resources
+  reason: reads Kubernetes resources out of the archive; the Kubernetes API is the backing
+    surface, not a Solo.io API
+- tool: get_proxy_config
+  reason: reads Envoy proxy config out of the archive
+- tool: get_logs
+  reason: reads component logs out of the archive
+- tool: get_istiod_debug
+  reason: reads istiod debug endpoints out of the archive
+- tool: run_diagnostics
+  reason: runs local YAML diagnostic templates
+- tool: find_errors
+  reason: local log scanning and deduplication
+- tool: estimate_resource_savings
+  reason: local computation over Pod specs in the archive
+- tool: list_files
+  reason: local archive listing
+- tool: get_raw_file
+  reason: local archive file read
+rest_only:
+- capability: Portal identity and session
+  file: openapi/solo-io-portal-backend-openapi.yml
+  operations: [GetCurrentUser, UpdateCurrentUser, ListUsers, LoginRedirect, LogoutRedirect]
+- capability: API product catalog
+  file: openapi/solo-io-portal-backend-openapi.yml
+  operations: [ListApiProducts, GetApiProduct, ListApiProductVersions]
+- capability: Teams and membership
+  file: openapi/solo-io-portal-backend-openapi.yml
+  operations: [ListTeams, CreateTeam, GetTeam, UpdateTeam, DeleteTeam, ListTeamMembers,
+    AddTeamMember, RemoveTeamMember]
+- capability: Applications
+  file: openapi/solo-io-portal-backend-openapi.yml
+  operations: [ListTeamApps, CreateTeamApp, GetApp, UpdateApp, DeleteApp, SetAppMetadata]
+- capability: Subscriptions
+  file: openapi/solo-io-portal-backend-openapi.yml
+  operations: [ListAppSubscriptions, CreateAppSubscription, DeleteAppSubscription, ListSubscriptions,
+    DeleteSubscription, SetSubscriptionMetadata, SubscriptionAction]
+- capability: Credentials (API keys and OAuth)
+  file: openapi/solo-io-portal-backend-openapi.yml
+  operations: [ListAppApiKeys, CreateAppApiKey, DeleteAppApiKey, DeleteApiKey, GetAppOAuthCredential,
+    CreateAppOAuthCredential, DeleteOAuthCredential, GetCredentialMetadata]
+- capability: Health probes
+  file: openapi/solo-io-portal-backend-openapi.yml
+  operations: [HealthCheck, ReadinessCheck]
+- capability: Portal server (1.x generation)
+  file: openapi/solo-io-portal-server-openapi.yml
+  operations: [ListApiProducts, GetApiProductById, ListProductVersions, GetCurrentUser,
+    UpsertCurrentUser, ListTeams, CreateTeam, GetTeamById, UpdateTeam, DeleteTeam, ListTeamMembers,
+    AddTeamMember, RemoveTeamMember, ListTeamApplications, CreateTeamApplication, GetApplicationById,
+    UpdateApplication, DeleteApplication, ListApplicationAPIKeys, CreateApplicationAPIKey,
+    DeleteAPIKey, GetApplicationOAuthCredential, GenerateApplicationOAuthCredential,
+    DeleteOAuthCredential, ListApplicationProductSubscriptions, SubscribeToApiProduct,
+    ListSubscriptionsByStatus, DeleteApplicationProductSubscription]
+- capability: Gloo Platform Portal
+  file: openapi/solo-io-gloo-platform-portal-openapi.yml
+  operations: [GetCurrentUser, ListAPIs, GetApiSchema, GetUsagePlans, ListAPIKeys, CreateAPIKey,
+    DeleteAPIKey]
+- capability: IdP OAuth client provisioning
+  file: openapi/solo-io-portal-idp-connect-openapi.yml
+  operations: [CreateOAuthApplication, DeleteOAuthApplication]
+coverage:
+  tools_named: 14
+  tools_bound_to_rest: 0
+  mcp_only: 14
+  rest_operations_total: 78
+  rest_operations_with_a_tool: 0

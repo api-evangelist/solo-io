@@ -1,0 +1,53 @@
+generated: '2026-08-02'
+method: searched
+source: openapi/solo-io-ai-gateway-guardrail-webhook-openapi.yml, https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
+spec_type: Webhooks
+asyncapi: none
+asyncapi_note: >-
+  No AsyncAPI document is published anywhere on solo.io, docs.solo.io, or the solo-io GitHub
+  organization (a code search for "asyncapi" across the org returned zero results). Solo.io
+  ships no event bus, message broker, or subscription API of its own — its event surface is
+  the customer's own data plane, observed through Envoy access logs and OpenTelemetry rather
+  than through a Solo.io-hosted event stream. Recorded as absent; nothing fabricated.
+note: >-
+  Solo.io does publish a real, specified webhook contract, and it runs in the inverse
+  direction from the usual provider webhook: the operator implements the endpoints and the
+  Solo.io AI gateway calls them synchronously on the LLM request/response path. It is
+  contracted in OpenAPI 3.1.0 with a `Webhooks` tag, not in AsyncAPI.
+webhooks:
+- name: guardrail-request
+  direction: gateway-to-operator
+  operation: process_prompts_request_post
+  method: POST
+  path: /request
+  spec: openapi/solo-io-ai-gateway-guardrail-webhook-openapi.yml
+  description: >-
+    Called with the normalized prompt (GuardrailsPromptRequest) before it is sent to the
+    large language model. The implementation returns a GuardrailsPromptResponse carrying a
+    PassAction, MaskAction, or RejectAction.
+  responses: [200, 422]
+  docs: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
+- name: guardrail-response
+  direction: gateway-to-operator
+  operation: process_responses_response_post
+  method: POST
+  path: /response
+  spec: openapi/solo-io-ai-gateway-guardrail-webhook-openapi.yml
+  description: >-
+    Called with the normalized LLM response (GuardrailsResponseRequest) before it is returned
+    to the caller. The implementation returns a GuardrailsResponseResponse carrying a
+    PassAction, MaskAction, or RejectAction.
+  responses: [200, 422]
+  docs: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
+actions:
+- {name: PassAction, effect: allow the content through unchanged}
+- {name: MaskAction, effect: return modified content with sensitive information masked}
+- {name: RejectAction, effect: block the content and return an error response}
+products:
+- kgateway
+- Agentgateway Enterprise
+- Gloo Gateway
+security:
+  declared_in_spec: none
+  note: authentication between the gateway and the webhook is deployment configuration (mTLS,
+    network policy, or a shared header), not part of the contract

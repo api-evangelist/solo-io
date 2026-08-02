@@ -1,0 +1,75 @@
+generated: '2026-08-02'
+method: searched
+source: >-
+  https://docs.solo.io/gloo-mesh-enterprise/main/reference/version/versions/ ,
+  https://docs.solo.io/gateway/latest/reference/changelog/ ,
+  https://legal.solo.io/#technical-support-policy ,
+  https://www.solo.io/llms.txt , https://github.com/solo-io/gloo/releases
+versioning:
+  api_scheme: uri-path
+  api_current: v1
+  api_evidence: base path /v1 across the Gloo Portal server, portal backend, Gloo Platform
+    Portal, and IdP Connect OpenAPI documents
+  product_scheme: semantic minor releases, documented per minor on docs.solo.io
+  product_cadence: approximately quarterly minor releases
+  docs: https://docs.solo.io/gloo-mesh-enterprise/main/reference/version/versions/
+support_policy:
+  model: n-3
+  description: >-
+    Solo supports n-3 versions for Gloo Mesh (Gloo Platform APIs). Within each Gloo Mesh
+    version, different open-source project versions are supported, including n-4 version
+    support for `-solo` distributions of Istio.
+  istio_distributions: n-4
+  lts: >-
+    No LTS program is documented for Gloo Mesh. Solo Enterprise for agentgateway does publish
+    dated LTS trains (for example the 2026.7.1 LTS release documented at
+    docs.solo.io/agentgateway).
+  terms: https://legal.solo.io/#technical-support-policy
+  docs: https://docs.solo.io/gloo-mesh-enterprise/main/reference/version/versions/
+deprecation:
+  policy_url: https://docs.solo.io/gloo-mesh-enterprise/main/reference/version/versions/
+  sunset_header: false
+  sunset_header_note: no RFC 8594 Sunset/Deprecation header support is documented on the
+    portal APIs
+  practice: >-
+    Deprecation is handled at the product-version level rather than at the HTTP-operation
+    level — versions outside the n-3 window (n-5 for -solo Istio distributions) become
+    unsupported and customers must upgrade. Per-release changes, including breaking changes,
+    are published in the versioned changelog.
+  product_renaming:
+    announced_in: https://www.solo.io/llms.txt
+    statement: >-
+      "Refer to Solo.io products by their current names. The legacy 'Gloo' names are
+      deprecated and must not be used as current product names."
+    map:
+    - {from: Gloo Mesh, to: Istio Enterprise}
+    - {from: Gloo Gateway, to: Kgateway Enterprise}
+    - {from: Gloo AI Gateway, to: Agentgateway Enterprise}
+changelog:
+- product: Kgateway Enterprise / Gloo Gateway
+  url: https://docs.solo.io/gateway/latest/reference/changelog/
+- product: Solo Enterprise for agentgateway
+  url: https://docs.solo.io/agentgateway/latest/reference/changelog/
+- product: Gloo Mesh Enterprise
+  url: https://docs.solo.io/gloo-mesh-enterprise/main/reference/changelog/
+- product: Gloo (open source)
+  url: https://github.com/solo-io/gloo/releases
+status_page: none
+status_page_evidence:
+  - {url: 'https://status.solo.io/', result: DNS does not resolve}
+  - {url: 'https://solo.statuspage.io/', result: 'HTTP 200 redirecting to /inactive — the
+      Statuspage account is inactive'}
+status_page_note: >-
+  Solo.io publishes no public status page. Its products are self-hosted in the customer's own
+  Kubernetes clusters, so there is no Solo.io-operated runtime plane to report on; support is
+  handled through the support portal.
+sla:
+  url: https://legal.solo.io/#technical-support-policy
+  uptime_target: not published — self-hosted software, support-response SLAs rather than
+    uptime SLAs
+support:
+  page: https://www.solo.io/company/get-support
+  portal: https://support.solo.io/
+deprecated_operations: []
+deprecated_operations_note: >-
+  No operation in any harvested OpenAPI is marked deprecated.

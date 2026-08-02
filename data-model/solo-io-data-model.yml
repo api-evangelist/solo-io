@@ -1,0 +1,96 @@
+generated: '2026-08-02'
+method: derived
+source: openapi/solo-io-portal-backend-openapi.yml, openapi/solo-io-portal-server-openapi.yml,
+  openapi/solo-io-gloo-platform-portal-openapi.yml, openapi/solo-io-portal-idp-connect-openapi.yml
+note: >-
+  Derived from the OpenAPI `components.schemas` graph and the URL hierarchy of the portal
+  operations. The Gloo Portal schemas are largely flat — most relationships are expressed by
+  path nesting (`/teams/{teamID}/apps/…`, `/apps/{appID}/subscriptions/…`) and by
+  id-reference fields rather than by `$ref` composition, so the edges below are read from
+  both. Identifiers are opaque strings; no id prefixes are documented.
+domains:
+- name: Portal identity
+  entities: [User, Team, TeamMember]
+- name: API catalog
+  entities: [ApiProduct, ApiProductVersion, UsagePlan]
+- name: Consumption
+  entities: [App, Subscription]
+- name: Credentials
+  entities: [ApiKey, OAuthCredential]
+- name: Policy
+  entities: [RateLimit, RateLimitPolicy, AuthPolicy, ResourceMetadata]
+entities:
+- name: User
+  schemas: [portal-backend#User, portal-server#User, gloo-platform-portal#User]
+  operations: [GetCurrentUser, UpdateCurrentUser, UpsertCurrentUser, ListUsers]
+  note: resolved from the OIDC identity token; there is no user-create operation
+- name: Team
+  schemas: [portal-backend#TeamSummary, portal-backend#TeamDetails, portal-server#Team]
+  operations: [ListTeams, CreateTeam, GetTeam, GetTeamById, UpdateTeam, DeleteTeam]
+- name: TeamMember
+  schemas: [portal-backend#TeamMember]
+  operations: [ListTeamMembers, AddTeamMember, RemoveTeamMember]
+- name: App
+  schemas: [portal-backend#App, portal-server#Application]
+  operations: [ListTeamApps, ListTeamApplications, CreateTeamApp, CreateTeamApplication,
+    GetApp, GetApplicationById, UpdateApp, UpdateApplication, DeleteApp, DeleteApplication]
+- name: ApiProduct
+  schemas: [portal-backend#ApiProductSummary, portal-backend#ApiProductDetails, portal-server#APIProduct,
+    portal-server#APIProductSummary]
+  operations: [ListApiProducts, GetApiProduct, GetApiProductById]
+- name: ApiProductVersion
+  schemas: [portal-backend#ApiProductVersion, portal-server#ProductVersion]
+  operations: [ListApiProductVersions, ListProductVersions]
+- name: Subscription
+  schemas: [portal-backend#Subscription, portal-backend#SubscriptionStatus, portal-server#Subscription]
+  operations: [ListAppSubscriptions, ListApplicationProductSubscriptions, CreateAppSubscription,
+    SubscribeToApiProduct, ListSubscriptions, ListSubscriptionsByStatus, DeleteSubscription,
+    DeleteAppSubscription, DeleteApplicationProductSubscription, SetSubscriptionMetadata,
+    SubscriptionAction]
+- name: ApiKey
+  schemas: [portal-backend#ApiKey, portal-backend#ApiKeyWithSecret, portal-server#APIKey,
+    gloo-platform-portal#APIKey]
+  operations: [ListAppApiKeys, ListApplicationAPIKeys, CreateAppApiKey, CreateApplicationAPIKey,
+    DeleteAppApiKey, DeleteApiKey, DeleteAPIKey, ListAPIKeys, CreateAPIKey]
+  note: the secret is present only on the create response (ApiKeyWithSecret) and is never
+    returned again
+- name: OAuthCredential
+  schemas: [portal-backend#OAuthCredential, portal-backend#OAuthCredentialWithSecret, portal-server#OAuthCredential,
+    portal-idp-connect#OAuthApplication]
+  operations: [GetAppOAuthCredential, GetApplicationOAuthCredential, CreateAppOAuthCredential,
+    GenerateApplicationOAuthCredential, DeleteOAuthCredential, CreateOAuthApplication, DeleteOAuthApplication]
+  note: carries idpClientId, the identifier of the client created in the customer's OIDC
+    provider through the IdP Connect SPI
+- name: UsagePlan
+  schemas: [gloo-platform-portal#UsagePlan, gloo-platform-portal#UsagePlanKeys]
+  operations: [GetUsagePlans]
+- name: RateLimit
+  schemas: [portal-backend#RateLimit, portal-server#RateLimit, gloo-platform-portal#RateLimitPolicy]
+- name: AuthPolicy
+  schemas: [gloo-platform-portal#AuthPolicy]
+- name: ResourceMetadata
+  schemas: [portal-backend#ResourceMetadata, portal-backend#SetMetadataRequest, portal-backend#CredentialMetadataResponse,
+    portal-server#ApplicationMetadata, portal-server#SubscriptionMetadata]
+relationships:
+- {from: Team, to: TeamMember, type: has_many, via: 'path /teams/{teamID}/members'}
+- {from: Team, to: App, type: has_many, via: 'path /teams/{teamID}/apps'}
+- {from: TeamMember, to: User, type: belongs_to, via: userId (AddTeamMemberRequest)}
+- {from: App, to: Subscription, type: has_many, via: 'path /apps/{appID}/subscriptions'}
+- {from: App, to: ApiKey, type: has_many, via: 'path /apps/{appID}/api-keys'}
+- {from: App, to: OAuthCredential, type: has_one, via: 'path /apps/{appID}/oauth-credentials'}
+- {from: Subscription, to: ApiProduct, type: belongs_to, via: apiProductId (CreateSubscriptionRequest,
+    SubscriptionCreate)}
+- {from: ApiProduct, to: ApiProductVersion, type: has_many, via: 'path /api-products/{productID}/versions'}
+- {from: ResourceMetadata, to: RateLimit, type: has_one, via: '$ref rateLimit'}
+- {from: SetMetadataRequest, to: RateLimit, type: has_one, via: '$ref rateLimit'}
+- {from: CredentialMetadataResponse, to: RateLimit, type: has_one, via: '$ref rateLimit'}
+- {from: UsagePlan, to: AuthPolicy, type: has_many, via: '$ref authPolicies[]'}
+- {from: UsagePlan, to: RateLimitPolicy, type: has_one, via: $ref rateLimitPolicy}
+- {from: UsagePlan, to: API, type: has_many, via: 'apiIds[]'}
+- {from: UsagePlanKeys, to: APIKey, type: has_many, via: '$ref apiKeys[]'}
+- {from: OAuthCredential, to: 'OIDC provider client', type: belongs_to, via: idpClientId}
+identifiers:
+  style: opaque string
+  base_entity: 'BaseEntity carries `id`; most schemas extend it'
+  prefixes: none documented
+render: none
