@@ -1,23 +1,21 @@
 aid: solo-io
 name: Solo.io
-description: 'Solo.io is a cloud-native application-networking company founded in 2017
-  that builds enterprise and open-source API gateways, service mesh, and agentic-AI
-  infrastructure. Its products include Kgateway Enterprise (formerly Gloo Gateway),
-  an Envoy-powered Kubernetes Gateway API ingress and API gateway; Solo Enterprise
-  for Istio (formerly Gloo Mesh), a hardened Istio service mesh with ambient mode;
-  Agentgateway Enterprise, a Rust-based AI-native gateway for LLM, MCP, and A2A traffic;
-  Kagent Enterprise, a Kubernetes-native agent runtime; and Agentregistry Enterprise,
-  a registry for agents, MCP servers, and AI tools. Solo.io also ships Gloo Portal,
-  a developer portal whose Portal Server REST API manages API products, teams, apps,
-  subscriptions, API keys, and OAuth credentials, and contributes the kgateway, agentgateway,
-  kagent, and Istio ambient-mesh open-source projects.'
+description: Solo.io is a cloud-native application-networking company founded in 2017 that builds enterprise
+  and open-source API gateways, service mesh, and agentic-AI infrastructure. Its products include Kgateway
+  Enterprise (formerly Gloo Gateway), an Envoy-powered Kubernetes Gateway API ingress and API gateway;
+  Solo Enterprise for Istio (formerly Gloo Mesh), a hardened Istio service mesh with ambient mode; Agentgateway
+  Enterprise, a Rust-based AI-native gateway for LLM, MCP, and A2A traffic; Kagent Enterprise, a Kubernetes-native
+  agent runtime; and Agentregistry Enterprise, a registry for agents, MCP servers, and AI tools. Solo.io
+  also ships Gloo Portal, a developer portal whose Portal Server REST API manages API products, teams,
+  apps, subscriptions, API keys, and OAuth credentials, and contributes the kgateway, agentgateway, kagent,
+  and Istio ambient-mesh open-source projects.
 url: https://raw.githubusercontent.com/api-evangelist/solo-io/refs/heads/main/apis.yml
 image: https://cdn.prod.website-files.com/66dba20a96c0aa281999f399/6704540db9215a5c14c38c6c_Webclip.png
 x-type: company
 x-source: harvest:secondary-market
 specificationVersion: '0.20'
 created: '2026-08-02'
-modified: '2026-08-02'
+modified: '2026-08-08'
 tags:
 - Company
 - API Gateway
@@ -34,16 +32,14 @@ tags:
 apis:
 - aid: solo-io:portal-server
   name: Gloo Portal Server API
-  description: 'The Gloo Portal Server REST API backs the Solo.io developer portal
-    for Kgateway Enterprise / Gloo Gateway. It lets portal users look up their session
-    user, browse API products and product versions, create and manage teams and team
-    applications, subscribe applications to API products, and self-provision credentials
-    (API keys and OAuth client credentials) for the APIs exposed through the portal.'
+  description: The Gloo Portal Server REST API backs the Solo.io developer portal for Kgateway Enterprise
+    / Gloo Gateway. It lets portal users look up their session user, browse API products and product versions,
+    create and manage teams and team applications, subscribe applications to API products, and self-provision
+    credentials (API keys and OAuth client credentials) for the APIs exposed through the portal.
   humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
   baseURL: https://portal.example.com/v1
-  x-baseurl-note: Solo.io publishes the portal server as self-hosted software; its
-    own OpenAPI declares the example host http://portal.example.com/v1. The production
-    host is deployment-specific.
+  x-baseurl-note: Solo.io publishes the portal server as self-hosted software; its own OpenAPI declares
+    the example host http://portal.example.com/v1. The production host is deployment-specific.
   tags:
   - Developer Portal
   - API Management
@@ -60,15 +56,14 @@ apis:
     url: https://docs.solo.io/gateway/latest/portal/openapi/
 - aid: solo-io:portal-backend
   name: Gloo Portal Backend API
-  description: 'The portal backend server API for the kgateway 2.x generation of Gloo
-    Portal. It exposes health and readiness probes, the API product catalog and product
-    versions, user and team management, team applications, application subscriptions,
-    API keys, OAuth credentials, application metadata, and the OIDC login/logout redirect
-    endpoints used by the frontend portal.'
+  description: The portal backend server API for the kgateway 2.x generation of Gloo Portal. It exposes
+    health and readiness probes, the API product catalog and product versions, user and team management,
+    team applications, application subscriptions, API keys, OAuth credentials, application metadata, and
+    the OIDC login/logout redirect endpoints used by the frontend portal.
   humanURL: https://docs.solo.io/kgateway/latest/portal/
   baseURL: https://portal.example.com/v1
-  x-baseurl-note: The OpenAPI declares the relative base path /v1; the portal backend
-    is self-hosted, so the host is deployment-specific.
+  x-baseurl-note: The OpenAPI declares the relative base path /v1; the portal backend is self-hosted,
+    so the host is deployment-specific.
   tags:
   - Developer Portal
   - API Management
@@ -83,10 +78,9 @@ apis:
     url: https://docs.solo.io/kgateway/latest/portal/
 - aid: solo-io:gloo-platform-portal
   name: Gloo Platform Portal API
-  description: 'The Gloo Platform portal API covers the endpoint specifications for
-    managing user access to the developer portal and to the resources the portal exposes
-    — the current user session, the list of APIs and their schemas, usage plans, and
-    the API key lifecycle.'
+  description: The Gloo Platform portal API covers the endpoint specifications for managing user access
+    to the developer portal and to the resources the portal exposes — the current user session, the list
+    of APIs and their schemas, usage plans, and the API key lifecycle.
   humanURL: https://docs.solo.io/gloo-mesh-gateway/latest/portal/
   baseURL: https://api.gloo-platform-portal.com/v1
   tags:
@@ -100,10 +94,9 @@ apis:
     url: overlays/solo-io-gloo-platform-portal-overlay.yaml
 - aid: solo-io:portal-idp-connect
   name: Gloo Portal IdP Connect API
-  description: 'The IdP Connect SPI that Gloo Portal calls to create and delete OAuth2
-    clients in the OpenID Connect identity provider protecting Portal APIs, so portal
-    users can provision their own OAuth credentials for the API products they subscribe
-    to.'
+  description: The IdP Connect SPI that Gloo Portal calls to create and delete OAuth2 clients in the OpenID
+    Connect identity provider protecting Portal APIs, so portal users can provision their own OAuth credentials
+    for the API products they subscribe to.
   humanURL: https://docs.solo.io/gateway/latest/portal/guides/frontend-portal/credential-management/oauth/
   baseURL: https://api.gloo-platform-portal.com/v1
   tags:
@@ -119,15 +112,14 @@ apis:
     url: https://github.com/solo-io/gloo-portal-idp-connect
 - aid: solo-io:ai-guardrail-webhook
   name: AI Gateway Guardrail Webhook API
-  description: 'The webhook contract for the Guardrail feature in kgateway, Agentgateway
-    Enterprise, and Gloo Gateway. Two endpoints — /request and /response — intercept
-    prompts on the way to a large language model and responses on the way back, and
-    return a Pass, Mask, or Reject action so operators can implement their own content
-    filtering and guardrails across LLM providers.'
+  description: The webhook contract for the Guardrail feature in kgateway, Agentgateway Enterprise, and
+    Gloo Gateway. Two endpoints — /request and /response — intercept prompts on the way to a large language
+    model and responses on the way back, and return a Pass, Mask, or Reject action so operators can implement
+    their own content filtering and guardrails across LLM providers.
   humanURL: https://docs.solo.io/agentgateway/latest/llm/guardrails/
   baseURL: https://guardrail-webhook.example.com
-  x-baseurl-note: This is a webhook contract the operator implements and the gateway
-    calls; the host is deployment-specific.
+  x-baseurl-note: This is a webhook contract the operator implements and the gateway calls; the host is
+    deployment-specific.
   tags:
   - AI Gateway
   - Guardrails
@@ -227,9 +219,97 @@ common:
   url: mcp/solo-io-tool-crosswalk.yml
 - type: ChangeLog
   url: changelog/solo-io-changelog.yml
-
+- type: Portal
+  url: https://www.solo.io/get-started
+- type: Academy
+  url: https://www.solo.io/academy
+- type: Training
+  url: https://www.solo.io/resources/lab
+- type: Webinars
+  url: https://www.solo.io/resources/webinar
+- type: Customers
+  url: https://www.solo.io/customers
+- type: LinkedIn
+  url: https://www.linkedin.com/company/solo.io
+- type: X
+  url: https://twitter.com/soloio_inc
+- type: YouTube
+  url: https://www.youtube.com/soloio
+- type: GitHubRepository
+  url: https://github.com/solo-io/solo-kit
+  title: Solo-Kit Operator Framework
+- type: CodeExamples
+  url: https://github.com/solo-io/enterprise-mcp-flow
+  title: MCP Flow Examples
+- type: JSONLD
+  url: json-ld/solo-io-context.jsonld
+  title: Solo.io JSON-LD Context
+- type: Vocabulary
+  url: vocabulary/solo-io-vocabulary.yml
+  title: Solo.io Enterprise Platform Vocabulary
+- type: Features
+  data:
+  - name: Kubernetes Gateway API
+    description: Native support for the Kubernetes Gateway API standard for traffic management.
+  - name: Envoy Proxy
+    description: Built on Envoy Proxy for high-performance traffic handling and extensibility.
+  - name: Istio Ambient Mesh
+    description: Sidecar-less service mesh using Istio Ambient mode for simplified operations.
+  - name: Multi-Cluster Networking
+    description: Connect and secure services across multiple Kubernetes clusters and clouds.
+  - name: Zero Trust Security
+    description: End-to-end mTLS, JWT validation, OAuth, OPA, and external auth for zero-trust architectures.
+  - name: AI Gateway
+    description: Route, load balance, and apply guardrails to LLM provider traffic.
+  - name: MCP Server Connectivity
+    description: Connect AI agents to MCP servers and manage agent-to-agent communication.
+  - name: Rate Limiting
+    description: Advanced rate limiting for API and AI traffic.
+  - name: OpenTelemetry Observability
+    description: Built-in tracing, metrics, and access logging via OpenTelemetry.
+  - name: Traffic Transformation
+    description: Request and response transformation, header manipulation, and content-based routing.
+  url: ''
+- type: UseCases
+  data:
+  - name: API Gateway Modernization
+    description: Replace legacy API gateways with a Kubernetes-native, Envoy-based gateway.
+  - name: Service Mesh Adoption
+    description: Adopt Istio service mesh for microservice security and observability.
+  - name: Multi-Cloud Connectivity
+    description: Connect services across AWS, GCP, Azure, and on-premises environments.
+  - name: AI Agent Infrastructure
+    description: Build, deploy, and manage AI agents securely in Kubernetes.
+  - name: LLM Gateway
+    description: Centralize LLM provider access with routing, failover, and cost controls.
+  url: ''
+- type: Integrations
+  data:
+  - name: Envoy Proxy
+    description: Core proxy engine powering kgateway and agentgateway.
+  - name: Istio
+    description: Service mesh foundation for multi-cluster networking and security.
+  - name: Kubernetes
+    description: Native integration with Kubernetes for deployment and configuration.
+  - name: OpenAI
+    description: LLM provider integration for AI gateway routing.
+  - name: Anthropic
+    description: Claude LLM provider integration for AI gateway routing.
+  - name: Amazon Bedrock
+    description: AWS Bedrock LLM provider integration.
+  - name: Azure OpenAI
+    description: Azure-hosted OpenAI LLM provider integration.
+  - name: Google Vertex AI
+    description: Google Cloud Vertex AI LLM provider integration.
+  - name: OpenTelemetry
+    description: Observability integration for tracing, metrics, and logging.
+  - name: ArgoCD
+    description: GitOps deployment support for Solo products.
+  url: ''
 x-enrichment:
   date: 2026-08-02
   status: enriched
   artifacts_added: 37
   pass: local-v1
+x-merged-from:
+- solo

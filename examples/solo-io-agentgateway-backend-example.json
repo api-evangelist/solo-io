@@ -1,0 +1,33 @@
+{
+  "apiVersion": "agentgateway.dev/v1alpha1",
+  "kind": "AgentgatewayBackend",
+  "metadata": {
+    "name": "openai-backend",
+    "namespace": "agentgateway-system",
+    "labels": {
+      "app": "agentgateway",
+      "provider": "openai"
+    }
+  },
+  "spec": {
+    "type": "openai",
+    "host": "api.openai.com",
+    "port": 443,
+    "auth": {
+      "secretRef": {
+        "name": "openai-api-key",
+        "namespace": "agentgateway-system"
+      }
+    }
+  },
+  "status": {
+    "conditions": [
+      {
+        "type": "Accepted",
+        "status": "True",
+        "reason": "Accepted",
+        "message": "Backend configuration accepted"
+      }
+    ]
+  }
+}

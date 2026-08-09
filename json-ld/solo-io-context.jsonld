@@ -1,0 +1,92 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "k8s": "https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#",
+    "gloo": "https://docs.solo.io/gloo-edge/latest/reference/api/github.com/solo-io/gloo/projects/gloo/api/v1/",
+    "gateway": "https://docs.solo.io/gloo-edge/latest/reference/api/github.com/solo-io/gloo/projects/gateway/api/v1/",
+    "agentgateway": "https://docs.solo.io/agentgateway/",
+
+    "SoloIO": {
+      "@id": "schema:Organization",
+      "@context": {
+        "name": "schema:name",
+        "url": "schema:url",
+        "description": "schema:description"
+      }
+    },
+
+    "Upstream": {
+      "@id": "gloo:Upstream",
+      "@context": {
+        "name": "schema:name",
+        "namespace": "k8s:namespace",
+        "host": "schema:url",
+        "port": "schema:portNumber",
+        "upstreamType": "schema:additionalType"
+      }
+    },
+
+    "VirtualService": {
+      "@id": "gateway:VirtualService",
+      "@context": {
+        "name": "schema:name",
+        "namespace": "k8s:namespace",
+        "domains": "schema:url",
+        "displayName": "schema:name"
+      }
+    },
+
+    "RouteTable": {
+      "@id": "gateway:RouteTable",
+      "@context": {
+        "name": "schema:name",
+        "namespace": "k8s:namespace"
+      }
+    },
+
+    "Gateway": {
+      "@id": "gateway:Gateway",
+      "@context": {
+        "name": "schema:name",
+        "namespace": "k8s:namespace",
+        "bindAddress": "schema:url",
+        "bindPort": "schema:portNumber"
+      }
+    },
+
+    "AgentgatewayBackend": {
+      "@id": "agentgateway:AgentgatewayBackend",
+      "@context": {
+        "name": "schema:name",
+        "namespace": "k8s:namespace",
+        "host": "schema:url",
+        "port": "schema:portNumber"
+      }
+    },
+
+    "AgentgatewayPolicy": {
+      "@id": "agentgateway:AgentgatewayPolicy",
+      "@context": {
+        "name": "schema:name",
+        "namespace": "k8s:namespace"
+      }
+    },
+
+    "AuthConfig": {
+      "@id": "gloo:AuthConfig",
+      "@context": {
+        "name": "schema:name",
+        "namespace": "k8s:namespace"
+      }
+    },
+
+    "RateLimitConfig": {
+      "@id": "gloo:RateLimitConfig",
+      "@context": {
+        "name": "schema:name",
+        "namespace": "k8s:namespace"
+      }
+    }
+  }
+}

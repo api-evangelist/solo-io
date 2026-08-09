@@ -1,0 +1,40 @@
+{
+  "apiVersion": "gloo.solo.io/v1",
+  "kind": "Upstream",
+  "metadata": {
+    "name": "default-backend-svc-8080",
+    "namespace": "gloo-system",
+    "labels": {
+      "discovered_by": "gloo",
+      "app": "backend-svc"
+    }
+  },
+  "spec": {
+    "kube": {
+      "ref": {
+        "name": "backend-svc",
+        "namespace": "default"
+      },
+      "servicePort": 8080
+    },
+    "healthChecks": [
+      {
+        "timeout": "5s",
+        "interval": "10s",
+        "healthyThreshold": 1,
+        "unhealthyThreshold": 3,
+        "httpHealthCheck": {
+          "path": "/healthz"
+        }
+      }
+    ]
+  },
+  "status": {
+    "statuses": {
+      "gloo-system": {
+        "state": "Accepted",
+        "reason": ""
+      }
+    }
+  }
+}

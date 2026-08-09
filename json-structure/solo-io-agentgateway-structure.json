@@ -1,0 +1,34 @@
+{
+  "name": "Solo.io agentgateway CRD Structure",
+  "description": "JSON structure documentation for Solo.io agentgateway Kubernetes Custom Resource Definitions for AI gateway and MCP connectivity",
+  "resources": [
+    {
+      "name": "AgentgatewayBackend",
+      "apiVersion": "agentgateway.dev/v1alpha1",
+      "crdName": "agentgatewaybackends.agentgateway.dev",
+      "shortName": "agbe",
+      "description": "A backend service destination for agentgateway — MCP servers, LLM providers, or AI APIs",
+      "spec": {
+        "type": "Backend type (mcp, openai, anthropic, bedrock, vertex, ollama, vllm)",
+        "host": "Hostname of the backend service",
+        "port": "Port number",
+        "auth": "Authentication configuration with secretRef"
+      },
+      "statusConditions": ["Accepted"]
+    },
+    {
+      "name": "AgentgatewayParameters",
+      "apiVersion": "agentgateway.dev/v1alpha1",
+      "crdName": "agentgatewayparameters.agentgateway.dev",
+      "shortName": "agpa",
+      "description": "Deployment parameters for agentgateway instances (resources, replicas, image)"
+    },
+    {
+      "name": "AgentgatewayPolicy",
+      "apiVersion": "agentgateway.dev/v1alpha1",
+      "crdName": "agentgatewaypolicies.agentgateway.dev",
+      "shortName": "agpo",
+      "description": "Policy rules for agentgateway traffic: guardrails, rate limiting, authentication, and MCP tool filtering"
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/solo/main/json-schema/solo-agentgateway-backend-schema.json",
+  "title": "AgentgatewayBackend",
+  "description": "A backend destination for the Solo.io agentgateway, representing an MCP server, LLM provider, or other AI service that agentgateway routes traffic to.",
+  "type": "object",
+  "properties": {
+    "apiVersion": {
+      "type": "string",
+      "description": "API version of the resource (agentgateway.dev/v1alpha1)"
+    },
+    "kind": {
+      "type": "string",
+      "const": "AgentgatewayBackend",
+      "description": "Resource kind"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Kubernetes resource metadata",
+      "properties": {
+        "name": { "type": "string" },
+        "namespace": { "type": "string" },
+        "labels": { "type": "object" },
+        "annotations": { "type": "object" }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "description": "AgentgatewayBackend specification",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["mcp", "openai", "anthropic", "bedrock", "vertex", "ollama", "vllm"],
+          "description": "Type of backend service"
+        },
+        "host": {
+          "type": "string",
+          "description": "Hostname of the backend service"
+        },
+        "port": {
+          "type": "integer",
+          "description": "Port of the backend service"
+        },
+        "auth": {
+          "type": "object",
+          "description": "Authentication configuration",
+          "properties": {
+            "secretRef": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "namespace": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "object",
+      "description": "AgentgatewayBackend status",
+      "properties": {
+        "conditions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": { "type": "string" },
+              "status": { "type": "string", "enum": ["True", "False", "Unknown"] },
+              "reason": { "type": "string" },
+              "message": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

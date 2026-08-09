@@ -1,0 +1,99 @@
+{
+  "name": "Solo.io kgateway / Gloo Gateway CRD Structure",
+  "description": "JSON structure documentation for Solo.io kgateway (Gloo Gateway) Kubernetes Custom Resource Definitions",
+  "resources": [
+    {
+      "name": "Upstream",
+      "apiVersion": "gloo.solo.io/v1",
+      "crdName": "upstreams.gloo.solo.io",
+      "description": "Backend service destination for Gloo Gateway traffic routing",
+      "spec": {
+        "kube": "Kubernetes service reference with servicePort",
+        "static": "Static host/port list",
+        "aws": "AWS Lambda function list with region and credentials",
+        "ai": "AI provider (OpenAI, Anthropic, Bedrock, Vertex AI, Gemini, Ollama)",
+        "sslConfig": "TLS configuration for upstream connection",
+        "healthChecks": "Active health check configurations"
+      }
+    },
+    {
+      "name": "VirtualService",
+      "apiVersion": "gateway.solo.io/v1",
+      "crdName": "virtualservices.gateway.solo.io",
+      "description": "HTTP routing rules, domain bindings, and traffic policies",
+      "spec": {
+        "virtualHost": {
+          "domains": "List of handled domain names",
+          "routes": "Ordered route rules with matchers and actions",
+          "options": "Rate limiting, auth, CORS, transformation options"
+        },
+        "sslConfig": "TLS/HTTPS configuration"
+      }
+    },
+    {
+      "name": "RouteTable",
+      "apiVersion": "gateway.solo.io/v1",
+      "crdName": "routetables.gateway.solo.io",
+      "description": "Delegated route configuration for multi-team API management",
+      "spec": {
+        "routes": "Route rules delegated from VirtualService",
+        "weight": "Ordering weight for route table selection"
+      }
+    },
+    {
+      "name": "Gateway",
+      "apiVersion": "gateway.solo.io/v1",
+      "crdName": "gateways.gateway.solo.io",
+      "description": "Envoy listener configuration binding ports to virtual services",
+      "spec": {
+        "bindAddress": "Listen IP address",
+        "bindPort": "Listen port number",
+        "ssl": "TLS enabled flag",
+        "httpGateway": "HTTP/HTTPS gateway configuration",
+        "tcpGateway": "Raw TCP gateway configuration"
+      }
+    },
+    {
+      "name": "GatewayParameters",
+      "apiVersion": "gateway.solo.io/v1",
+      "crdName": "gatewayparameters.gateway.solo.io",
+      "description": "Envoy deployment parameters for gateway instances"
+    },
+    {
+      "name": "HttpListenerOption",
+      "apiVersion": "gateway.solo.io/v1",
+      "crdName": "httplisteneroptions.gateway.solo.io",
+      "description": "Policy options applied to HTTP listeners (rate limit, auth, tracing)"
+    },
+    {
+      "name": "ListenerOption",
+      "apiVersion": "gateway.solo.io/v1",
+      "crdName": "listeneroptions.gateway.solo.io",
+      "description": "Policy options applied to all listener types"
+    },
+    {
+      "name": "RouteOption",
+      "apiVersion": "gateway.solo.io/v1",
+      "crdName": "routeoptions.gateway.solo.io",
+      "description": "Policy options applied at the route level (transformation, retries, timeouts)"
+    },
+    {
+      "name": "VirtualHostOption",
+      "apiVersion": "gateway.solo.io/v1",
+      "crdName": "virtualhostoptions.gateway.solo.io",
+      "description": "Policy options applied at the virtual host level"
+    },
+    {
+      "name": "AuthConfig",
+      "apiVersion": "enterprise.gloo.solo.io/v1",
+      "crdName": "authconfigs.enterprise.gloo.solo.io",
+      "description": "External authentication configuration (OIDC, API key, OPA, passthrough)"
+    },
+    {
+      "name": "RateLimitConfig",
+      "apiVersion": "ratelimit.solo.io/v1alpha1",
+      "crdName": "ratelimitconfigs.ratelimit.solo.io",
+      "description": "Rate limiting rules applied to gateway traffic"
+    }
+  ]
+}

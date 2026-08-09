@@ -1,0 +1,214 @@
+vocabulary:
+  name: Solo.io Enterprise Platform Vocabulary
+  description: >-
+    Domain vocabulary for Solo.io's enterprise cloud-native and AI-native
+    platform, covering kgateway (Gloo Gateway), agentgateway, Istio service mesh,
+    kagent, and Kubernetes-based infrastructure concepts.
+  created: "2026-05-02"
+  modified: "2026-05-02"
+  tags:
+    - AI Gateway
+    - API Gateway
+    - Cloud Native
+    - Envoy Proxy
+    - Kubernetes
+    - Service Mesh
+    - Solo.io
+
+  terms:
+
+    - term: kgateway
+      category: Product
+      definition: >-
+        Solo Enterprise for kgateway — a Kubernetes-native ingress controller and
+        API gateway built on Envoy Proxy, implementing the Kubernetes Gateway API
+        standard for traffic management, security, and request transformation.
+      relatedTerms:
+        - Envoy Proxy
+        - Kubernetes Gateway API
+        - Upstream
+        - VirtualService
+
+    - term: agentgateway
+      category: Product
+      definition: >-
+        Solo.io's AI connectivity and governance gateway for agents and LLMs.
+        Routes traffic between AI agents and backend LLM providers (OpenAI,
+        Anthropic, Bedrock, Vertex AI, Ollama, vLLM), with support for MCP
+        server connectivity, guardrails, failover, and load balancing.
+      relatedTerms:
+        - AgentgatewayBackend
+        - AgentgatewayPolicy
+        - MCP
+        - LLM
+
+    - term: kagent
+      category: Product
+      definition: >-
+        Enterprise AI agent framework for Kubernetes. Enables building, managing,
+        and scaling intelligent agents with observability, security,
+        human-in-the-loop workflows, and support for multiple LLM providers.
+      relatedTerms:
+        - agentgateway
+        - LLM
+        - Kubernetes
+
+    - term: Upstream
+      category: CRD Resource
+      definition: >-
+        A Gloo Gateway Custom Resource (gloo.solo.io/v1) representing a backend
+        service destination. Supports Kubernetes services, static hosts,
+        AWS Lambda, Azure Functions, Consul services, and AI provider endpoints.
+      relatedTerms:
+        - VirtualService
+        - Route
+        - kgateway
+
+    - term: VirtualService
+      category: CRD Resource
+      definition: >-
+        A Gloo Gateway Custom Resource (gateway.solo.io/v1) defining domain
+        bindings, routing rules, security policies, and traffic management
+        for incoming HTTP/HTTPS traffic.
+      relatedTerms:
+        - Upstream
+        - RouteTable
+        - Gateway
+        - Route
+
+    - term: RouteTable
+      category: CRD Resource
+      definition: >-
+        A Gloo Gateway Custom Resource (gateway.solo.io/v1) enabling delegated
+        routing configuration. Teams can own their routing rules independently
+        and delegate them into a parent VirtualService.
+      relatedTerms:
+        - VirtualService
+        - Route
+        - Upstream
+
+    - term: Gateway
+      category: CRD Resource
+      definition: >-
+        A Gloo Gateway Custom Resource (gateway.solo.io/v1) defining listener
+        configuration including bind address, port, TLS settings, and the
+        type of gateway (HTTP or TCP).
+      relatedTerms:
+        - VirtualService
+        - Proxy
+        - Envoy Proxy
+
+    - term: AuthConfig
+      category: CRD Resource
+      definition: >-
+        An Enterprise Gloo Custom Resource (enterprise.gloo.solo.io/v1)
+        defining external authentication configuration: OIDC, API key
+        validation, OPA policy evaluation, or passthrough auth.
+      relatedTerms:
+        - VirtualService
+        - OIDC
+        - OPA
+
+    - term: RateLimitConfig
+      category: CRD Resource
+      definition: >-
+        A Gloo rate limiting Custom Resource (ratelimit.solo.io/v1alpha1)
+        defining rate limiting descriptors, limits, and actions applied
+        to gateway traffic.
+      relatedTerms:
+        - VirtualService
+        - Upstream
+
+    - term: AgentgatewayBackend
+      category: CRD Resource
+      definition: >-
+        An agentgateway Custom Resource (agentgateway.dev/v1alpha1) defining
+        a backend AI service: MCP server, LLM provider (OpenAI, Anthropic,
+        Bedrock, Vertex, Ollama), or custom AI API.
+      relatedTerms:
+        - agentgateway
+        - AgentgatewayPolicy
+        - MCP
+
+    - term: AgentgatewayPolicy
+      category: CRD Resource
+      definition: >-
+        An agentgateway Custom Resource (agentgateway.dev/v1alpha1) defining
+        traffic policies for AI gateway: guardrails, rate limiting,
+        authentication, and MCP tool access controls.
+      relatedTerms:
+        - AgentgatewayBackend
+        - agentgateway
+
+    - term: MCP
+      category: Protocol
+      definition: >-
+        Model Context Protocol — an open standard for connecting AI agents
+        and LLMs to external tools and data sources. Solo.io agentgateway
+        natively supports MCP server connectivity and MCP registry management.
+      relatedTerms:
+        - agentgateway
+        - AgentgatewayBackend
+        - LLM
+
+    - term: Kubernetes Gateway API
+      category: Standard
+      definition: >-
+        The CNCF Kubernetes Gateway API standard for ingress and routing
+        configuration. Solo.io kgateway implements the Gateway API spec
+        (Gateway, GatewayClass, HTTPRoute, TCPRoute, etc.).
+      relatedTerms:
+        - kgateway
+        - Gateway
+
+    - term: Envoy Proxy
+      category: Infrastructure
+      definition: >-
+        The open-source L7 proxy that powers kgateway and agentgateway data
+        planes. Receives xDS configuration from the Gloo control plane.
+      relatedTerms:
+        - kgateway
+        - xDS
+        - Proxy
+
+    - term: Istio Ambient Mesh
+      category: Technology
+      definition: >-
+        A sidecar-less service mesh architecture supported by Solo Enterprise
+        for Istio. Uses ztunnel and waypoint proxies instead of per-pod
+        sidecars, reducing resource overhead.
+      relatedTerms:
+        - Service Mesh
+        - Istio
+
+    - term: xDS
+      category: Infrastructure
+      definition: >-
+        The Envoy discovery service protocol used by the Gloo control plane
+        to dynamically push configuration (listeners, clusters, routes,
+        endpoints) to Envoy proxy instances.
+      relatedTerms:
+        - Envoy Proxy
+        - kgateway
+
+    - term: Zero Trust
+      category: Security
+      definition: >-
+        Security architecture enforced by Solo.io products through mTLS,
+        JWT validation, OAuth2, OPA policy evaluation, and external auth —
+        ensuring every service-to-service communication is authenticated
+        and authorized.
+      relatedTerms:
+        - AuthConfig
+        - OIDC
+        - mTLS
+
+    - term: Multi-Cluster
+      category: Architecture
+      definition: >-
+        The ability to manage and connect services across multiple Kubernetes
+        clusters using Solo Enterprise for Istio (Gloo Mesh), providing
+        unified policy, observability, and traffic management.
+      relatedTerms:
+        - Istio Ambient Mesh
+        - Service Mesh
