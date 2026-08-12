@@ -10,6 +10,20 @@ description: Solo.io is a cloud-native application-networking company founded in
   apps, subscriptions, API keys, and OAuth credentials, and contributes the kgateway, agentgateway, kagent,
   and Istio ambient-mesh open-source projects.
 url: https://raw.githubusercontent.com/api-evangelist/solo-io/refs/heads/main/apis.yml
+deliveryModel:
+  model: open-core
+  license: Apache-2.0
+  open_source: true
+  commercial: true
+  callable_host: true
+  label: Open core · an OSS project plus a commercial hosted product
+  confidence: high
+  source:
+  - license
+  - openapi
+  - pricing
+  generated: '2026-08-11'
+  method: derived
 image: https://cdn.prod.website-files.com/66dba20a96c0aa281999f399/6704540db9215a5c14c38c6c_Webclip.png
 x-type: company
 x-source: harvest:secondary-market
@@ -30,106 +44,304 @@ tags:
 - Cloud Native
 - Open Source
 apis:
-- aid: solo-io:portal-server
-  name: Gloo Portal Server API
-  description: The Gloo Portal Server REST API backs the Solo.io developer portal for Kgateway Enterprise
-    / Gloo Gateway. It lets portal users look up their session user, browse API products and product versions,
-    create and manage teams and team applications, subscribe applications to API products, and self-provision
-    credentials (API keys and OAuth client credentials) for the APIs exposed through the portal.
+- aid: solo-io:solo-io-api-keys-api
+  name: Solo.io API Keys API
+  description: API key management endpoints
   humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
   baseURL: https://portal.example.com/v1
-  x-baseurl-note: Solo.io publishes the portal server as self-hosted software; its own OpenAPI declares
-    the example host http://portal.example.com/v1. The production host is deployment-specific.
   tags:
-  - Developer Portal
-  - API Management
-  - API Keys
-  - OAuth
+  - api-keys
   properties:
   - type: OpenAPI
-    url: openapi/solo-io-portal-server-openapi.yml
-  - type: Overlay
-    url: overlays/solo-io-portal-server-overlay.yaml
+    url: openapi/solo-io-api-keys-api-openapi.yml
   - type: Documentation
     url: https://docs.solo.io/gateway/latest/portal/
   - type: APIReference
     url: https://docs.solo.io/gateway/latest/portal/openapi/
-- aid: solo-io:portal-backend
-  name: Gloo Portal Backend API
-  description: The portal backend server API for the kgateway 2.x generation of Gloo Portal. It exposes
-    health and readiness probes, the API product catalog and product versions, user and team management,
-    team applications, application subscriptions, API keys, OAuth credentials, application metadata, and
-    the OIDC login/logout redirect endpoints used by the frontend portal.
-  humanURL: https://docs.solo.io/kgateway/latest/portal/
-  baseURL: https://portal.example.com/v1
-  x-baseurl-note: The OpenAPI declares the relative base path /v1; the portal backend is self-hosted,
-    so the host is deployment-specific.
-  tags:
-  - Developer Portal
-  - API Management
-  - Teams
-  - Subscriptions
-  properties:
-  - type: OpenAPI
-    url: openapi/solo-io-portal-backend-openapi.yml
-  - type: Overlay
-    url: overlays/solo-io-portal-backend-overlay.yaml
   - type: Documentation
     url: https://docs.solo.io/kgateway/latest/portal/
-- aid: solo-io:gloo-platform-portal
-  name: Gloo Platform Portal API
-  description: The Gloo Platform portal API covers the endpoint specifications for managing user access
-    to the developer portal and to the resources the portal exposes — the current user session, the list
-    of APIs and their schemas, usage plans, and the API key lifecycle.
-  humanURL: https://docs.solo.io/gloo-mesh-gateway/latest/portal/
-  baseURL: https://api.gloo-platform-portal.com/v1
-  tags:
-  - Developer Portal
-  - Usage Plans
-  - API Keys
-  properties:
-  - type: OpenAPI
-    url: openapi/solo-io-gloo-platform-portal-openapi.yml
-  - type: Overlay
-    url: overlays/solo-io-gloo-platform-portal-overlay.yaml
-- aid: solo-io:portal-idp-connect
-  name: Gloo Portal IdP Connect API
-  description: The IdP Connect SPI that Gloo Portal calls to create and delete OAuth2 clients in the OpenID
-    Connect identity provider protecting Portal APIs, so portal users can provision their own OAuth credentials
-    for the API products they subscribe to.
-  humanURL: https://docs.solo.io/gateway/latest/portal/guides/frontend-portal/credential-management/oauth/
-  baseURL: https://api.gloo-platform-portal.com/v1
-  tags:
-  - OAuth
-  - Identity Provider
-  - Credential Management
-  properties:
-  - type: OpenAPI
-    url: openapi/solo-io-portal-idp-connect-openapi.yml
-  - type: Overlay
-    url: overlays/solo-io-portal-idp-connect-overlay.yaml
   - type: SourceCode
     url: https://github.com/solo-io/gloo-portal-idp-connect
-- aid: solo-io:ai-guardrail-webhook
-  name: AI Gateway Guardrail Webhook API
-  description: The webhook contract for the Guardrail feature in kgateway, Agentgateway Enterprise, and
-    Gloo Gateway. Two endpoints — /request and /response — intercept prompts on the way to a large language
-    model and responses on the way back, and return a Pass, Mask, or Reject action so operators can implement
-    their own content filtering and guardrails across LLM providers.
-  humanURL: https://docs.solo.io/agentgateway/latest/llm/guardrails/
-  baseURL: https://guardrail-webhook.example.com
-  x-baseurl-note: This is a webhook contract the operator implements and the gateway calls; the host is
-    deployment-specific.
+  - type: Documentation
+    url: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
+- aid: solo-io:solo-io-api-products-api
+  name: Solo.io API Products API
+  description: API product catalog endpoints
+  humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
+  baseURL: https://portal.example.com/v1
   tags:
-  - AI Gateway
-  - Guardrails
-  - LLM
+  - api-products
+  properties:
+  - type: OpenAPI
+    url: openapi/solo-io-api-products-api-openapi.yml
+  - type: Documentation
+    url: https://docs.solo.io/gateway/latest/portal/
+  - type: APIReference
+    url: https://docs.solo.io/gateway/latest/portal/openapi/
+  - type: Documentation
+    url: https://docs.solo.io/kgateway/latest/portal/
+  - type: SourceCode
+    url: https://github.com/solo-io/gloo-portal-idp-connect
+  - type: Documentation
+    url: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
+- aid: solo-io:solo-io-apis-api
+  name: Solo.io AP Is API
+  description: The APIs API from Solo.io — 5 operation(s) for apis.
+  humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
+  baseURL: https://portal.example.com/v1
+  tags:
+  - APIs
+  properties:
+  - type: OpenAPI
+    url: openapi/solo-io-apis-api-openapi.yml
+  - type: Documentation
+    url: https://docs.solo.io/gateway/latest/portal/
+  - type: APIReference
+    url: https://docs.solo.io/gateway/latest/portal/openapi/
+  - type: Documentation
+    url: https://docs.solo.io/kgateway/latest/portal/
+  - type: SourceCode
+    url: https://github.com/solo-io/gloo-portal-idp-connect
+  - type: Documentation
+    url: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
+- aid: solo-io:solo-io-applications-api
+  name: Solo.io Applications API
+  description: The Applications API from Solo.io — 8 operation(s) for applications.
+  humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
+  baseURL: https://portal.example.com/v1
+  tags:
+  - Applications
+  properties:
+  - type: OpenAPI
+    url: openapi/solo-io-applications-api-openapi.yml
+  - type: Documentation
+    url: https://docs.solo.io/gateway/latest/portal/
+  - type: APIReference
+    url: https://docs.solo.io/gateway/latest/portal/openapi/
+  - type: Documentation
+    url: https://docs.solo.io/kgateway/latest/portal/
+  - type: SourceCode
+    url: https://github.com/solo-io/gloo-portal-idp-connect
+  - type: Documentation
+    url: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
+- aid: solo-io:solo-io-apps-api
+  name: Solo.io Apps API
+  description: Application management endpoints
+  humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
+  baseURL: https://portal.example.com/v1
+  tags:
+  - apps
+  properties:
+  - type: OpenAPI
+    url: openapi/solo-io-apps-api-openapi.yml
+  - type: Documentation
+    url: https://docs.solo.io/gateway/latest/portal/
+  - type: APIReference
+    url: https://docs.solo.io/gateway/latest/portal/openapi/
+  - type: Documentation
+    url: https://docs.solo.io/kgateway/latest/portal/
+  - type: SourceCode
+    url: https://github.com/solo-io/gloo-portal-idp-connect
+  - type: Documentation
+    url: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
+- aid: solo-io:solo-io-auth-api
+  name: Solo.io Auth API
+  description: Authentication redirect endpoints
+  humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
+  baseURL: https://portal.example.com/v1
+  tags:
+  - auth
+  properties:
+  - type: OpenAPI
+    url: openapi/solo-io-auth-api-openapi.yml
+  - type: Documentation
+    url: https://docs.solo.io/gateway/latest/portal/
+  - type: APIReference
+    url: https://docs.solo.io/gateway/latest/portal/openapi/
+  - type: Documentation
+    url: https://docs.solo.io/kgateway/latest/portal/
+  - type: SourceCode
+    url: https://github.com/solo-io/gloo-portal-idp-connect
+  - type: Documentation
+    url: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
+- aid: solo-io:solo-io-health-api
+  name: Solo.io Health API
+  description: Health check endpoints
+  humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
+  baseURL: https://portal.example.com/v1
+  tags:
+  - health
+  properties:
+  - type: OpenAPI
+    url: openapi/solo-io-health-api-openapi.yml
+  - type: Documentation
+    url: https://docs.solo.io/gateway/latest/portal/
+  - type: APIReference
+    url: https://docs.solo.io/gateway/latest/portal/openapi/
+  - type: Documentation
+    url: https://docs.solo.io/kgateway/latest/portal/
+  - type: SourceCode
+    url: https://github.com/solo-io/gloo-portal-idp-connect
+  - type: Documentation
+    url: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
+- aid: solo-io:solo-io-me-api
+  name: Solo.io Me API
+  description: The Me API from Solo.io — 1 operation(s) for me.
+  humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
+  baseURL: https://portal.example.com/v1
+  tags:
+  - Me
+  properties:
+  - type: OpenAPI
+    url: openapi/solo-io-me-api-openapi.yml
+  - type: Documentation
+    url: https://docs.solo.io/gateway/latest/portal/
+  - type: APIReference
+    url: https://docs.solo.io/gateway/latest/portal/openapi/
+  - type: Documentation
+    url: https://docs.solo.io/kgateway/latest/portal/
+  - type: SourceCode
+    url: https://github.com/solo-io/gloo-portal-idp-connect
+  - type: Documentation
+    url: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
+- aid: solo-io:solo-io-metadata-api
+  name: Solo.io Metadata API
+  description: Internal credential metadata endpoints
+  humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
+  baseURL: https://portal.example.com/v1
+  tags:
+  - metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/solo-io-metadata-api-openapi.yml
+  - type: Documentation
+    url: https://docs.solo.io/gateway/latest/portal/
+  - type: APIReference
+    url: https://docs.solo.io/gateway/latest/portal/openapi/
+  - type: Documentation
+    url: https://docs.solo.io/kgateway/latest/portal/
+  - type: SourceCode
+    url: https://github.com/solo-io/gloo-portal-idp-connect
+  - type: Documentation
+    url: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
+- aid: solo-io:solo-io-oauth-credentials-api
+  name: Solo.io OAUTH Credentials API
+  description: OAuth credential management endpoints
+  humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
+  baseURL: https://portal.example.com/v1
+  tags:
+  - oauth-credentials
+  properties:
+  - type: OpenAPI
+    url: openapi/solo-io-oauth-credentials-api-openapi.yml
+  - type: Documentation
+    url: https://docs.solo.io/gateway/latest/portal/
+  - type: APIReference
+    url: https://docs.solo.io/gateway/latest/portal/openapi/
+  - type: Documentation
+    url: https://docs.solo.io/kgateway/latest/portal/
+  - type: SourceCode
+    url: https://github.com/solo-io/gloo-portal-idp-connect
+  - type: Documentation
+    url: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
+- aid: solo-io:solo-io-subscriptions-api
+  name: Solo.io Subscriptions API
+  description: Subscription management endpoints
+  humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
+  baseURL: https://portal.example.com/v1
+  tags:
+  - subscriptions
+  properties:
+  - type: OpenAPI
+    url: openapi/solo-io-subscriptions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.solo.io/gateway/latest/portal/
+  - type: APIReference
+    url: https://docs.solo.io/gateway/latest/portal/openapi/
+  - type: Documentation
+    url: https://docs.solo.io/kgateway/latest/portal/
+  - type: SourceCode
+    url: https://github.com/solo-io/gloo-portal-idp-connect
+  - type: Documentation
+    url: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
+- aid: solo-io:solo-io-teams-api
+  name: Solo.io Teams API
+  description: Team management endpoints
+  humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
+  baseURL: https://portal.example.com/v1
+  tags:
+  - teams
+  properties:
+  - type: OpenAPI
+    url: openapi/solo-io-teams-api-openapi.yml
+  - type: Documentation
+    url: https://docs.solo.io/gateway/latest/portal/
+  - type: APIReference
+    url: https://docs.solo.io/gateway/latest/portal/openapi/
+  - type: Documentation
+    url: https://docs.solo.io/kgateway/latest/portal/
+  - type: SourceCode
+    url: https://github.com/solo-io/gloo-portal-idp-connect
+  - type: Documentation
+    url: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
+- aid: solo-io:solo-io-user-api
+  name: Solo.io User API
+  description: The User API from Solo.io — 1 operation(s) for user.
+  humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
+  baseURL: https://portal.example.com/v1
+  tags:
+  - User
+  properties:
+  - type: OpenAPI
+    url: openapi/solo-io-user-api-openapi.yml
+  - type: Documentation
+    url: https://docs.solo.io/gateway/latest/portal/
+  - type: APIReference
+    url: https://docs.solo.io/gateway/latest/portal/openapi/
+  - type: Documentation
+    url: https://docs.solo.io/kgateway/latest/portal/
+  - type: SourceCode
+    url: https://github.com/solo-io/gloo-portal-idp-connect
+  - type: Documentation
+    url: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
+- aid: solo-io:solo-io-users-api
+  name: Solo.io Users API
+  description: User management endpoints
+  humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
+  baseURL: https://portal.example.com/v1
+  tags:
+  - users
+  properties:
+  - type: OpenAPI
+    url: openapi/solo-io-users-api-openapi.yml
+  - type: Documentation
+    url: https://docs.solo.io/gateway/latest/portal/
+  - type: APIReference
+    url: https://docs.solo.io/gateway/latest/portal/openapi/
+  - type: Documentation
+    url: https://docs.solo.io/kgateway/latest/portal/
+  - type: SourceCode
+    url: https://github.com/solo-io/gloo-portal-idp-connect
+  - type: Documentation
+    url: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
+- aid: solo-io:solo-io-webhooks-api
+  name: Solo.io Webhooks API
+  description: The Webhooks API from Solo.io — 2 operation(s) for webhooks.
+  humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
+  baseURL: https://portal.example.com/v1
+  tags:
   - Webhooks
   properties:
   - type: OpenAPI
-    url: openapi/solo-io-ai-gateway-guardrail-webhook-openapi.yml
-  - type: Overlay
-    url: overlays/solo-io-ai-gateway-guardrail-webhook-overlay.yaml
+    url: openapi/solo-io-webhooks-api-openapi.yml
+  - type: Documentation
+    url: https://docs.solo.io/gateway/latest/portal/
+  - type: APIReference
+    url: https://docs.solo.io/gateway/latest/portal/openapi/
+  - type: Documentation
+    url: https://docs.solo.io/kgateway/latest/portal/
+  - type: SourceCode
+    url: https://github.com/solo-io/gloo-portal-idp-connect
   - type: Documentation
     url: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
 maintainers:
@@ -138,6 +350,11 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/solo-io-ai-gateway-guardrail-webhook-overlay.yaml
+- type: License
+  name: Apache-2.0
+  url: https://github.com/solo-io/gloo-portal-idp-connect/blob/main/LICENSE
 - type: Website
   url: https://www.solo.io/
 - type: DeveloperPortal
