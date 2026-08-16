@@ -6,16 +6,17 @@
       "feed_url": "https://www.solo.io/company/get-support",
       "title": "",
       "saved": 0,
-      "method": "none"
+      "method": "none",
+      "error": "parse_failed"
     },
     {
       "source": "https://www.solo.io/blog",
       "feed_url": "https://www.solo.io/blog/rss.xml",
       "title": "",
-      "saved": 1,
+      "saved": 5,
       "method": "discovered"
     }
   ],
-  "post_count": 1,
-  "fetched": "2026-08-06T14:08:46Z"
+  "post_count": 6,
+  "fetched": "2026-08-15T12:11:08Z"
 }
