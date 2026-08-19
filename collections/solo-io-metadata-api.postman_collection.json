@@ -1,0 +1,176 @@
+{
+  "item": [
+    {
+      "id": "8fd42439-c044-4bdd-8b69-f7a055a13498",
+      "name": "metadata",
+      "description": {
+        "content": "Internal credential metadata endpoints",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e3bac52a-0f46-4499-84f9-da13c1e0ae98",
+          "name": "Get credential metadata (Internal)",
+          "request": {
+            "name": "Get credential metadata (Internal)",
+            "description": {
+              "content": "Internal endpoint used by ExtAuth to validate API keys and access tokens. Returns whether the credential is allowed and any associated metadata.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "metadata"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "apiKey",
+                  "value": "<string>",
+                  "description": "Raw API key value to validate. Exactly one of apiKey or accessToken must be provided."
+                },
+                {
+                  "disabled": false,
+                  "key": "accessToken",
+                  "value": "<string>",
+                  "description": "OAuth access token to validate. Exactly one of apiKey or accessToken must be provided."
+                },
+                {
+                  "disabled": false,
+                  "key": "apiProductId",
+                  "value": "<string>",
+                  "description": "(Required) API product ID to check subscription for"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "437d2eff-ebc4-4bc4-be6c-c08d639b3b19",
+              "name": "Credential validation result",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "accessToken",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "apiProductId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"allowed\": true,\n  \"customMetadata\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\",\n    \"key_2\": \"string\"\n  },\n  \"rateLimit\": {\n    \"requestsPerUnit\": \"string\",\n    \"unit\": \"HOUR\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "034b428f-582f-4215-87e2-75e4f1ee8ed3",
+              "name": "Missing required query parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "apiKey",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "accessToken",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "apiProductId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f8cfd501-f15e-4e75-85cb-3a96c2a1cc62",
+    "name": "Portal Backend Metadata API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for the gateway developer portal backend server",
+      "type": "text/plain"
+    }
+  }
+}

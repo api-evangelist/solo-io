@@ -1,0 +1,158 @@
+{
+  "item": [
+    {
+      "id": "3fcd18c0-f941-4469-bcd6-698371a1c7ac",
+      "name": "health",
+      "description": {
+        "content": "Health check endpoints",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0e353652-8fcb-40ba-8057-5a019c1079a9",
+          "name": "Health check",
+          "request": {
+            "name": "Health check",
+            "description": {
+              "content": "Returns OK if the server is healthy",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "healthz"
+              ],
+              "host": [
+                "{{healthz-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ab2edcd6-e187-4136-8fc6-fdac6b36416f",
+              "name": "Server is healthy",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "healthz"
+                  ],
+                  "host": [
+                    "{{healthz-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6af5e9de-202f-4c5b-992a-74ebec06c0b5",
+          "name": "Readiness check",
+          "request": {
+            "name": "Readiness check",
+            "description": {
+              "content": "Returns OK if the server is ready to accept requests",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "readyz"
+              ],
+              "host": [
+                "{{readyz-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "55d64a83-f640-4202-9f96-ed571ed034bb",
+              "name": "Server is ready",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "readyz"
+                  ],
+                  "host": [
+                    "{{readyz-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/v1",
+      "key": "baseUrl"
+    },
+    {
+      "type": "string",
+      "value": "/",
+      "key": "healthz-Url"
+    },
+    {
+      "type": "string",
+      "value": "/",
+      "key": "readyz-Url"
+    }
+  ],
+  "info": {
+    "_postman_id": "ba183dbe-b669-40fe-9c4a-65545322bc29",
+    "name": "Portal Backend Health API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for the gateway developer portal backend server",
+      "type": "text/plain"
+    }
+  }
+}

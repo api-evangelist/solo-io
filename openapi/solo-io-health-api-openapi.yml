@@ -1,0 +1,54 @@
+openapi: 3.2.0
+info:
+  title: Portal Backend Health API
+  description: API for the gateway developer portal backend server
+  version: 1.0.0
+servers:
+- url: /v1
+  description: API v1 base path
+tags:
+- name: health
+  description: Health check endpoints
+paths:
+  /healthz:
+    servers:
+    - url: /
+      description: Root path (health endpoints are not under /v1)
+    get:
+      summary: Health check
+      description: Returns OK if the server is healthy
+      operationId: HealthCheck
+      tags:
+      - health
+      responses:
+        '200':
+          description: Server is healthy
+  /readyz:
+    servers:
+    - url: /
+      description: Root path (health endpoints are not under /v1)
+    get:
+      summary: Readiness check
+      description: Returns OK if the server is ready to accept requests
+      operationId: ReadinessCheck
+      tags:
+      - health
+      responses:
+        '200':
+          description: Server is ready
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token passed in the Authorization header
+    identityToken:
+      type: apiKey
+      in: cookie
+      name: id_token
+      description: id_token cookie set by the identity provider after OIDC login
+    accessToken:
+      type: apiKey
+      in: cookie
+      name: access_token
+      description: access_token cookie set by the identity provider after OIDC login

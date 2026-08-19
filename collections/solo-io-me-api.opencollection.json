@@ -1,0 +1,52 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gloo Portal Server Me API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Me",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Gets the user for the current session.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "http://portal.example.com/v1/me",
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Looks up the user for the current session. Returns your user information if the user session exists and is not expired. You might use this endpoint to confirm your identity before performing other actions for the developer portal, like issuing an API key."
+        },
+        {
+          "info": {
+            "name": "Upserts the current user",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "http://portal.example.com/v1/me",
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Upsert current user with the information encoded in the id token.\nIt is recommended to call this endpoint after the user logs in to the portal to ensure that the data is up to date.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

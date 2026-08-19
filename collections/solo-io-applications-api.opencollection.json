@@ -1,0 +1,351 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Solo Io Applications API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Applications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Creates an OAuth2 client.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.gloo-platform-portal.com/v1/applications",
+            "headers": [
+              {
+                "name": "token",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an OAuth2 client in the OIDC provider that you set up to protect your Gloo Portal APIs. This secret is shown to you only once at creation time, so keep this secret to make future requests to API products in the Portal. If you lose this secret, your admin can retrieve it in the OIDC provider. Note that the secret is not stored in the Portal database."
+        },
+        {
+          "info": {
+            "name": "Delete a client in the OIDC provider.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.gloo-platform-portal.com/v1/applications/:id",
+            "headers": [
+              {
+                "name": "token",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "(Required) ID for client to delete."
+              }
+            ]
+          },
+          "docs": "Delete an OAuth2 client."
+        },
+        {
+          "info": {
+            "name": "Deletes the current user's API key(s) for a specified API ID.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.gloo-platform-portal.com/v1/api-keys/:keyId",
+            "params": [
+              {
+                "name": "keyId",
+                "value": "",
+                "type": "path",
+                "description": "The API Key ID (UUID) of key to be deleted."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Deletes an API Key by API Key ID (UUID)."
+        },
+        {
+          "info": {
+            "name": "Gets an application",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gloo-platform-portal.com/v1/apps/:appId",
+            "params": [
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the team app"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Get App information by its ID"
+        },
+        {
+          "info": {
+            "name": "Updates an application",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.gloo-platform-portal.com/v1/apps/:appId",
+            "params": [
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the team app"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Update Application"
+        },
+        {
+          "info": {
+            "name": "Deletes an application",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.gloo-platform-portal.com/v1/apps/:appId",
+            "params": [
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the application"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Delete Application"
+        },
+        {
+          "info": {
+            "name": "Lists API keys for the current user, filterable by usage plans or API IDs.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gloo-platform-portal.com/v1/apps/:appId/api-keys",
+            "params": [
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the application."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Lists the API keys for the current user, filterable by usage plans or API IDs. A usage plan can have multiple API keys, which can each be tied to multiple API IDs. An API key belongs to only one usage plan. To check the current user, use the GET /me endpoint. To create an API key, use the POST /api-keys endpoint."
+        },
+        {
+          "info": {
+            "name": "Creates an API key for the current user for a specific API ID and usage plan.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.gloo-platform-portal.com/v1/apps/:appId/api-keys",
+            "params": [
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the application."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Creates an API key for the current user for a application. To check the current user, use the GET /me endpoint."
+        },
+        {
+          "info": {
+            "name": "GetApplicationOAuthCredential",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gloo-platform-portal.com/v1/apps/:appId/oauth-credentials",
+            "params": [
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the application."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Gets the OAuth client credentials for the application"
+        },
+        {
+          "info": {
+            "name": "Generate and push application credentials to the Identity Provider",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.gloo-platform-portal.com/v1/apps/:appId/oauth-credentials",
+            "params": [
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the application."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Generates new credentials for the specified application and pushes them to the Identity Provider. If credentials already exist a for the application, then a `409 Conflict` error will be returned."
+        },
+        {
+          "info": {
+            "name": "Lists all app subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gloo-platform-portal.com/v1/apps/:appId/subscriptions",
+            "params": [
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the team app"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Retrieve all subscriptions for an application"
+        },
+        {
+          "info": {
+            "name": "Subscribes to an API product",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.gloo-platform-portal.com/v1/apps/:appId/subscriptions",
+            "params": [
+              {
+                "name": "appId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the team app"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Subscribe to an API product. It is subject to admin approval."
+        },
+        {
+          "info": {
+            "name": "Deletes an OAuth client credential",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.gloo-platform-portal.com/v1/oauth-credentials/:credentialId",
+            "params": [
+              {
+                "name": "credentialId",
+                "value": "",
+                "type": "path",
+                "description": "The OAuth client credential ID (UUID) of the credential to be deleted."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Deletes an OAuth client credential by its client ID"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

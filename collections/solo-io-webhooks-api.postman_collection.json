@@ -1,0 +1,300 @@
+{
+  "item": [
+    {
+      "id": "4863fb36-7507-4f62-a9bc-d919f35cf79f",
+      "name": "Webhooks",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c4e629e0-76cd-477b-8a7a-f55a4f9ee934",
+          "name": "Process Prompts",
+          "request": {
+            "name": "Process Prompts",
+            "description": {
+              "content": "This webhook intercepts requests from the user before they are sent to the LLM. You can use it to:\n- Validate and filter content\n- Mask sensitive information\n- Reject requests based on policy rules\n\nThe webhook receives normalized prompt messages regardless of the original LLM provider's format.\nIt can return one of three actions:\n1. `PassAction`: Allow the request to proceed unchanged\n2. `MaskAction`: Return modified prompts with sensitive information masked\n3. `RejectAction`: Block the request with a specified HTTP status code and message",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "request"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"body\": {\n    \"messages\": [\n      {\n        \"role\": \"<string>\",\n        \"content\": \"<string>\"\n      },\n      {\n        \"role\": \"<string>\",\n        \"content\": \"<string>\"\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "543e95b2-6be0-4c1b-b799-d688e295af32",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "request"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"body\": {\n    \"messages\": [\n      {\n        \"role\": \"<string>\",\n        \"content\": \"<string>\"\n      },\n      {\n        \"role\": \"<string>\",\n        \"content\": \"<string>\"\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"action\": {\n    \"reason\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b34ac7c7-e2c4-4224-8ac8-8222ed6473e6",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "request"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"body\": {\n    \"messages\": [\n      {\n        \"role\": \"<string>\",\n        \"content\": \"<string>\"\n      },\n      {\n        \"role\": \"<string>\",\n        \"content\": \"<string>\"\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "199039f0-30e9-4b12-a45c-b3eb26be7311",
+          "name": "Process Responses",
+          "request": {
+            "name": "Process Responses",
+            "description": {
+              "content": "This webhook intercepts responses from the LLM before they are returned to the user. The `role` and `content` are extracted from the response into the `ResponseChoices` JSON object, regardless of the API format from various providers.\n\nFor streaming responses from the LLM, this webhook is called multiple times for a single response. The gateway buffers and detects the semantic boundary of the content before making the webhook call.\n\nTwo types of responses are possible by returning one of the following JSON objects:\n\n1. `PassAction`: \n   - Indicates that no action is taken for the response\n   - The response is allowed to be sent to the user unchanged\n\n2. `MaskAction`: \n   - Indicates that some information is masked in the response\n   - The `ResponseChoices` JSON object can be modified in place\n   - The modified object should be sent back in the body field of the response\n   - The number of choices inside `ResponseChoices` MUST be the same as in the request\n   - If content needs to be deleted, set an empty content field",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "response"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"body\": {\n    \"choices\": [\n      {\n        \"message\": {\n          \"role\": \"<string>\",\n          \"content\": \"<string>\"\n        }\n      },\n      {\n        \"message\": {\n          \"role\": \"<string>\",\n          \"content\": \"<string>\"\n        }\n      }\n    ]\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "98e6e11a-74d7-4ebe-84ac-b156faf2b404",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "response"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"body\": {\n    \"choices\": [\n      {\n        \"message\": {\n          \"role\": \"<string>\",\n          \"content\": \"<string>\"\n        }\n      },\n      {\n        \"message\": {\n          \"role\": \"<string>\",\n          \"content\": \"<string>\"\n        }\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"action\": {\n    \"reason\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9ce024c0-240d-4e08-a8a9-1085ac7e961c",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "response"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"body\": {\n    \"choices\": [\n      {\n        \"message\": {\n          \"role\": \"<string>\",\n          \"content\": \"<string>\"\n        }\n      },\n      {\n        \"message\": {\n          \"role\": \"<string>\",\n          \"content\": \"<string>\"\n        }\n      }\n    ]\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "35cb3987-7b98-484a-99c8-d0590d7f6e8c",
+    "name": "GuardRail Webhook Webhooks API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\nThis API specification defines the webhook endpoints for the  Guardrail feature for AI use cases in kgateway, agentgateway enterprise, and Gloo Gateway.  The Guardrail feature provides a way to intercept and process both requests to and responses from Large Language Models (LLMs). This way, you can implement your own advanced guardrails and content filtering.\n\nThe Guardrail feature consists of two main webhook endpoints:\n\n1. `/request` - Processes request prompts before they are sent to the LLM\n2. `/response` - Processes responses from the LLM before they are sent back to the user\n\nEach endpoint supports different actions:\n\n* `PassAction`: Allow the content to pass through unchanged\n* `MaskAction`: Modify the content by masking sensitive information\n* `RejectAction`: Block the content and return an error response\n\nThe API is designed to work with various LLM providers by normalizing their different request and response formats into a consistent schema.\n    ",
+      "type": "text/plain"
+    }
+  }
+}

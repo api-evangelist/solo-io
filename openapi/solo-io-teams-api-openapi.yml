@@ -1,0 +1,967 @@
+openapi: 3.2.0
+info:
+  title: Solo Io Teams API
+  version: 1.0.0
+  description: 'Operations tagged teams across 2 of this provider''s published API definitions: solo-io-portal-backend-openapi.yml, solo-io-portal-server-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+  description: API v1 base path
+- url: http://portal.example.com/v1
+tags:
+- name: teams
+  description: Team management endpoints
+paths:
+  /teams:
+    servers:
+    - url: /v1
+      description: API v1 base path
+    get:
+      summary: List teams
+      description: Returns a list of all teams
+      operationId: ListTeams
+      tags:
+      - teams
+      security:
+      - bearerAuth: []
+      - identityToken: []
+      - accessToken: []
+      responses:
+        '200':
+          description: List of teams
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeamSummary'
+        '401':
+          description: Authentication required
+        '500':
+          description: Internal server error
+    post:
+      summary: Create team
+      description: Creates a new team. The creator is automatically added as a member.
+      operationId: CreateTeam
+      tags:
+      - teams
+      security:
+      - bearerAuth: []
+      - identityToken: []
+      - accessToken: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTeamRequest'
+      responses:
+        '201':
+          description: Team created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamSummary'
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '409':
+          description: Team already exists
+        '500':
+          description: Internal server error
+  /teams/{teamID}:
+    servers:
+    - url: /v1
+      description: API v1 base path
+    get:
+      summary: Get team details
+      description: Returns detailed information about a team including its members
+      operationId: GetTeam
+      tags:
+      - teams
+      security:
+      - bearerAuth: []
+      - identityToken: []
+      - accessToken: []
+      parameters:
+      - name: teamID
+        in: path
+        description: Team ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Team details with members
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamDetails'
+        '401':
+          description: Authentication required
+        '404':
+          description: Team not found
+        '500':
+          description: Internal server error
+    put:
+      summary: Update team
+      description: Updates a team's name and description
+      operationId: UpdateTeam
+      tags:
+      - teams
+      security:
+      - bearerAuth: []
+      - identityToken: []
+      - accessToken: []
+      parameters:
+      - name: teamID
+        in: path
+        description: Team ID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTeamRequest'
+      responses:
+        '200':
+          description: Team updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamSummary'
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '500':
+          description: Internal server error
+    delete:
+      summary: Delete team
+      description: Deletes a team and removes all member associations
+      operationId: DeleteTeam
+      tags:
+      - teams
+      security:
+      - bearerAuth: []
+      - identityToken: []
+      - accessToken: []
+      parameters:
+      - name: teamID
+        in: path
+        description: Team ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Team deleted
+        '401':
+          description: Authentication required
+        '409':
+          description: Team has apps or members that must be removed first
+        '500':
+          description: Internal server error
+  /teams/{teamID}/apps:
+    servers:
+    - url: /v1
+      description: API v1 base path
+    get:
+      summary: List team apps
+      description: Returns all applications belonging to a team
+      operationId: ListTeamApps
+      tags:
+      - teams
+      security:
+      - bearerAuth: []
+      - identityToken: []
+      - accessToken: []
+      parameters:
+      - name: teamID
+        in: path
+        description: Team ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of team applications
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/App'
+        '401':
+          description: Authentication required
+        '500':
+          description: Internal server error
+    post:
+      summary: Create team app
+      description: Creates a new application for a team
+      operationId: CreateTeamApp
+      tags:
+      - teams
+      security:
+      - bearerAuth: []
+      - identityToken: []
+      - accessToken: []
+      parameters:
+      - name: teamID
+        in: path
+        description: Team ID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAppRequest'
+      responses:
+        '201':
+          description: Application created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/App'
+        '400':
+          description: Invalid request
+        '401':
+          description: Authentication required
+        '409':
+          description: App already exists
+        '500':
+          description: Internal server error
+  /teams/{teamID}/members:
+    servers:
+    - url: /v1
+      description: API v1 base path
+    get:
+      summary: List team members
+      description: Returns all members of a team with their user details
+      operationId: ListTeamMembers
+      tags:
+      - teams
+      security:
+      - bearerAuth: []
+      - identityToken: []
+      - accessToken: []
+      parameters:
+      - name: teamID
+        in: path
+        description: Team ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of team members
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeamMember'
+        '401':
+          description: Authentication required
+        '500':
+          description: Internal server error
+    post:
+      summary: Add team member
+      description: Adds a user to a team by userId or email
+      operationId: AddTeamMember
+      tags:
+      - teams
+      security:
+      - bearerAuth: []
+      - identityToken: []
+      - accessToken: []
+      parameters:
+      - name: teamID
+        in: path
+        description: Team ID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddTeamMemberRequest'
+      responses:
+        '201':
+          description: Member added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamMember'
+        '400':
+          description: Invalid request - userId or email required
+        '401':
+          description: Authentication required
+        '404':
+          description: Team or user not found
+        '409':
+          description: User already a member
+        '500':
+          description: Internal server error
+  /teams/{teamID}/members/{memberID}:
+    servers:
+    - url: /v1
+      description: API v1 base path
+    delete:
+      summary: Remove team member
+      description: Removes a user from a team
+      operationId: RemoveTeamMember
+      tags:
+      - teams
+      security:
+      - bearerAuth: []
+      - identityToken: []
+      - accessToken: []
+      parameters:
+      - name: teamID
+        in: path
+        description: Team ID
+        required: true
+        schema:
+          type: string
+      - name: memberID
+        in: path
+        description: Team Member (User) ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Member removed
+        '401':
+          description: Authentication required
+        '500':
+          description: Internal server error
+  /teams/{teamId}:
+    servers:
+    - url: http://portal.example.com/v1
+    delete:
+      description: 'Delete a team.
+
+
+        Prerequisite: All users and all apps associated with the team must be deleted before the team can be deleted.'
+      operationId: DeleteTeam
+      parameters:
+      - description: Unique identifier of the team
+        in: path
+        name: teamId
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Successfully deleted the team
+        '400':
+          description: Bad request. The team has users or apps associated with it.
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user does not have permission to delete the team
+        '404':
+          description: Team not found
+        '500':
+          description: Unexpected error deleting the team
+      security:
+      - identityToken: []
+      summary: Deletes a team
+      tags:
+      - teams
+    get:
+      description: Retrieve detailed information about a team by its ID
+      operationId: GetTeamById
+      parameters:
+      - description: Unique identifier of the team
+        in: path
+        name: teamId
+        required: true
+        schema:
+          example: team-id
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+          description: Successfully retrieved team information
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user does not have permission to view the team.
+        '404':
+          description: Team not found
+        '500':
+          description: Unexpected error querying for team information
+      security:
+      - identityToken: []
+      summary: Gets a team
+      tags:
+      - teams
+    put:
+      description: Update an existing team
+      operationId: UpdateTeam
+      parameters:
+      - description: Unique identifier of the team
+        in: path
+        name: teamId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamUpdate'
+        description: Team object that needs to be updated
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+          description: Successfully updated team information
+        '400':
+          description: Bad request. The request body is invalid.
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user does not have permission to update the team
+        '404':
+          description: Team not found
+        '500':
+          description: Unexpected error updating the team
+      security:
+      - identityToken: []
+      summary: Updates a team
+      tags:
+      - teams
+  /teams/{teamId}/apps:
+    servers:
+    - url: http://portal.example.com/v1
+    get:
+      description: Retrieve all team applications
+      operationId: ListTeamApplications
+      parameters:
+      - description: Unique identifier of the team
+        in: path
+        name: teamId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Application'
+                type: array
+          description: Successfully listed all team apps
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user does not have permission to view the team apps.
+        '404':
+          description: Team not found
+        '500':
+          description: Unexpected error fetching apps
+      security:
+      - identityToken: []
+      summary: Lists all team apps
+      tags:
+      - teams
+    post:
+      description: Creates an application
+      operationId: CreateTeamApplication
+      parameters:
+      - description: Unique identifier of the team
+        in: path
+        name: teamId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationCreate'
+        description: Application body
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+          description: Successfully created the team application
+        '400':
+          description: Bad request. The request body is invalid.
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user does not have permission to create the application.
+        '404':
+          description: Team not found.
+        '409':
+          description: Application with the same name already exists in the team.
+        '500':
+          description: Unexpected error creating the application.
+      security:
+      - identityToken: []
+      summary: Creates an application
+      tags:
+      - teams
+  /teams/{teamId}/members:
+    servers:
+    - url: http://portal.example.com/v1
+    get:
+      description: Retrieve all team members
+      operationId: ListTeamMembers
+      parameters:
+      - description: Unique identifier of the team
+        in: path
+        name: teamId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/User'
+                type: array
+          description: List of team users
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '404':
+          description: Team not found.
+        '500':
+          description: Unexpected error fetching team members.
+      security:
+      - identityToken: []
+      summary: List of team users
+      tags:
+      - teams
+    post:
+      description: 'Assign a user as a member to the team. If the user doesn''t exist within the system, an account will be automatically created and assigned.
+
+        In order for this change to take effect, the client-side application has to send a `PUT` request to the `/me` endpoint with the user''s `id_token`, after they login.
+
+        '
+      operationId: AddTeamMember
+      parameters:
+      - description: Unique identifier of the team
+        in: path
+        name: teamId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  description: Unique email of the user to add
+                  type: string
+              type: object
+        description: User object that needs to be added to the team
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: Successfully added the user to the team
+        '400':
+          description: Bad request. The request body is invalid.
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user does not have permission to add the member to the team.
+        '404':
+          description: Team not found or User not found.
+        '500':
+          description: Unexpected error adding member to the team.
+      security:
+      - identityToken: []
+      summary: Adds a member to a team
+      tags:
+      - teams
+  /teams/{teamId}/members/{userId}:
+    servers:
+    - url: http://portal.example.com/v1
+    delete:
+      description: 'Remove user from the team. The user will lose access to the team and its apps.
+
+        However, if he has access to the app credentials he can still use those.
+
+        '
+      operationId: RemoveTeamMember
+      parameters:
+      - description: Unique identifier of the team
+        in: path
+        name: teamId
+        required: true
+        schema:
+          example: team-id
+          type: string
+      - description: Unique identifier of the user to remove
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Successfully removed the user from the team
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user does not have permission to remove the member from the team.
+        '404':
+          description: Team not found or User not found in the team.
+        '500':
+          description: Unexpected error removing member from the team.
+      security:
+      - identityToken: []
+      summary: Removes a member from a team
+      tags:
+      - teams
+components:
+  schemas:
+    Team:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - $ref: '#/components/schemas/TeamCreate'
+    TeamMember:
+      description: Team member information
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - email
+        - username
+        - name
+        - synced
+        properties:
+          email:
+            type: string
+            format: email
+            description: User's email address
+          username:
+            type: string
+            description: Username
+          name:
+            type: string
+            description: User's display name
+          synced:
+            type: boolean
+            description: Whether the user is synced from external provider
+    ApplicationCreate:
+      description: Create
+      properties:
+        description:
+          example: app description
+          type: string
+        name:
+          example: app
+          type: string
+      required:
+      - name
+    CreateTeamRequest:
+      description: Request body for creating a team
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Team name
+        description:
+          type: string
+          description: Team description
+    BaseEntity_2:
+      properties:
+        createdAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        deletedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          example: uuid
+          readOnly: true
+          type: string
+        updatedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+    BaseEntity:
+      type: object
+      description: Base entity with common fields
+      required:
+      - id
+      - createdAt
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was last updated
+    ApplicationMetadata:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - properties:
+          customMetadata:
+            example:
+              key: value
+            type: object
+          rateLimit:
+            $ref: '#/components/schemas/RateLimit_2'
+        type: object
+    TeamUpdate:
+      allOf:
+      - $ref: '#/components/schemas/TeamCreate'
+    RateLimit_2:
+      properties:
+        requestsPerUnit:
+          example: 5
+          type: string
+        unit:
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
+          example: SECOND
+          type: string
+    UpdateTeamRequest:
+      description: Request body for updating a team
+      type: object
+      properties:
+        name:
+          type: string
+          description: Team name
+        description:
+          type: string
+          description: Team description
+    AddTeamMemberRequest:
+      description: Request body for adding a team member (either userId or email required)
+      type: object
+      properties:
+        userId:
+          type: string
+          description: User ID to add
+        email:
+          type: string
+          format: email
+          description: Email of user to add
+    TeamSummary:
+      description: Team summary information
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - name
+        properties:
+          name:
+            type: string
+            description: Team name
+          description:
+            type: string
+            description: Team description
+    Application:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - properties:
+          description:
+            example: app description
+            type: string
+          metadata:
+            $ref: '#/components/schemas/ApplicationMetadata'
+          name:
+            example: app
+            type: string
+          teamId:
+            example: 2frepq0mjp841i3jfd030dhtmn
+            readOnly: true
+            type: string
+        type: object
+    TeamDetails:
+      description: Team details including member list
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - name
+        - members
+        properties:
+          name:
+            type: string
+            description: Team name
+          description:
+            type: string
+            description: Team description
+          members:
+            type: array
+            description: List of team members
+            items:
+              $ref: '#/components/schemas/TeamMember'
+    User:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - properties:
+          email:
+            example: johndoe@email.com
+            type: string
+          isAdmin:
+            example: false
+            type: boolean
+          name:
+            example: John Doe
+            type: string
+          synced:
+            example: true
+            type: boolean
+          username:
+            example: johndoe
+            type: string
+        required:
+        - email
+        type: object
+    ResourceMetadata:
+      type: object
+      description: Metadata attached to a resource (app or subscription) including rate limits and custom key-value pairs
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          description: Metadata record ID (resource ID + "-metadata" suffix)
+        customMetadata:
+          type: object
+          description: Custom metadata key-value pairs
+          additionalProperties:
+            type: string
+        rateLimit:
+          $ref: '#/components/schemas/RateLimit'
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the parent resource was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the parent resource was last updated
+    CreateAppRequest:
+      description: Request body for creating an application
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Application name
+        description:
+          type: string
+          description: Application description
+    TeamCreate:
+      description: Create a new team
+      properties:
+        description:
+          example: team description
+          type: string
+        name:
+          example: ACME Team
+          type: string
+      required:
+      - name
+    App:
+      description: Application information
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - teamId
+        - name
+        properties:
+          teamId:
+            type: string
+            description: ID of the team that owns this app
+          name:
+            type: string
+            description: Application name
+          description:
+            type: string
+            description: Application description
+          metadata:
+            $ref: '#/components/schemas/ResourceMetadata'
+    RateLimit:
+      type: object
+      description: Rate limit configuration
+      required:
+      - requestsPerUnit
+      - unit
+      properties:
+        requestsPerUnit:
+          type: string
+          description: Number of requests allowed per unit
+        unit:
+          type: string
+          description: Time unit for rate limiting
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token passed in the Authorization header
+    identityToken:
+      type: apiKey
+      in: cookie
+      name: id_token
+      description: id_token cookie set by the identity provider after OIDC login
+    accessToken:
+      type: apiKey
+      in: cookie
+      name: access_token
+      description: access_token cookie set by the identity provider after OIDC login
+x-refined-from:
+- solo-io-portal-backend-openapi.yml
+- solo-io-portal-server-openapi.yml

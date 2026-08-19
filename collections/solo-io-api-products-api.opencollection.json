@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Solo Io API Products API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "api-products",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List API products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/api-products"
+          },
+          "docs": "Retrieve a list of all API products accessible by the user"
+        },
+        {
+          "info": {
+            "name": "Get API product details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/api-products/:productID",
+            "params": [
+              {
+                "name": "productID",
+                "value": "",
+                "type": "path",
+                "description": "API Product ID"
+              }
+            ]
+          },
+          "docs": "Returns detailed information about a specific API product"
+        },
+        {
+          "info": {
+            "name": "List API product versions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/api-products/:productID/versions",
+            "params": [
+              {
+                "name": "productID",
+                "value": "",
+                "type": "path",
+                "description": "API Product ID"
+              }
+            ]
+          },
+          "docs": "Returns all versions of a specific API product including OpenAPI specs"
+        },
+        {
+          "info": {
+            "name": "GetApiProductById",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/api-products/:productId",
+            "params": [
+              {
+                "name": "productId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the API product."
+              }
+            ]
+          },
+          "docs": "Retrieve a specific API product by its ID."
+        },
+        {
+          "info": {
+            "name": "ListProductVersions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/api-products/:productId/versions",
+            "params": [
+              {
+                "name": "productId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the API product."
+              }
+            ]
+          },
+          "docs": "Retrieve all versions for a specific API product."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,350 @@
+openapi: 3.2.0
+info:
+  title: Gloo Platform Portal AP Is API
+  version: 1.0.0
+  description: Review the following reference documentation for the Gloo Platform portal APIs, which contains the endpoint specifications for managing user access to both the developer portal and resources exposed by the portal.
+servers:
+- url: https://api.gloo-platform-portal.com/v1
+tags:
+- name: APIs
+paths:
+  /apis:
+    get:
+      description: Lists the APIs that the developer portal is set up to expose, based on request parameters. By default, the developer portal has public visibility and returns all the APIs. You can also configure the developer portal to verify user authentication and authorization. If so, then this endpoint returns only the APIs that the current user has access to. You can check the current user with the /me endpoint.
+      operationId: ListAPIs
+      security:
+      - identityToken: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/API'
+          description: Successfully listed APIs.
+        '500':
+          description: Unexpected error fetching APIs
+      summary: Lists APIs visible to the current user.
+      tags:
+      - APIs
+  /apis/{id}/schema:
+    get:
+      description: Gets the details of the schema for a specific API ID, if the API ID exists. When authentication and authorization are enforced, returns the schema only if the user has access to the API.
+      summary: Gets the schema for an API.
+      operationId: GetApiSchema
+      security:
+      - identityToken: []
+      - {}
+      parameters:
+      - in: path
+        name: id
+        description: The API ID to get schema details for. To get the ID, use the GET /apis endpoint.
+        schema:
+          example: petstoreAPI-petstoreNamespace-cluster1
+          type: string
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                openapi: 3.0.0
+                info:
+                  title: Callback Example
+                  version: 1.0.0
+                paths:
+                  /streams:
+                    post:
+                      description: subscribes a client to receive out-of-band data
+                      parameters:
+                      - name: callbackUrl
+                        in: query
+                        required: true
+                        description: 'the location where data will be sent.  Must be network accessible
+
+                          by the source server
+
+                          '
+                        schema:
+                          type: string
+                          format: uri
+                          example: https://tonys-server.com
+                      responses:
+                        '201':
+                          description: subscription successfully created
+                          content:
+                            application/qjson:
+                              schema:
+                                description: subscription information
+                                required:
+                                - subscriptionId
+                                properties:
+                                  subscriptionId:
+                                    description: this unique identifier allows management of the subscription
+                                    type: string
+                                    example: 2531329f-fb09-4ef7-887e-84e648214436
+                      callbacks:
+                        onData:
+                          '{$request.query.callbackUrl}/data':
+                            post:
+                              requestBody:
+                                description: subscription payload
+                                content:
+                                  application/json:
+                                    schema:
+                                      type: object
+                                      properties:
+                                        timestamp:
+                                          type: string
+                                          format: date-time
+                                        userData:
+                                          type: string
+                              responses:
+                                '202':
+                                  description: 'Your server implementation should return this HTTP status code
+
+                                    if the data was received successfully
+
+                                    '
+                                '204':
+                                  description: 'Your server should return this HTTP status code if no longer interested
+
+                                    in further updates
+
+                                    '
+          description: successfully fetched schema for API
+        '400':
+          description: Bad request. Please supply an API Id
+        '404':
+          description: Resource not found - returns the error message `API schema not found`
+        '500':
+          description: Internal server error - returns the error message `Stitched schema associated with route table is not an openAPI schema`, `Missing stitched schema for route table` or `Error unmarshalling openAPI spec`
+      tags:
+      - APIs
+  /usage-plans:
+    get:
+      operationId: GetUsagePlans
+      description: Returns a list of all available usage plans in the Portal. If you configured portal with public visibility, all usage plans are returned. If you configured portal to verify user identity or require users to have the correct access scope, the appropriate access and authorization is required.
+      security:
+      - identityToken: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UsagePlan'
+          description: Successfully got usage plans and the APIs that the usage plans apply to.
+        '500':
+          description: Unexpected error fetching Usage plans. Try again in a few moments.
+      summary: Lists all usage plans for the developer portal.
+      tags:
+      - APIs
+  /api-keys:
+    get:
+      description: Lists the API keys for the current user, filterable by usage plans or API IDs. A usage plan can have multiple API keys, which can each be tied to multiple API IDs. An API key belongs to only one usage plan. To check the current user, use the GET /me endpoint. To create an API key, use the POST /api-keys endpoint.
+      operationId: ListAPIKeys
+      security:
+      - identityToken: []
+      parameters:
+      - in: query
+        name: usagePlans
+        description: Optionally filter API keys by usage plan. To get the usage plan, use the GET /usage-plans endpoint.
+        schema:
+          type: array
+          items:
+            type: string
+            example: bronze-plan
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UsagePlanKeys'
+          description: Successfully listed API keys.
+        '400':
+          description: Bad request. Please supply usage plan Ids
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user has missing claims required by this method.
+        '500':
+          description: Unexpected error fetching API keys. Try again in a few moments.
+      summary: Lists API keys for the current user, filterable by usage plans or API IDs.
+      tags:
+      - APIs
+    post:
+      description: Creates an API key for the current user for a specific API ID and usage plan. To check the current user, use the GET /me endpoint. If you have multiple APIs or usage plans that you want to create API keys for, send a request for each combination to this endpoint.
+      operationId: CreateAPIKey
+      security:
+      - identityToken: []
+      requestBody:
+        description: Send the API ID and usage plan details for this API key in the request body.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usagePlan:
+                  type: string
+                  example: bronze plan
+                apiKeyName:
+                  type: string
+                  example: api-key-name-1
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIKey'
+          description: Successfully created API key.
+        '400':
+          description: Bad request. Please supply an API Key Name
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user has missing claims required by this method.
+        '500':
+          description: Unexpected error creating API key. Try again in a few moments.
+      summary: Creates an API key for the current user for a specific API ID and usage plan.
+      tags:
+      - APIs
+  /api-keys/{id}:
+    delete:
+      description: Deletes the current user's API key by API Key ID (UUID). To check the current user, use the GET /me endpoint.
+      operationId: DeleteAPIKey
+      security:
+      - identityToken: []
+      parameters:
+      - in: path
+        name: id
+        description: The API Key ID (UUID) of key to be deleted. To get the API KEY ID (UUID), use the GET /api-keys endpoint.
+        schema:
+          type: string
+          example: bfbf98eb-732d-428f-b948-770629802231
+        required: true
+      responses:
+        '200':
+          description: Successfully deleted API keys.
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user has missing claims required by this method.
+        '404':
+          description: API Key with the specified UUID was not found.
+        '500':
+          description: Unexpected error deleting API keys. Try again in a few moments.
+      summary: Deletes the current user's API key(s) for a specified API ID.
+      tags:
+      - APIs
+components:
+  schemas:
+    RateLimitPolicy:
+      properties:
+        unit:
+          type: string
+          example: MINUTE
+        requestsPerUnit:
+          type: integer
+          example: 1
+      type: object
+    UsagePlan:
+      properties:
+        name:
+          example: bronze plan
+          type: string
+        authPolicies:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthPolicy'
+        rateLimitPolicy:
+          $ref: '#/components/schemas/RateLimitPolicy'
+        apiIds:
+          type: array
+          items:
+            type: string
+            example: petstoreAPI-petstoreNamespace-cluster-1
+      type: object
+    AuthPolicy:
+      properties:
+        authType:
+          type: string
+          example: apiKeyAuth
+      type: object
+    UsagePlanKeys:
+      properties:
+        usagePlan:
+          type: string
+          example: bronze plan
+        apiKeys:
+          type: array
+          items:
+            $ref: '#/components/schemas/APIKey'
+      type: object
+    API:
+      properties:
+        apiId:
+          example: petstoreAPI-petstoreNamespace-cluster-1
+          type: string
+        title:
+          example: pet store
+          type: string
+        description:
+          example: list of pet store apis
+          type: string
+        termsOfService:
+          example: example terms of service
+          type: string
+        contact:
+          example: 123@email.com
+          type: string
+        license:
+          example: MIT
+          type: string
+        usagePlans:
+          type: array
+          items:
+            type: string
+          example:
+          - bronze plan
+          - silver plan
+          - gold plan
+        customMetadata:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            type: customers
+            region: us-east-1
+      type: object
+    APIKey:
+      properties:
+        apiKey:
+          description: Is returned only once when the API key is created
+          example: 4f357f4f-cd56-41d2-aca8-301c999bb8a4
+          type: string
+        id:
+          example: ae8261d2-4e16-4a06-b1f3-1af71464a8dd
+          type: string
+        name:
+          example: api-key-name-1
+          type: string
+        metadata:
+          type: object
+          example:
+            key: value
+  securitySchemes:
+    identityToken:
+      type: apiKey
+      in: cookie
+      name: id_token
+      description: id token cookie from the identity provider used to authenticate the user

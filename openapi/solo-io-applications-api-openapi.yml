@@ -1,0 +1,675 @@
+openapi: 3.2.0
+info:
+  title: Solo Io Applications API
+  version: 1.0.0
+  description: 'Operations tagged Applications across 2 of this provider''s published API definitions: solo-io-portal-idp-connect-openapi.yml, solo-io-portal-server-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.gloo-platform-portal.com/v1
+- url: http://portal.example.com/v1
+tags:
+- name: Applications
+paths:
+  /applications:
+    servers:
+    - url: https://api.gloo-platform-portal.com/v1
+    post:
+      description: Create an OAuth2 client in the OIDC provider that you set up to protect your Gloo Portal APIs. This secret is shown to you only once at creation time, so keep this secret to make future requests to API products in the Portal. If you lose this secret, your admin can retrieve it in the OIDC provider. Note that the secret is not stored in the Portal database.
+      operationId: CreateOAuthApplication
+      parameters:
+      - in: header
+        name: token
+        description: Token of origin user invoking the request.
+        schema:
+          type: string
+      requestBody:
+        description: (Required) Unique identifier for creating client.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - id
+              properties:
+                id:
+                  type: string
+                  example: a0897e6d0ea94f589c38278bca4e9342
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthApplication'
+          description: Successfully created client.
+        '400':
+          description: Invalid input.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Unexpected error creating client.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      summary: Creates an OAuth2 client.
+      tags:
+      - Applications
+  /applications/{id}:
+    servers:
+    - url: https://api.gloo-platform-portal.com/v1
+    delete:
+      description: Delete an OAuth2 client.
+      operationId: DeleteOAuthApplication
+      parameters:
+      - in: path
+        name: id
+        required: true
+        description: (Required) ID for client to delete.
+        schema:
+          type: string
+      - in: header
+        name: token
+        description: Token of origin user invoking the request.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Successfully deleted client.
+        '404':
+          description: Application not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Unexpected error deleting client.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      summary: Delete a client in the OIDC provider.
+      tags:
+      - Applications
+  /api-keys/{keyId}:
+    servers:
+    - url: http://portal.example.com/v1
+    delete:
+      description: Deletes an API Key by API Key ID (UUID).
+      operationId: DeleteAPIKey
+      parameters:
+      - description: The API Key ID (UUID) of key to be deleted.
+        in: path
+        name: keyId
+        required: true
+        schema:
+          example: bfbf98eb-732d-428f-b948-770629802231
+          type: string
+      responses:
+        '204':
+          description: Successfully deleted API keys.
+        '400':
+          description: Bad request. Please supply an API Key Name
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user has missing claims required by this method.
+        '404':
+          description: User not found.
+        '500':
+          description: Unexpected error deleting API keys. Try again in a few moments.
+      security:
+      - identityToken: []
+      summary: Deletes the current user's API key(s) for a specified API ID.
+      tags:
+      - Applications
+  /apps/{appId}:
+    servers:
+    - url: http://portal.example.com/v1
+    delete:
+      description: Delete Application
+      operationId: DeleteApplication
+      parameters:
+      - description: Unique identifier of the application
+        in: path
+        name: appId
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Successfully deleted client.
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user does not have permission to delete the application.
+        '404':
+          description: Not found.
+        '500':
+          description: Unexpected error deleting client.
+      security:
+      - identityToken: []
+      summary: Deletes an application
+      tags:
+      - Applications
+    get:
+      description: Get App information by its ID
+      operationId: GetApplicationById
+      parameters:
+      - description: Unique identifier of the team app
+        in: path
+        name: appId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+          description: Successfully retrieved app information
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user does not have permission to view the app.
+        '404':
+          description: App not found
+        '500':
+          description: Unexpected error querying for app information
+      security:
+      - identityToken: []
+      summary: Gets an application
+      tags:
+      - Applications
+    put:
+      description: Update Application
+      operationId: UpdateApplication
+      parameters:
+      - description: Unique identifier of the team app
+        in: path
+        name: appId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationUpdate'
+        description: Updates an application
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+          description: Successfully updated application information.
+        '400':
+          description: Bad request. The request body is invalid.
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user does not have permission to update the application.
+        '404':
+          description: App not found
+        '500':
+          description: Unexpected error updating application information.
+      security:
+      - identityToken: []
+      summary: Updates an application
+      tags:
+      - Applications
+  /apps/{appId}/api-keys:
+    servers:
+    - url: http://portal.example.com/v1
+    get:
+      description: Lists the API keys for the current user, filterable by usage plans or API IDs. A usage plan can have multiple API keys, which can each be tied to multiple API IDs. An API key belongs to only one usage plan. To check the current user, use the GET /me endpoint. To create an API key, use the POST /api-keys endpoint.
+      operationId: ListApplicationAPIKeys
+      parameters:
+      - description: The unique identifier of the application.
+        in: path
+        name: appId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/APIKey'
+                type: array
+          description: Successfully listed API keys.
+        '400':
+          description: Bad request. Please supply appId.
+        '404':
+          description: Application not found for provided appId.
+        '500':
+          description: Unexpected error fetching API keys. Try again in a few moments.
+      security:
+      - identityToken: []
+      summary: Lists API keys for the current user, filterable by usage plans or API IDs.
+      tags:
+      - Applications
+    post:
+      description: Creates an API key for the current user for a application. To check the current user, use the GET /me endpoint.
+      operationId: CreateApplicationAPIKey
+      parameters:
+      - description: The unique identifier of the application.
+        in: path
+        name: appId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                apiKeyName:
+                  example: api-key-name-1
+                  type: string
+              type: object
+        description: Send the name for this API key in the request body.
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIKey'
+          description: Successfully created API key.
+        '400':
+          description: Bad request. Please supply an API Key Name
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '404':
+          description: Application not found for provided appId.
+        '409':
+          description: An API key with the same name already exists in the application.
+        '500':
+          description: Unexpected error creating API key. Try again in a few moments.
+      security:
+      - identityToken: []
+      summary: Creates an API key for the current user for a specific API ID and usage plan.
+      tags:
+      - Applications
+  /apps/{appId}/oauth-credentials:
+    servers:
+    - url: http://portal.example.com/v1
+    get:
+      description: Gets the OAuth client credentials for the application
+      operationId: GetApplicationOAuthCredential
+      parameters:
+      - description: The unique identifier of the application.
+        in: path
+        name: appId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthCredential'
+          description: Successfully listed OAuth Client Credentials.
+        '400':
+          description: Bad request. Please supply appId.
+        '404':
+          description: Application not found for provided appId.
+        '500':
+          description: Unexpected error fetching API keys. Try again in a few moments.
+      security:
+      - identityToken: []
+      tags:
+      - Applications
+    post:
+      description: Generates new credentials for the specified application and pushes them to the Identity Provider. If credentials already exist a for the application, then a `409 Conflict` error will be returned.
+      operationId: GenerateApplicationOAuthCredential
+      parameters:
+      - description: The unique identifier of the application.
+        in: path
+        name: appId
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthCredential'
+          description: Successfully generated and pushed application credentials.
+        '400':
+          description: Invalid request parameters.
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user does not have permission to generate credentials for the application.
+        '404':
+          description: Application not found.
+        '409':
+          description: Application credentials already exist.
+        '500':
+          description: Unexpected error generating or pushing credentials.
+      security:
+      - identityToken: []
+      summary: Generate and push application credentials to the Identity Provider
+      tags:
+      - Applications
+  /apps/{appId}/subscriptions:
+    servers:
+    - url: http://portal.example.com/v1
+    get:
+      description: Retrieve all subscriptions for an application
+      operationId: ListApplicationProductSubscriptions
+      parameters:
+      - description: Unique identifier of the team app
+        in: path
+        name: appId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Subscription'
+                type: array
+          description: Successfully listed all app subscriptions
+        '400':
+          description: Invalid request parameters.
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user does not have permission to view the app subscriptions.
+        '404':
+          description: App not found
+        '500':
+          description: Unexpected error fetching app subscriptions
+      security:
+      - identityToken: []
+      summary: Lists all app subscriptions
+      tags:
+      - Applications
+    post:
+      description: Subscribe to an API product. It is subject to admin approval.
+      operationId: SubscribeToApiProduct
+      parameters:
+      - description: Unique identifier of the team app
+        in: path
+        name: appId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionCreate'
+        description: Subscription object that needs to be created
+        required: true
+      responses:
+        '201':
+          description: Successfully created the subscription
+        '400':
+          description: Bad request. The request body is invalid.
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user does not have permission to create the subscription.
+        '404':
+          description: App not found.
+        '409':
+          description: Subscription already exists.
+        '500':
+          description: Unexpected error creating the subscription.
+      security:
+      - identityToken: []
+      summary: Subscribes to an API product
+      tags:
+      - Applications
+  /oauth-credentials/{credentialId}:
+    servers:
+    - url: http://portal.example.com/v1
+    delete:
+      description: Deletes an OAuth client credential by its client ID
+      operationId: DeleteOAuthCredential
+      parameters:
+      - description: The OAuth client credential ID (UUID) of the credential to be deleted.
+        in: path
+        name: credentialId
+        required: true
+        schema:
+          example: bfbf98eb-732d-428f-b948-770629802231
+          type: string
+      responses:
+        '204':
+          description: Successfully deleted OAuth client credential.
+        '400':
+          description: Bad request. Please supply an OAuth client credential ID.
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user has missing claims required by this method.
+        '404':
+          description: User not found.
+        '500':
+          description: Unexpected error deleting OAuth client credential. Try again in a few moments.
+      security:
+      - identityToken: []
+      summary: Deletes an OAuth client credential
+      tags:
+      - Applications
+components:
+  schemas:
+    ApplicationMetadata:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - properties:
+          customMetadata:
+            example:
+              key: value
+            type: object
+          rateLimit:
+            $ref: '#/components/schemas/RateLimit'
+        type: object
+    Application:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - properties:
+          description:
+            example: app description
+            type: string
+          metadata:
+            $ref: '#/components/schemas/ApplicationMetadata'
+          name:
+            example: app
+            type: string
+          teamId:
+            example: 2frepq0mjp841i3jfd030dhtmn
+            readOnly: true
+            type: string
+        type: object
+    ApplicationUpdate:
+      properties:
+        description:
+          example: the app description
+          type: string
+        name:
+          example: app
+          type: string
+    SubscriptionMetadata:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - properties:
+          customMetadata:
+            example:
+              key: value
+            type: object
+          rateLimit:
+            $ref: '#/components/schemas/RateLimit'
+        type: object
+    Error:
+      required:
+      - code
+      - message
+      - reason
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+          example: Status Code Message
+        reason:
+          type: string
+          example: Error reason
+    Subscription:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - properties:
+          apiProductId:
+            description: The ID of the API product associated with the subscription.
+            type: string
+          applicationId:
+            description: The ID of the application to which the subscription is associated.
+            readOnly: true
+            type: string
+          approved:
+            description: Indicates whether the subscription has been approved.
+            readOnly: true
+            type: boolean
+          approvedAt:
+            description: The timestamp when the subscription was approved.
+            format: date-time
+            readOnly: true
+            type: string
+          metadata:
+            $ref: '#/components/schemas/SubscriptionMetadata'
+          rejected:
+            description: Indicates whether the subscription has been rejected.
+            readOnly: true
+            type: boolean
+          rejectedAt:
+            description: The timestamp when the subscription was rejected.
+            format: date-time
+            readOnly: true
+            type: string
+          requestedAt:
+            description: The timestamp when the subscription was requested.
+            format: date-time
+            readOnly: true
+            type: string
+        type: object
+    SubscriptionCreate:
+      properties:
+        apiProductId:
+          description: The API Product ID that we are subscribing to
+          type: string
+      required:
+      - apiProductId
+      type: object
+    OAuthCredential:
+      properties:
+        id:
+          example: uuid
+          readOnly: true
+          type: string
+        idpClientId:
+          example: generated-client-id
+          readOnly: true
+          type: string
+        idpClientName:
+          example: client-name
+          readOnly: true
+          type: string
+        idpClientSecret:
+          example: generated-client-secret
+          readOnly: true
+          type: string
+      type: object
+    RateLimit:
+      properties:
+        requestsPerUnit:
+          example: 5
+          type: string
+        unit:
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
+          example: SECOND
+          type: string
+    OAuthApplication:
+      required:
+      - clientId
+      - clientSecret
+      properties:
+        clientId:
+          type: string
+          example: a0897e6d0ea94f589c38278bca4e9342
+        clientSecret:
+          type: string
+          example: c94dbd582d594e8aa04934f9c7ef0f52
+        clientName:
+          type: string
+          example: example-user-pool-developer-1
+    BaseEntity:
+      properties:
+        createdAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        deletedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          example: uuid
+          readOnly: true
+          type: string
+        updatedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+    APIKey:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - properties:
+          apiKey:
+            description: Is returned only once when the API key is created
+            example: 4f357f4f-cd56-41d2-aca8-301c999bb8a4
+            type: string
+          id:
+            example: ae8261d2-4e16-4a06-b1f3-1af71464a8dd
+            type: string
+          metadata:
+            example:
+              key: value
+            type: object
+          name:
+            example: api-key-name-1
+            type: string
+        type: object
+  securitySchemes:
+    identityToken:
+      description: id token cookie from the identity provider used to authenticate the user
+      in: cookie
+      name: id_token
+      type: apiKey
+x-refined-from:
+- solo-io-portal-idp-connect-openapi.yml
+- solo-io-portal-server-openapi.yml

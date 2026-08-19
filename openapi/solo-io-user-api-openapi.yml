@@ -1,0 +1,53 @@
+openapi: 3.2.0
+info:
+  title: Gloo Platform Portal User API
+  version: 1.0.0
+  description: Review the following reference documentation for the Gloo Platform portal APIs, which contains the endpoint specifications for managing user access to both the developer portal and resources exposed by the portal.
+servers:
+- url: https://api.gloo-platform-portal.com/v1
+tags:
+- name: User
+paths:
+  /me:
+    get:
+      description: Looks up the user for the current session. Returns your user information if the user session exists and is not expired. You might use this endpoint to confirm your identity before performing other actions for the developer portal, like issuing an API key.
+      summary: Gets the user for the current session.
+      operationId: GetCurrentUser
+      security:
+      - identityToken: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: Successfully got user information.
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user has missing claims required by this method.
+        '500':
+          description: Internal server error. Try again in a few moments.
+      tags:
+      - User
+components:
+  schemas:
+    User:
+      properties:
+        name:
+          example: John Doe
+          type: string
+        email:
+          example: 123@email.com
+          type: string
+        username:
+          example: exampleUser
+          type: string
+      type: object
+  securitySchemes:
+    identityToken:
+      type: apiKey
+      in: cookie
+      name: id_token
+      description: id token cookie from the identity provider used to authenticate the user

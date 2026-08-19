@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "GuardRail Webhook Webhooks API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Process Prompts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/request",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This webhook intercepts requests from the user before they are sent to the LLM. You can use it to:\n- Validate and filter content\n- Mask sensitive information\n- Reject requests based on policy rules\n\nThe webhook receives normalized prompt messages regardless of the original LLM provider's format.\nIt can return one of three actions:\n1. `PassAction`: Allow the request to proceed unchanged\n2. `MaskAction`: Return modified prompts with sensitive information masked\n3. `RejectAction`: Block the request"
+        },
+        {
+          "info": {
+            "name": "Process Responses",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/response",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This webhook intercepts responses from the LLM before they are returned to the user. The `role` and `content` are extracted from the response into the `ResponseChoices` JSON object, regardless of the API format from various providers.\n\nFor streaming responses from the LLM, this webhook is called multiple times for a single response. The gateway buffers and detects the semantic boundary of the content before making the webhook call.\n\nTwo types of responses are possible by returning one of the fol"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

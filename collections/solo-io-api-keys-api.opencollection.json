@@ -1,0 +1,120 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Portal Backend API Keys API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "api-keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List app API keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/apps/:appID/api-keys",
+            "params": [
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns all API keys for an application (without the actual key values)"
+        },
+        {
+          "info": {
+            "name": "Create app API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/apps/:appID/api-keys",
+            "params": [
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new API key for an application. The raw API key value is only returned once at creation time."
+        },
+        {
+          "info": {
+            "name": "Delete app API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "/v1/apps/:appID/api-keys/:keyID",
+            "params": [
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              },
+              {
+                "name": "keyID",
+                "value": "",
+                "type": "path",
+                "description": "API Key ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes an API key from an application"
+        },
+        {
+          "info": {
+            "name": "Delete API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "/v1/api-keys/:keyID",
+            "params": [
+              {
+                "name": "keyID",
+                "value": "",
+                "type": "path",
+                "description": "API Key ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes an API key by ID"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

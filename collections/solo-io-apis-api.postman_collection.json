@@ -1,0 +1,1464 @@
+{
+  "item": [
+    {
+      "id": "b6dfa3f9-85bc-4860-b3eb-d43af70ec16e",
+      "name": "APIs",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "60f7eab7-a813-4c29-a82c-10c8d9f6352e",
+          "name": "Lists APIs visible to the current user.",
+          "request": {
+            "name": "Lists APIs visible to the current user.",
+            "description": {
+              "content": "Lists the APIs that the developer portal is set up to expose, based on request parameters. By default, the developer portal has public visibility and returns all the APIs. You can also configure the developer portal to verify user authentication and authorization. If so, then this endpoint returns only the APIs that the current user has access to. You can check the current user with the /me endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "apis"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "id_token"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "45c9f15a-c23d-4a84-99d2-e1990a24b653",
+              "name": "Successfully listed APIs.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apis"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"apiId\": \"petstoreAPI-petstoreNamespace-cluster-1\",\n    \"title\": \"pet store\",\n    \"description\": \"list of pet store apis\",\n    \"termsOfService\": \"example terms of service\",\n    \"contact\": \"123@email.com\",\n    \"license\": \"MIT\",\n    \"usagePlans\": [\n      \"bronze plan\",\n      \"silver plan\",\n      \"gold plan\"\n    ],\n    \"customMetadata\": {\n      \"type\": \"customers\",\n      \"region\": \"us-east-1\"\n    }\n  },\n  {\n    \"apiId\": \"petstoreAPI-petstoreNamespace-cluster-1\",\n    \"title\": \"pet store\",\n    \"description\": \"list of pet store apis\",\n    \"termsOfService\": \"example terms of service\",\n    \"contact\": \"123@email.com\",\n    \"license\": \"MIT\",\n    \"usagePlans\": [\n      \"bronze plan\",\n      \"silver plan\",\n      \"gold plan\"\n    ],\n    \"customMetadata\": {\n      \"type\": \"customers\",\n      \"region\": \"us-east-1\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "47fe9fa4-cf53-4354-8e49-b33eac1b9353",
+              "name": "Unexpected error fetching APIs",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apis"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e5a72d6a-b2b0-4648-b3bb-a5f7de8a133b",
+          "name": "Gets the schema for an API.",
+          "request": {
+            "name": "Gets the schema for an API.",
+            "description": {
+              "content": "Gets the details of the schema for a specific API ID, if the API ID exists. When authentication and authorization are enforced, returns the schema only if the user has access to the API.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "apis",
+                ":id",
+                "schema"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The API ID to get schema details for. To get the ID, use the GET /apis endpoint."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "id_token"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "d0ef5702-7930-485c-a5bf-a995d03e85a2",
+              "name": "successfully fetched schema for API",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apis",
+                    ":id",
+                    "schema"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The API ID to get schema details for. To get the ID, use the GET /apis endpoint."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"openapi\": \"3.0.0\",\n  \"info\": {\n    \"title\": \"Callback Example\",\n    \"version\": \"1.0.0\"\n  },\n  \"paths\": {\n    \"/streams\": {\n      \"post\": {\n        \"description\": \"subscribes a client to receive out-of-band data\",\n        \"parameters\": [\n          {\n            \"name\": \"callbackUrl\",\n            \"in\": \"query\",\n            \"required\": true,\n            \"description\": \"the location where data will be sent.  Must be network accessible\\nby the source server\\n\",\n            \"schema\": {\n              \"type\": \"string\",\n              \"format\": \"uri\",\n              \"example\": \"https://tonys-server.com\"\n            }\n          }\n        ],\n        \"responses\": {\n          \"201\": {\n            \"description\": \"subscription successfully created\",\n            \"content\": {\n              \"application/qjson\": {\n                \"schema\": {\n                  \"description\": \"subscription information\",\n                  \"required\": [\n                    \"subscriptionId\"\n                  ],\n                  \"properties\": {\n                    \"subscriptionId\": {\n                      \"description\": \"this unique identifier allows management of the subscription\",\n                      \"type\": \"string\",\n                      \"example\": \"2531329f-fb09-4ef7-887e-84e648214436\"\n                    }\n                  }\n                }\n              }\n            }\n          }\n        },\n        \"callbacks\": {\n          \"onData\": {\n            \"{$request.query.callbackUrl}/data\": {\n              \"post\": {\n                \"requestBody\": {\n                  \"description\": \"subscription payload\",\n                  \"content\": {\n                    \"application/json\": {\n                      \"schema\": {\n                        \"type\": \"object\",\n                        \"properties\": {\n                          \"timestamp\": {\n                            \"type\": \"string\",\n                            \"format\": \"date-time\"\n                          },\n                          \"userData\": {\n                            \"type\": \"string\"\n                          }\n                        }\n                      }\n                    }\n                  }\n                },\n                \"responses\": {\n                  \"202\": {\n                    \"description\": \"Your server implementation should return this HTTP status code\\nif the data was received successfully\\n\"\n                  },\n                  \"204\": {\n                    \"description\": \"Your server should return this HTTP status code if no longer interested\\nin further updates\\n\"\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5bcb2628-57e5-4081-80ae-24b11f042387",
+              "name": "Bad request. Please supply an API Id",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apis",
+                    ":id",
+                    "schema"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The API ID to get schema details for. To get the ID, use the GET /apis endpoint."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0a94f189-9d1a-4519-8ac8-92db9ceda24e",
+              "name": "Resource not found - returns the error message `API schema not found`",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apis",
+                    ":id",
+                    "schema"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The API ID to get schema details for. To get the ID, use the GET /apis endpoint."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a9d4062b-b75e-40cd-934a-708fd595cb5b",
+              "name": "Internal server error - returns the error message `Stitched schema associated with route table is not an openAPI schema`, `Missing stitched schema for route table` or `Error unmarshalling openAPI spec`",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "apis",
+                    ":id",
+                    "schema"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The API ID to get schema details for. To get the ID, use the GET /apis endpoint."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0e792e01-1ae7-4304-846d-c9f5f644c24f",
+          "name": "Lists all usage plans for the developer portal.",
+          "request": {
+            "name": "Lists all usage plans for the developer portal.",
+            "description": {
+              "content": "Returns a list of all available usage plans in the Portal. If you configured portal with public visibility, all usage plans are returned. If you configured portal to verify user identity or require users to have the correct access scope, the appropriate access and authorization is required.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "usage-plans"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "id_token"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "3bbb674d-8224-4d96-b09f-46f30e865008",
+              "name": "Successfully got usage plans and the APIs that the usage plans apply to.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "usage-plans"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"name\": \"bronze plan\",\n    \"authPolicies\": [\n      {\n        \"authType\": \"apiKeyAuth\"\n      },\n      {\n        \"authType\": \"apiKeyAuth\"\n      }\n    ],\n    \"rateLimitPolicy\": {\n      \"unit\": \"MINUTE\",\n      \"requestsPerUnit\": 1\n    },\n    \"apiIds\": [\n      \"petstoreAPI-petstoreNamespace-cluster-1\",\n      \"petstoreAPI-petstoreNamespace-cluster-1\"\n    ]\n  },\n  {\n    \"name\": \"bronze plan\",\n    \"authPolicies\": [\n      {\n        \"authType\": \"apiKeyAuth\"\n      },\n      {\n        \"authType\": \"apiKeyAuth\"\n      }\n    ],\n    \"rateLimitPolicy\": {\n      \"unit\": \"MINUTE\",\n      \"requestsPerUnit\": 1\n    },\n    \"apiIds\": [\n      \"petstoreAPI-petstoreNamespace-cluster-1\",\n      \"petstoreAPI-petstoreNamespace-cluster-1\"\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fee32d43-b9ed-4a33-9465-bfd3d83fe1d6",
+              "name": "Unexpected error fetching Usage plans. Try again in a few moments.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "usage-plans"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a6a39bda-a8c2-4d31-8d73-7e95639668fd",
+          "name": "Lists API keys for the current user, filterable by usage plans or API IDs.",
+          "request": {
+            "name": "Lists API keys for the current user, filterable by usage plans or API IDs.",
+            "description": {
+              "content": "Lists the API keys for the current user, filterable by usage plans or API IDs. A usage plan can have multiple API keys, which can each be tied to multiple API IDs. An API key belongs to only one usage plan. To check the current user, use the GET /me endpoint. To create an API key, use the POST /api-keys endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api-keys"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "usagePlans",
+                  "value": "<string>",
+                  "description": "Optionally filter API keys by usage plan. To get the usage plan, use the GET /usage-plans endpoint."
+                },
+                {
+                  "disabled": false,
+                  "key": "usagePlans",
+                  "value": "<string>",
+                  "description": "Optionally filter API keys by usage plan. To get the usage plan, use the GET /usage-plans endpoint."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "id_token"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "e961055a-3b52-4e7a-8c29-ed5d264bdada",
+              "name": "Successfully listed API keys.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "usagePlans",
+                      "value": "bronze-plan"
+                    },
+                    {
+                      "key": "usagePlans",
+                      "value": "bronze-plan"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"usagePlan\": \"bronze plan\",\n    \"apiKeys\": [\n      {\n        \"apiKey\": \"4f357f4f-cd56-41d2-aca8-301c999bb8a4\",\n        \"id\": \"ae8261d2-4e16-4a06-b1f3-1af71464a8dd\",\n        \"name\": \"api-key-name-1\",\n        \"metadata\": {\n          \"key\": \"value\"\n        }\n      },\n      {\n        \"apiKey\": \"4f357f4f-cd56-41d2-aca8-301c999bb8a4\",\n        \"id\": \"ae8261d2-4e16-4a06-b1f3-1af71464a8dd\",\n        \"name\": \"api-key-name-1\",\n        \"metadata\": {\n          \"key\": \"value\"\n        }\n      }\n    ]\n  },\n  {\n    \"usagePlan\": \"bronze plan\",\n    \"apiKeys\": [\n      {\n        \"apiKey\": \"4f357f4f-cd56-41d2-aca8-301c999bb8a4\",\n        \"id\": \"ae8261d2-4e16-4a06-b1f3-1af71464a8dd\",\n        \"name\": \"api-key-name-1\",\n        \"metadata\": {\n          \"key\": \"value\"\n        }\n      },\n      {\n        \"apiKey\": \"4f357f4f-cd56-41d2-aca8-301c999bb8a4\",\n        \"id\": \"ae8261d2-4e16-4a06-b1f3-1af71464a8dd\",\n        \"name\": \"api-key-name-1\",\n        \"metadata\": {\n          \"key\": \"value\"\n        }\n      }\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cb315394-82b8-4256-a9e4-c629a3171fb9",
+              "name": "Bad request. Please supply usage plan Ids",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "usagePlans",
+                      "value": "bronze-plan"
+                    },
+                    {
+                      "key": "usagePlans",
+                      "value": "bronze-plan"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "08160dc7-9b42-4732-bddb-a5d3f05fc474",
+              "name": "Unauthorized. The user's identity token is invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "usagePlans",
+                      "value": "bronze-plan"
+                    },
+                    {
+                      "key": "usagePlans",
+                      "value": "bronze-plan"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a85e63bf-20f2-4461-85d0-05d45a28e90b",
+              "name": "Forbidden. The user's identity token is valid, but the user has missing claims required by this method.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "usagePlans",
+                      "value": "bronze-plan"
+                    },
+                    {
+                      "key": "usagePlans",
+                      "value": "bronze-plan"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "19ce748d-6a5d-4190-853b-771d7163c499",
+              "name": "Unexpected error fetching API keys. Try again in a few moments.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "usagePlans",
+                      "value": "bronze-plan"
+                    },
+                    {
+                      "key": "usagePlans",
+                      "value": "bronze-plan"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cb777f3d-ad7f-41d0-aafc-0796252a7b20",
+          "name": "Creates an API key for the current user for a specific API ID and usage plan.",
+          "request": {
+            "name": "Creates an API key for the current user for a specific API ID and usage plan.",
+            "description": {
+              "content": "Creates an API key for the current user for a specific API ID and usage plan. To check the current user, use the GET /me endpoint. If you have multiple APIs or usage plans that you want to create API keys for, send a request for each combination to this endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api-keys"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "id_token"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"usagePlan\": \"<string>\",\n  \"apiKeyName\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "abfa66bb-e700-4038-86a4-4a9599684c71",
+              "name": "Successfully created API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"usagePlan\": \"bronze plan\",\n  \"apiKeyName\": \"api-key-name-1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"apiKey\": \"4f357f4f-cd56-41d2-aca8-301c999bb8a4\",\n  \"id\": \"ae8261d2-4e16-4a06-b1f3-1af71464a8dd\",\n  \"name\": \"api-key-name-1\",\n  \"metadata\": {\n    \"key\": \"value\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4f8000a6-7a35-4fec-babd-5958d011a907",
+              "name": "Bad request. Please supply an API Key Name",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"usagePlan\": \"bronze plan\",\n  \"apiKeyName\": \"api-key-name-1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "403c55f9-c99d-4ae9-8add-3d85eb98cdfe",
+              "name": "Unauthorized. The user's identity token is invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"usagePlan\": \"bronze plan\",\n  \"apiKeyName\": \"api-key-name-1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "189759b2-bcb0-42f6-8cd1-903a41f9d0d0",
+              "name": "Forbidden. The user's identity token is valid, but the user has missing claims required by this method.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"usagePlan\": \"bronze plan\",\n  \"apiKeyName\": \"api-key-name-1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "35ab063c-a27b-41da-84ab-097515c5fd02",
+              "name": "Unexpected error creating API key. Try again in a few moments.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-keys"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"usagePlan\": \"bronze plan\",\n  \"apiKeyName\": \"api-key-name-1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ced57ced-1c61-4e2e-b046-2351ed9e43d8",
+          "name": "Deletes the current user's API key(s) for a specified API ID.",
+          "request": {
+            "name": "Deletes the current user's API key(s) for a specified API ID.",
+            "description": {
+              "content": "Deletes the current user's API key by API Key ID (UUID). To check the current user, use the GET /me endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api-keys",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The API Key ID (UUID) of key to be deleted. To get the API KEY ID (UUID), use the GET /api-keys endpoint."
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "id_token"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "e36dc2e8-33d6-4c6f-993b-5b89b69b71db",
+              "name": "Successfully deleted API keys.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-keys",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The API Key ID (UUID) of key to be deleted. To get the API KEY ID (UUID), use the GET /api-keys endpoint."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9f3474ac-7e80-4800-be8c-ec53c3a2c297",
+              "name": "Unauthorized. The user's identity token is invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-keys",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The API Key ID (UUID) of key to be deleted. To get the API KEY ID (UUID), use the GET /api-keys endpoint."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3ea16bec-5ec1-42c5-829f-c2d0803179c3",
+              "name": "Forbidden. The user's identity token is valid, but the user has missing claims required by this method.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-keys",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The API Key ID (UUID) of key to be deleted. To get the API KEY ID (UUID), use the GET /api-keys endpoint."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "25a944b6-506b-47a8-a9a9-3ac893757ad3",
+              "name": "API Key with the specified UUID was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-keys",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The API Key ID (UUID) of key to be deleted. To get the API KEY ID (UUID), use the GET /api-keys endpoint."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "842303cc-e9e6-4772-b8f9-876f492b0451",
+              "name": "Unexpected error deleting API keys. Try again in a few moments.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-keys",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The API Key ID (UUID) of key to be deleted. To get the API KEY ID (UUID), use the GET /api-keys endpoint."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "id_token",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.gloo-platform-portal.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "bd1c6b14-95f6-4a16-bfed-de632310b10c",
+    "name": "Gloo Platform Portal AP Is API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Review the following reference documentation for the Gloo Platform portal APIs, which contains the endpoint specifications for managing user access to both the developer portal and resources exposed by the portal.",
+      "type": "text/plain"
+    }
+  }
+}

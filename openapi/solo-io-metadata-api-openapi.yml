@@ -1,0 +1,100 @@
+openapi: 3.2.0
+info:
+  title: Portal Backend Metadata API
+  description: API for the gateway developer portal backend server
+  version: 1.0.0
+servers:
+- url: /v1
+  description: API v1 base path
+tags:
+- name: metadata
+  description: Internal credential metadata endpoints
+paths:
+  /metadata:
+    get:
+      summary: Get credential metadata (Internal)
+      description: 'Internal endpoint used by ExtAuth to validate API keys and access tokens. Returns whether the credential is allowed and any associated metadata.
+
+        '
+      operationId: GetCredentialMetadata
+      tags:
+      - metadata
+      parameters:
+      - name: apiKey
+        in: query
+        description: Raw API key value to validate. Exactly one of apiKey or accessToken must be provided.
+        schema:
+          type: string
+      - name: accessToken
+        in: query
+        description: OAuth access token to validate. Exactly one of apiKey or accessToken must be provided.
+        schema:
+          type: string
+      - name: apiProductId
+        in: query
+        description: API product ID to check subscription for
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Credential validation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CredentialMetadataResponse'
+        '400':
+          description: Missing required query parameters
+components:
+  schemas:
+    CredentialMetadataResponse:
+      type: object
+      description: Response from credential metadata validation (internal endpoint used by ExtAuth)
+      required:
+      - allowed
+      properties:
+        allowed:
+          type: boolean
+          description: Whether the credential is valid and allowed
+        customMetadata:
+          type: object
+          description: Custom metadata associated with the credential
+          additionalProperties:
+            type: string
+        rateLimit:
+          $ref: '#/components/schemas/RateLimit'
+    RateLimit:
+      type: object
+      description: Rate limit configuration
+      required:
+      - requestsPerUnit
+      - unit
+      properties:
+        requestsPerUnit:
+          type: string
+          description: Number of requests allowed per unit
+        unit:
+          type: string
+          description: Time unit for rate limiting
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token passed in the Authorization header
+    identityToken:
+      type: apiKey
+      in: cookie
+      name: id_token
+      description: id_token cookie set by the identity provider after OIDC login
+    accessToken:
+      type: apiKey
+      in: cookie
+      name: access_token
+      description: access_token cookie set by the identity provider after OIDC login

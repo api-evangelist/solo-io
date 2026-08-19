@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Portal Backend Health API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "health",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Health check",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/healthz"
+          },
+          "docs": "Returns OK if the server is healthy"
+        },
+        {
+          "info": {
+            "name": "Readiness check",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/readyz"
+          },
+          "docs": "Returns OK if the server is ready to accept requests"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

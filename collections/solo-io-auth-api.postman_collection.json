@@ -1,0 +1,148 @@
+{
+  "item": [
+    {
+      "id": "676c28ec-3e73-421a-a425-736ebfadd751",
+      "name": "auth",
+      "description": {
+        "content": "Authentication redirect endpoints",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5d3105f6-1e04-4528-bada-04b8f7832fbe",
+          "name": "Login redirect",
+          "request": {
+            "name": "Login redirect",
+            "description": {
+              "content": "Redirects to the app root after successful OIDC authentication. The actual OIDC flow is handled by extauth.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "login"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1c755405-cdf1-4a6f-acd7-8f197a390b70",
+              "name": "Redirect to app root",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "login"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Found",
+              "code": 302,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8543f240-5edf-4e44-b3c8-d8529a178639",
+          "name": "Logout redirect",
+          "request": {
+            "name": "Logout redirect",
+            "description": {
+              "content": "Redirects to the app root after logout. The actual logout flow is handled by extauth.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "logout"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a41f90f2-e1b8-45a9-97fc-c775141273f6",
+              "name": "Redirect to app root",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "logout"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Found",
+              "code": 302,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "57b0d263-71e0-43ee-a9b5-5771311ecbd0",
+    "name": "Portal Backend Auth API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for the gateway developer portal backend server",
+      "type": "text/plain"
+    }
+  }
+}

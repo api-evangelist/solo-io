@@ -1,0 +1,472 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Solo Io Teams API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "teams",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List teams",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/teams",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a list of all teams"
+        },
+        {
+          "info": {
+            "name": "Create team",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/teams",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new team. The creator is automatically added as a member."
+        },
+        {
+          "info": {
+            "name": "Get team details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/teams/:teamID",
+            "params": [
+              {
+                "name": "teamID",
+                "value": "",
+                "type": "path",
+                "description": "Team ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns detailed information about a team including its members"
+        },
+        {
+          "info": {
+            "name": "Update team",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "/v1/teams/:teamID",
+            "params": [
+              {
+                "name": "teamID",
+                "value": "",
+                "type": "path",
+                "description": "Team ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Updates a team's name and description"
+        },
+        {
+          "info": {
+            "name": "Delete team",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "/v1/teams/:teamID",
+            "params": [
+              {
+                "name": "teamID",
+                "value": "",
+                "type": "path",
+                "description": "Team ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes a team and removes all member associations"
+        },
+        {
+          "info": {
+            "name": "List team apps",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/teams/:teamID/apps",
+            "params": [
+              {
+                "name": "teamID",
+                "value": "",
+                "type": "path",
+                "description": "Team ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns all applications belonging to a team"
+        },
+        {
+          "info": {
+            "name": "Create team app",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/teams/:teamID/apps",
+            "params": [
+              {
+                "name": "teamID",
+                "value": "",
+                "type": "path",
+                "description": "Team ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new application for a team"
+        },
+        {
+          "info": {
+            "name": "List team members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/teams/:teamID/members",
+            "params": [
+              {
+                "name": "teamID",
+                "value": "",
+                "type": "path",
+                "description": "Team ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns all members of a team with their user details"
+        },
+        {
+          "info": {
+            "name": "Add team member",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/teams/:teamID/members",
+            "params": [
+              {
+                "name": "teamID",
+                "value": "",
+                "type": "path",
+                "description": "Team ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Adds a user to a team by userId or email"
+        },
+        {
+          "info": {
+            "name": "Remove team member",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "/v1/teams/:teamID/members/:memberID",
+            "params": [
+              {
+                "name": "teamID",
+                "value": "",
+                "type": "path",
+                "description": "Team ID"
+              },
+              {
+                "name": "memberID",
+                "value": "",
+                "type": "path",
+                "description": "Team Member (User) ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Removes a user from a team"
+        },
+        {
+          "info": {
+            "name": "Gets a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/teams/:teamId",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the team"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Retrieve detailed information about a team by its ID"
+        },
+        {
+          "info": {
+            "name": "Updates a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "/v1/teams/:teamId",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the team"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Update an existing team"
+        },
+        {
+          "info": {
+            "name": "Deletes a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "/v1/teams/:teamId",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the team"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Delete a team.\n\nPrerequisite: All users and all apps associated with the team must be deleted before the team can be deleted."
+        },
+        {
+          "info": {
+            "name": "Lists all team apps",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/teams/:teamId/apps",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the team"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Retrieve all team applications"
+        },
+        {
+          "info": {
+            "name": "Creates an application",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/teams/:teamId/apps",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the team"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Creates an application"
+        },
+        {
+          "info": {
+            "name": "List of team users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/teams/:teamId/members",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the team"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Retrieve all team members"
+        },
+        {
+          "info": {
+            "name": "Adds a member to a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/teams/:teamId/members",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the team"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Assign a user as a member to the team. If the user doesn't exist within the system, an account will be automatically created and assigned.\nIn order for this change to take effect, the client-side application has to send a `PUT` request to the `/me` endpoint with the user's `id_token`, after they login.\n"
+        },
+        {
+          "info": {
+            "name": "Removes a member from a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "/v1/teams/:teamId/members/:userId",
+            "params": [
+              {
+                "name": "teamId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the team"
+              },
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the user to remove"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Remove user from the team. The user will lose access to the team and its apps.\nHowever, if he has access to the app credentials he can still use those.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

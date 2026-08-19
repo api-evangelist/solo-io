@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Portal Backend Auth API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "auth",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Login redirect",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/login"
+          },
+          "docs": "Redirects to the app root after successful OIDC authentication. The actual OIDC flow is handled by extauth."
+        },
+        {
+          "info": {
+            "name": "Logout redirect",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/logout"
+          },
+          "docs": "Redirects to the app root after logout. The actual logout flow is handled by extauth."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

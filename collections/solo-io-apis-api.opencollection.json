@@ -1,0 +1,148 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gloo Platform Portal AP Is API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "APIs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Lists APIs visible to the current user.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gloo-platform-portal.com/v1/apis",
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Lists the APIs that the developer portal is set up to expose, based on request parameters. By default, the developer portal has public visibility and returns all the APIs. You can also configure the developer portal to verify user authentication and authorization. If so, then this endpoint returns only the APIs that the current user has access to. You can check the current user with the /me endpoint."
+        },
+        {
+          "info": {
+            "name": "Gets the schema for an API.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gloo-platform-portal.com/v1/apis/:id/schema",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The API ID to get schema details for. To get the ID, use the GET /apis endpoint."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Gets the details of the schema for a specific API ID, if the API ID exists. When authentication and authorization are enforced, returns the schema only if the user has access to the API."
+        },
+        {
+          "info": {
+            "name": "Lists all usage plans for the developer portal.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gloo-platform-portal.com/v1/usage-plans",
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Returns a list of all available usage plans in the Portal. If you configured portal with public visibility, all usage plans are returned. If you configured portal to verify user identity or require users to have the correct access scope, the appropriate access and authorization is required."
+        },
+        {
+          "info": {
+            "name": "Lists API keys for the current user, filterable by usage plans or API IDs.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gloo-platform-portal.com/v1/api-keys",
+            "params": [
+              {
+                "name": "usagePlans",
+                "value": "",
+                "type": "query",
+                "description": "Optionally filter API keys by usage plan. To get the usage plan, use the GET /usage-plans endpoint."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Lists the API keys for the current user, filterable by usage plans or API IDs. A usage plan can have multiple API keys, which can each be tied to multiple API IDs. An API key belongs to only one usage plan. To check the current user, use the GET /me endpoint. To create an API key, use the POST /api-keys endpoint."
+        },
+        {
+          "info": {
+            "name": "Creates an API key for the current user for a specific API ID and usage plan.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.gloo-platform-portal.com/v1/api-keys",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Creates an API key for the current user for a specific API ID and usage plan. To check the current user, use the GET /me endpoint. If you have multiple APIs or usage plans that you want to create API keys for, send a request for each combination to this endpoint."
+        },
+        {
+          "info": {
+            "name": "Deletes the current user's API key(s) for a specified API ID.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.gloo-platform-portal.com/v1/api-keys/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The API Key ID (UUID) of key to be deleted. To get the API KEY ID (UUID), use the GET /api-keys endpoint."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "id_token",
+              "value": "{{id_token}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Deletes the current user's API key by API Key ID (UUID). To check the current user, use the GET /me endpoint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

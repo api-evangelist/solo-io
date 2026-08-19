@@ -1,0 +1,1012 @@
+{
+  "item": [
+    {
+      "id": "457a8b35-5f6d-470a-98b1-e5f3e261f3c8",
+      "name": "api-products",
+      "description": {
+        "content": "API product catalog endpoints",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "531de38c-dd1d-41bb-91d9-8051bbba066a",
+          "name": "List API products",
+          "request": {
+            "name": "List API products",
+            "description": {
+              "content": "Retrieve a list of all API products accessible by the user",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api-products"
+              ],
+              "host": [
+                "{{api-products-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cc2a60a9-3150-4d33-8166-968a810f67d1",
+              "name": "List of API products",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-products"
+                  ],
+                  "host": [
+                    "{{api-products-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"createdAt\": \"2019-07-30T09:16:38.759Z\",\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"versionsCount\": 5567,\n    \"updatedAt\": \"1947-05-31T18:33:48.890Z\",\n    \"description\": \"string\",\n    \"apiProductMetadata\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    }\n  },\n  {\n    \"createdAt\": \"2017-10-02T06:38:55.198Z\",\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"versionsCount\": 4438,\n    \"updatedAt\": \"2024-11-15T04:24:48.612Z\",\n    \"description\": \"string\",\n    \"apiProductMetadata\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "08b9e3f0-3a48-477e-893a-6ad06f920e96",
+              "name": "API products not loaded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-products"
+                  ],
+                  "host": [
+                    "{{api-products-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7c3fdf13-7297-4938-9052-c604cfc80046",
+          "name": "Get API product details",
+          "request": {
+            "name": "Get API product details",
+            "description": {
+              "content": "Returns detailed information about a specific API product",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api-products",
+                ":productID"
+              ],
+              "host": [
+                "{{api-products-productID-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "productID",
+                  "description": "(Required) API Product ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "404ab8b2-19f7-43e0-b845-c8d40d2b562c",
+              "name": "API product details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-products",
+                    ":productID"
+                  ],
+                  "host": [
+                    "{{api-products-productID-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productID",
+                      "description": "(Required) API Product ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"createdAt\": \"2025-12-25T11:19:25.966Z\",\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"updatedAt\": \"2006-10-15T04:08:29.176Z\",\n  \"description\": \"string\",\n  \"apiProductMetadata\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  },\n  \"contactEmail\": \"c1gRaWt@eOSKFB.ie\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "845d385b-5b6a-4ebf-84ae-156c1240fdd0",
+              "name": "Product not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-products",
+                    ":productID"
+                  ],
+                  "host": [
+                    "{{api-products-productID-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productID",
+                      "description": "(Required) API Product ID"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f954ccfe-a85f-4691-a4dc-1d8dae3a6245",
+              "name": "API products not loaded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-products",
+                    ":productID"
+                  ],
+                  "host": [
+                    "{{api-products-productID-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productID",
+                      "description": "(Required) API Product ID"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0acf57df-e24d-483f-8f25-154bb3423310",
+          "name": "List API product versions",
+          "request": {
+            "name": "List API product versions",
+            "description": {
+              "content": "Returns all versions of a specific API product including OpenAPI specs",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api-products",
+                ":productID",
+                "versions"
+              ],
+              "host": [
+                "{{api-products-productID-versions-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "productID",
+                  "description": "(Required) API Product ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "340407c4-ce47-4dae-acd1-073d1deb389f",
+              "name": "List of API product versions",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-products",
+                    ":productID",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{api-products-productID-versions-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productID",
+                      "description": "(Required) API Product ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"apiProductId\": \"string\",\n    \"createdAt\": \"1993-06-04T17:43:03.703Z\",\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"status\": \"deprecated\",\n    \"updatedAt\": \"2024-11-11T02:40:01.909Z\",\n    \"title\": \"string\",\n    \"documentation\": \"string\",\n    \"apiSpec\": {\n      \"key_0\": \"string\",\n      \"key_1\": 1582,\n      \"key_2\": \"string\"\n    },\n    \"apiSpecError\": \"string\"\n  },\n  {\n    \"apiProductId\": \"string\",\n    \"createdAt\": \"1960-07-13T02:46:11.388Z\",\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"status\": \"draft\",\n    \"updatedAt\": \"1995-12-31T16:06:18.890Z\",\n    \"title\": \"string\",\n    \"documentation\": \"string\",\n    \"apiSpec\": {\n      \"key_0\": 7115.02776720961\n    },\n    \"apiSpecError\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1a3887ab-0572-460e-aa31-664880fdbfbc",
+              "name": "API products not loaded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-products",
+                    ":productID",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{api-products-productID-versions-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productID",
+                      "description": "(Required) API Product ID"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "801b8840-7dca-45d7-bb10-34abc8a8a5cd",
+          "name": "Get Api Product By Id",
+          "request": {
+            "name": "Get Api Product By Id",
+            "description": {
+              "content": "Retrieve a specific API product by its ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api-products",
+                ":productId"
+              ],
+              "host": [
+                "{{api-products-productId-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "productId",
+                  "description": "(Required) The unique identifier of the API product."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1cbc6a21-c5a6-4f80-8551-1e2c08f9a4a1",
+              "name": "An API product object.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-products",
+                    ":productId"
+                  ],
+                  "host": [
+                    "{{api-products-productId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productId",
+                      "description": "(Required) The unique identifier of the API product."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"createdAt\": \"2021-08-25T20:00:00Z\",\n  \"deletedAt\": \"2021-08-25T20:00:00Z\",\n  \"id\": \"uuid\",\n  \"updatedAt\": \"2021-08-25T20:00:00Z\",\n  \"apiProductMetadata\": {},\n  \"contactEmail\": \"string\",\n  \"description\": \"string\",\n  \"name\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "32e652ca-edaa-4264-a2b5-db35fa691e9a",
+              "name": "Invalid request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-products",
+                    ":productId"
+                  ],
+                  "host": [
+                    "{{api-products-productId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productId",
+                      "description": "(Required) The unique identifier of the API product."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4b0c3694-de6a-4070-9602-f7ace3120114",
+              "name": "Unauthorized. The user's identity token is invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-products",
+                    ":productId"
+                  ],
+                  "host": [
+                    "{{api-products-productId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productId",
+                      "description": "(Required) The unique identifier of the API product."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3efbb9b1-27fc-4a7d-8dd1-3050acbccb7b",
+              "name": "Forbidden. The user's identity token is valid, but the user does not have permission to view the API product.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-products",
+                    ":productId"
+                  ],
+                  "host": [
+                    "{{api-products-productId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productId",
+                      "description": "(Required) The unique identifier of the API product."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2ad48c32-0191-4fef-8716-cecf5aaa69d5",
+              "name": "API Product not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-products",
+                    ":productId"
+                  ],
+                  "host": [
+                    "{{api-products-productId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productId",
+                      "description": "(Required) The unique identifier of the API product."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0a721a9d-c09f-41b4-afce-569c3e5d76f8",
+              "name": "Unexpected error fetching api product.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-products",
+                    ":productId"
+                  ],
+                  "host": [
+                    "{{api-products-productId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productId",
+                      "description": "(Required) The unique identifier of the API product."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9cdcdefc-ffad-4612-b842-aa80a52e4c06",
+          "name": "List Product Versions",
+          "request": {
+            "name": "List Product Versions",
+            "description": {
+              "content": "Retrieve all versions for a specific API product.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api-products",
+                ":productId",
+                "versions"
+              ],
+              "host": [
+                "{{api-products-productId-versions-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "productId",
+                  "description": "(Required) The unique identifier of the API product."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "519a33a3-8faa-468b-95fb-b6257418ea93",
+              "name": "A list of product versions for the specified API product.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-products",
+                    ":productId",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{api-products-productId-versions-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productId",
+                      "description": "(Required) The unique identifier of the API product."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"createdAt\": \"2021-08-25T20:00:00Z\",\n    \"deletedAt\": \"2021-08-25T20:00:00Z\",\n    \"id\": \"uuid\",\n    \"updatedAt\": \"2021-08-25T20:00:00Z\",\n    \"apiProductId\": \"string\",\n    \"apiSpec\": {},\n    \"documentation\": \"string\",\n    \"license\": \"string\",\n    \"name\": \"string\",\n    \"productVersionMetadata\": {},\n    \"termsOfService\": \"string\",\n    \"title\": \"string\"\n  },\n  {\n    \"createdAt\": \"2021-08-25T20:00:00Z\",\n    \"deletedAt\": \"2021-08-25T20:00:00Z\",\n    \"id\": \"uuid\",\n    \"updatedAt\": \"2021-08-25T20:00:00Z\",\n    \"apiProductId\": \"string\",\n    \"apiSpec\": {},\n    \"documentation\": \"string\",\n    \"license\": \"string\",\n    \"name\": \"string\",\n    \"productVersionMetadata\": {},\n    \"termsOfService\": \"string\",\n    \"title\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "731b5365-bde7-4d93-bf92-85018c61374c",
+              "name": "Invalid request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-products",
+                    ":productId",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{api-products-productId-versions-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productId",
+                      "description": "(Required) The unique identifier of the API product."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "aed27542-e991-4ffa-bdfa-8d40062f74c8",
+              "name": "Unauthorized. The user's identity token is invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-products",
+                    ":productId",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{api-products-productId-versions-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productId",
+                      "description": "(Required) The unique identifier of the API product."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "97fa3bde-d22a-4b0e-b377-1659186233cc",
+              "name": "Forbidden. The user's identity token is valid, but the user does not have permission to view the API product.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-products",
+                    ":productId",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{api-products-productId-versions-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productId",
+                      "description": "(Required) The unique identifier of the API product."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "bad9bc04-4db1-42d9-85e8-e9b5d9f2a915",
+              "name": "API Product not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-products",
+                    ":productId",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{api-products-productId-versions-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productId",
+                      "description": "(Required) The unique identifier of the API product."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "16105570-0a87-4e5d-99f2-31fb57db7124",
+              "name": "Unexpected error fetching api product.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api-products",
+                    ":productId",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{api-products-productId-versions-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productId",
+                      "description": "(Required) The unique identifier of the API product."
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/v1",
+      "key": "baseUrl"
+    },
+    {
+      "type": "string",
+      "value": "/v1",
+      "key": "api-products-Url"
+    },
+    {
+      "type": "string",
+      "value": "/v1",
+      "key": "api-products-productID-Url"
+    },
+    {
+      "type": "string",
+      "value": "/v1",
+      "key": "api-products-productID-versions-Url"
+    },
+    {
+      "type": "string",
+      "value": "http://portal.example.com/v1",
+      "key": "api-products-productId-Url"
+    },
+    {
+      "type": "string",
+      "value": "http://portal.example.com/v1",
+      "key": "api-products-productId-versions-Url"
+    }
+  ],
+  "info": {
+    "_postman_id": "e2c81c74-abd7-4e98-9d8b-44ca165fb084",
+    "name": "Solo Io API Products API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Operations tagged api-products across 2 of this provider's published API definitions: solo-io-portal-backend-openapi.yml, solo-io-portal-server-openapi.yml. Each path carries the servers of the definition it was published in.",
+      "type": "text/plain"
+    }
+  }
+}

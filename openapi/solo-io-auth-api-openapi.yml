@@ -1,0 +1,48 @@
+openapi: 3.2.0
+info:
+  title: Portal Backend Auth API
+  description: API for the gateway developer portal backend server
+  version: 1.0.0
+servers:
+- url: /v1
+  description: API v1 base path
+tags:
+- name: auth
+  description: Authentication redirect endpoints
+paths:
+  /login:
+    get:
+      summary: Login redirect
+      description: Redirects to the app root after successful OIDC authentication. The actual OIDC flow is handled by extauth.
+      operationId: LoginRedirect
+      tags:
+      - auth
+      responses:
+        '302':
+          description: Redirect to app root
+  /logout:
+    get:
+      summary: Logout redirect
+      description: Redirects to the app root after logout. The actual logout flow is handled by extauth.
+      operationId: LogoutRedirect
+      tags:
+      - auth
+      responses:
+        '302':
+          description: Redirect to app root
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token passed in the Authorization header
+    identityToken:
+      type: apiKey
+      in: cookie
+      name: id_token
+      description: id_token cookie set by the identity provider after OIDC login
+    accessToken:
+      type: apiKey
+      in: cookie
+      name: access_token
+      description: access_token cookie set by the identity provider after OIDC login

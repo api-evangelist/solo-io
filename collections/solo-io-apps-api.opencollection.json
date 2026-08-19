@@ -1,0 +1,372 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Portal Backend Apps API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "apps",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List team apps",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/teams/:teamID/apps",
+            "params": [
+              {
+                "name": "teamID",
+                "value": "",
+                "type": "path",
+                "description": "Team ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns all applications belonging to a team"
+        },
+        {
+          "info": {
+            "name": "Create team app",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/teams/:teamID/apps",
+            "params": [
+              {
+                "name": "teamID",
+                "value": "",
+                "type": "path",
+                "description": "Team ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new application for a team"
+        },
+        {
+          "info": {
+            "name": "Get app details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/apps/:appID",
+            "params": [
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns detailed information about an application"
+        },
+        {
+          "info": {
+            "name": "Update app",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "/v1/apps/:appID",
+            "params": [
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Updates an application's name and description"
+        },
+        {
+          "info": {
+            "name": "Delete app",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "/v1/apps/:appID",
+            "params": [
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes an application and all associated resources (subscriptions, API keys, OAuth credentials)"
+        },
+        {
+          "info": {
+            "name": "Set app metadata (Admin)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/apps/:appID/metadata",
+            "params": [
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Sets rate limit and custom metadata on an application. Requires admin privileges."
+        },
+        {
+          "info": {
+            "name": "List app subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/apps/:appID/subscriptions",
+            "params": [
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns all subscriptions for an application"
+        },
+        {
+          "info": {
+            "name": "Create app subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/apps/:appID/subscriptions",
+            "params": [
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new subscription for an application to an API product. The subscription starts in pending status."
+        },
+        {
+          "info": {
+            "name": "Delete app subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "/v1/apps/:appID/subscriptions/:subscriptionID",
+            "params": [
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              },
+              {
+                "name": "subscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Subscription ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes a subscription from an application"
+        },
+        {
+          "info": {
+            "name": "List app API keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/apps/:appID/api-keys",
+            "params": [
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns all API keys for an application (without the actual key values)"
+        },
+        {
+          "info": {
+            "name": "Create app API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/apps/:appID/api-keys",
+            "params": [
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new API key for an application. The raw API key value is only returned once at creation time."
+        },
+        {
+          "info": {
+            "name": "Delete app API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "/v1/apps/:appID/api-keys/:keyID",
+            "params": [
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              },
+              {
+                "name": "keyID",
+                "value": "",
+                "type": "path",
+                "description": "API Key ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes an API key from an application"
+        },
+        {
+          "info": {
+            "name": "Get app OAuth credential",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/apps/:appID/oauth-credentials",
+            "params": [
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns the OAuth credential for an application (without the client secret)"
+        },
+        {
+          "info": {
+            "name": "Create app OAuth credential",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/apps/:appID/oauth-credentials",
+            "params": [
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new OAuth credential for an application. The client secret is only returned once at creation time."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

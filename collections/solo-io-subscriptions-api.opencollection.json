@@ -1,0 +1,218 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Solo Io Subscriptions API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subscriptions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List app subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/apps/:appID/subscriptions",
+            "params": [
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns all subscriptions for an application"
+        },
+        {
+          "info": {
+            "name": "Create app subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/apps/:appID/subscriptions",
+            "params": [
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new subscription for an application to an API product. The subscription starts in pending status."
+        },
+        {
+          "info": {
+            "name": "Delete app subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "/v1/apps/:appID/subscriptions/:subscriptionID",
+            "params": [
+              {
+                "name": "appID",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              },
+              {
+                "name": "subscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Subscription ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes a subscription from an application"
+        },
+        {
+          "info": {
+            "name": "List all subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/subscriptions",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter subscriptions by status"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns all subscriptions across all apps. Optionally filtered by status."
+        },
+        {
+          "info": {
+            "name": "Delete subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "/v1/subscriptions/:subscriptionID",
+            "params": [
+              {
+                "name": "subscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Subscription ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes a subscription by ID"
+        },
+        {
+          "info": {
+            "name": "Set subscription metadata (Admin)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/subscriptions/:subscriptionID/metadata",
+            "params": [
+              {
+                "name": "subscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Subscription ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Sets rate limit and custom metadata on a subscription. Requires admin privileges."
+        },
+        {
+          "info": {
+            "name": "Approve or reject subscription (Admin)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/v1/subscriptions/:subscriptionID/:action",
+            "params": [
+              {
+                "name": "subscriptionID",
+                "value": "",
+                "type": "path",
+                "description": "Subscription ID"
+              },
+              {
+                "name": "action",
+                "value": "",
+                "type": "path",
+                "description": "Action to perform on the subscription"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Approves or rejects a pending subscription. Requires admin privileges."
+        },
+        {
+          "info": {
+            "name": "Delete subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "/v1/subscriptions/:subscriptionId",
+            "params": [
+              {
+                "name": "subscriptionId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the subscription to delete."
+              }
+            ]
+          },
+          "docs": "Deletes a subscription, revoking the associated application's access to the specified API product."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

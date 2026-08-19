@@ -1,0 +1,333 @@
+openapi: 3.2.0
+info:
+  title: Solo Io API Products API
+  version: 1.0.0
+  description: 'Operations tagged api-products across 2 of this provider''s published API definitions: solo-io-portal-backend-openapi.yml, solo-io-portal-server-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+  description: API v1 base path
+- url: http://portal.example.com/v1
+tags:
+- name: api-products
+  description: API product catalog endpoints
+paths:
+  /api-products:
+    servers:
+    - url: /v1
+      description: API v1 base path
+    get:
+      summary: List API products
+      description: Retrieve a list of all API products accessible by the user
+      operationId: ListApiProducts
+      tags:
+      - api-products
+      responses:
+        '200':
+          description: List of API products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApiProductSummary'
+        '503':
+          description: API products not loaded
+  /api-products/{productID}:
+    servers:
+    - url: /v1
+      description: API v1 base path
+    get:
+      summary: Get API product details
+      description: Returns detailed information about a specific API product
+      operationId: GetApiProduct
+      tags:
+      - api-products
+      parameters:
+      - name: productID
+        in: path
+        description: API Product ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: API product details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiProductDetails'
+        '404':
+          description: Product not found
+        '503':
+          description: API products not loaded
+  /api-products/{productID}/versions:
+    servers:
+    - url: /v1
+      description: API v1 base path
+    get:
+      summary: List API product versions
+      description: Returns all versions of a specific API product including OpenAPI specs
+      operationId: ListApiProductVersions
+      tags:
+      - api-products
+      parameters:
+      - name: productID
+        in: path
+        description: API Product ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of API product versions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApiProductVersion'
+        '503':
+          description: API products not loaded
+  /api-products/{productId}:
+    servers:
+    - url: http://portal.example.com/v1
+    get:
+      description: Retrieve a specific API product by its ID.
+      operationId: GetApiProductById
+      parameters:
+      - description: The unique identifier of the API product.
+        in: path
+        name: productId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIProduct'
+          description: An API product object.
+        '400':
+          description: Invalid request parameters.
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user does not have permission to view the API product.
+        '404':
+          description: API Product not found.
+        '500':
+          description: Unexpected error fetching api product.
+      tags:
+      - api-products
+  /api-products/{productId}/versions:
+    servers:
+    - url: http://portal.example.com/v1
+    get:
+      description: Retrieve all versions for a specific API product.
+      operationId: ListProductVersions
+      parameters:
+      - description: The unique identifier of the API product.
+        in: path
+        name: productId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ProductVersion'
+                type: array
+          description: A list of product versions for the specified API product.
+        '400':
+          description: Invalid request parameters.
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user does not have permission to view the API product.
+        '404':
+          description: API Product not found.
+        '500':
+          description: Unexpected error fetching api product.
+      tags:
+      - api-products
+components:
+  schemas:
+    ApiProductSummary:
+      description: API product summary for listing
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - name
+        - versionsCount
+        properties:
+          name:
+            type: string
+            description: API product display name
+          description:
+            type: string
+            description: API product description
+          apiProductMetadata:
+            type: object
+            description: Custom metadata for the API product
+            additionalProperties:
+              type: string
+          versionsCount:
+            type: integer
+            description: Number of versions available
+    ApiProductDetails:
+      description: API product detailed information
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - name
+        properties:
+          name:
+            type: string
+            description: API product display name
+          description:
+            type: string
+            description: API product description
+          apiProductMetadata:
+            type: object
+            description: Custom metadata for the API product
+            additionalProperties:
+              type: string
+          contactEmail:
+            type: string
+            format: email
+            description: Contact email for the API product
+    BaseEntity_2:
+      properties:
+        createdAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        deletedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          example: uuid
+          readOnly: true
+          type: string
+        updatedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+    APIProduct:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - properties:
+          apiProductMetadata:
+            description: Metadata for the API product.
+            type: object
+          contactEmail:
+            type: string
+          description:
+            type: string
+          name:
+            type: string
+        type: object
+    ApiProductVersion:
+      description: API product version with OpenAPI spec
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - apiProductId
+        - name
+        - status
+        properties:
+          apiProductId:
+            type: string
+            description: Parent API product ID
+          name:
+            type: string
+            description: Version name
+          title:
+            type: string
+            description: Version title
+          documentation:
+            type: string
+            description: Version documentation/description
+          status:
+            type: string
+            description: Publication status
+            enum:
+            - published
+            - draft
+            - deprecated
+          apiSpec:
+            type: object
+            description: OpenAPI specification document
+            additionalProperties: true
+          apiSpecError:
+            type: string
+            description: Error message if API spec could not be loaded
+    BaseEntity:
+      type: object
+      description: Base entity with common fields
+      required:
+      - id
+      - createdAt
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was last updated
+    ProductVersion:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - properties:
+          apiProductId:
+            type: string
+          apiSpec:
+            type: object
+          documentation:
+            type: string
+          license:
+            type: string
+          name:
+            type: string
+          productVersionMetadata:
+            description: Metadata for the API product version.
+            type: object
+          termsOfService:
+            type: string
+          title:
+            type: string
+        type: object
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token passed in the Authorization header
+    identityToken:
+      type: apiKey
+      in: cookie
+      name: id_token
+      description: id_token cookie set by the identity provider after OIDC login
+    accessToken:
+      type: apiKey
+      in: cookie
+      name: access_token
+      description: access_token cookie set by the identity provider after OIDC login
+x-refined-from:
+- solo-io-portal-backend-openapi.yml
+- solo-io-portal-server-openapi.yml

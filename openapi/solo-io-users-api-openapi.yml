@@ -1,0 +1,138 @@
+openapi: 3.2.0
+info:
+  title: Portal Backend Users API
+  description: API for the gateway developer portal backend server
+  version: 1.0.0
+servers:
+- url: /v1
+  description: API v1 base path
+tags:
+- name: users
+  description: User management endpoints
+paths:
+  /me:
+    get:
+      summary: Get current user
+      description: Returns the authenticated user's information. Creates a new user record if this is the first access.
+      operationId: GetCurrentUser
+      tags:
+      - users
+      security:
+      - bearerAuth: []
+      - identityToken: []
+      - accessToken: []
+      responses:
+        '200':
+          description: Current user information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Authentication required
+        '500':
+          description: Internal server error
+    put:
+      summary: Update current user
+      description: Updates the authenticated user's information
+      operationId: UpdateCurrentUser
+      tags:
+      - users
+      security:
+      - bearerAuth: []
+      - identityToken: []
+      - accessToken: []
+      responses:
+        '200':
+          description: Updated user information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Authentication required
+        '500':
+          description: Internal server error
+  /users:
+    get:
+      summary: List users
+      description: Returns a list of all registered users
+      operationId: ListUsers
+      tags:
+      - users
+      security:
+      - bearerAuth: []
+      - identityToken: []
+      - accessToken: []
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          description: Authentication required
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    BaseEntity:
+      type: object
+      description: Base entity with common fields
+      required:
+      - id
+      - createdAt
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was last updated
+    User:
+      description: User account information
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - email
+        - name
+        - username
+        - isAdmin
+        properties:
+          email:
+            type: string
+            format: email
+            description: User's email address
+          name:
+            type: string
+            description: User's display name
+          username:
+            type: string
+            description: Username
+          isAdmin:
+            type: boolean
+            description: Whether the user has admin privileges
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token passed in the Authorization header
+    identityToken:
+      type: apiKey
+      in: cookie
+      name: id_token
+      description: id_token cookie set by the identity provider after OIDC login
+    accessToken:
+      type: apiKey
+      in: cookie
+      name: access_token
+      description: access_token cookie set by the identity provider after OIDC login

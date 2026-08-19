@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Portal Backend Metadata API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "metadata",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get credential metadata (Internal)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/v1/metadata",
+            "params": [
+              {
+                "name": "apiKey",
+                "value": "",
+                "type": "query",
+                "description": "Raw API key value to validate. Exactly one of apiKey or accessToken must be provided."
+              },
+              {
+                "name": "accessToken",
+                "value": "",
+                "type": "query",
+                "description": "OAuth access token to validate. Exactly one of apiKey or accessToken must be provided."
+              },
+              {
+                "name": "apiProductId",
+                "value": "",
+                "type": "query",
+                "description": "API product ID to check subscription for"
+              }
+            ]
+          },
+          "docs": "Internal endpoint used by ExtAuth to validate API keys and access tokens. Returns whether the credential is allowed and any associated metadata.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

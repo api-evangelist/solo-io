@@ -1,0 +1,115 @@
+openapi: 3.2.0
+info:
+  title: Gloo Portal Server Me API
+  version: 1.0.0
+  description: Review the following reference documentation for the Gloo portal server APIs, which has the endpoint specifications for managing user access to both the developer portal and resources exposed by the portal. You can use these APIs to build your own frontend application. Be sure to update the server URL to the host that you exposed the backend portal server on, such as portal.example.com. For a sample app, refer to the Gloo Portal product documentation and GitHub repo https://github.com/solo-io/dev-portal-starter.
+servers:
+- url: http://portal.example.com/v1
+tags:
+- name: Me
+paths:
+  /me:
+    get:
+      description: Looks up the user for the current session. Returns your user information if the user session exists and is not expired. You might use this endpoint to confirm your identity before performing other actions for the developer portal, like issuing an API key.
+      operationId: GetCurrentUser
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: Successfully got user information.
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '403':
+          description: Forbidden. The user's identity token is valid, but the user has missing claims required by this method.
+        '404':
+          description: User not found.
+        '500':
+          description: Internal server error. Try again in a few moments.
+      security:
+      - identityToken: []
+      - {}
+      summary: Gets the user for the current session.
+      tags:
+      - Me
+    put:
+      description: 'Upsert current user with the information encoded in the id token.
+
+        It is recommended to call this endpoint after the user logs in to the portal to ensure that the data is up to date.
+
+        '
+      operationId: UpsertCurrentUser
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: Successfully updated the user details
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: Successfully created the user details
+        '401':
+          description: Unauthorized. The user's identity token is invalid.
+        '500':
+          description: Unexpected error creating the user
+      security:
+      - identityToken: []
+      summary: Upserts the current user
+      tags:
+      - Me
+components:
+  schemas:
+    BaseEntity:
+      properties:
+        createdAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        deletedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          example: uuid
+          readOnly: true
+          type: string
+        updatedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+    User:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - properties:
+          email:
+            example: johndoe@email.com
+            type: string
+          isAdmin:
+            example: false
+            type: boolean
+          name:
+            example: John Doe
+            type: string
+          synced:
+            example: true
+            type: boolean
+          username:
+            example: johndoe
+            type: string
+        required:
+        - email
+        type: object
+  securitySchemes:
+    identityToken:
+      description: id token cookie from the identity provider used to authenticate the user
+      in: cookie
+      name: id_token
+      type: apiKey

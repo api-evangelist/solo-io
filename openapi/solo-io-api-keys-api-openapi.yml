@@ -1,0 +1,238 @@
+openapi: 3.2.0
+info:
+  title: Portal Backend API Keys API
+  description: API for the gateway developer portal backend server
+  version: 1.0.0
+servers:
+- url: /v1
+  description: API v1 base path
+tags:
+- name: api-keys
+  description: API key management endpoints
+paths:
+  /apps/{appID}/api-keys:
+    get:
+      summary: List app API keys
+      description: Returns all API keys for an application (without the actual key values)
+      operationId: ListAppApiKeys
+      tags:
+      - api-keys
+      security:
+      - bearerAuth: []
+      - identityToken: []
+      - accessToken: []
+      parameters:
+      - name: appID
+        in: path
+        description: Application ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of API keys
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApiKey'
+        '401':
+          description: Authentication required
+        '404':
+          description: App not found
+        '500':
+          description: Internal server error
+    post:
+      summary: Create app API key
+      description: Creates a new API key for an application. The raw API key value is only returned once at creation time.
+      operationId: CreateAppApiKey
+      tags:
+      - api-keys
+      security:
+      - bearerAuth: []
+      - identityToken: []
+      - accessToken: []
+      parameters:
+      - name: appID
+        in: path
+        description: Application ID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApiKeyRequest'
+      responses:
+        '201':
+          description: API key created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyWithSecret'
+        '400':
+          description: Invalid request - apiKeyName required
+        '401':
+          description: Authentication required
+        '404':
+          description: App not found
+        '409':
+          description: API key already exists
+        '500':
+          description: Internal server error
+  /apps/{appID}/api-keys/{keyID}:
+    delete:
+      summary: Delete app API key
+      description: Deletes an API key from an application
+      operationId: DeleteAppApiKey
+      tags:
+      - api-keys
+      security:
+      - bearerAuth: []
+      - identityToken: []
+      - accessToken: []
+      parameters:
+      - name: appID
+        in: path
+        description: Application ID
+        required: true
+        schema:
+          type: string
+      - name: keyID
+        in: path
+        description: API Key ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: API key deleted
+        '401':
+          description: Authentication required
+        '500':
+          description: Internal server error
+  /api-keys/{keyID}:
+    delete:
+      summary: Delete API key
+      description: Deletes an API key by ID
+      operationId: DeleteApiKey
+      tags:
+      - api-keys
+      security:
+      - bearerAuth: []
+      - identityToken: []
+      - accessToken: []
+      parameters:
+      - name: keyID
+        in: path
+        description: API Key ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: API key deleted
+        '401':
+          description: Authentication required
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    BaseEntity:
+      type: object
+      description: Base entity with common fields
+      required:
+      - id
+      - createdAt
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was last updated
+    ApiKeyWithSecret:
+      description: API key with the actual key value (only returned at creation time)
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - appId
+        - name
+        - apiKey
+        properties:
+          appId:
+            type: string
+            description: ID of the application this key belongs to
+          name:
+            type: string
+            description: Display name for the API key
+          apiKey:
+            type: string
+            description: The raw API key value (only returned at creation time)
+          metadata:
+            type: object
+            description: Custom metadata for the API key
+            additionalProperties:
+              type: string
+    ApiKey:
+      description: API key information (without the actual key value)
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - appId
+        - name
+        properties:
+          appId:
+            type: string
+            description: ID of the application this key belongs to
+          name:
+            type: string
+            description: Display name for the API key
+          expiresAt:
+            type: string
+            format: date-time
+            description: Timestamp when the key expires
+          metadata:
+            type: object
+            description: Custom metadata for the API key
+            additionalProperties:
+              type: string
+    CreateApiKeyRequest:
+      type: object
+      description: Request body for creating an API key
+      required:
+      - apiKeyName
+      properties:
+        apiKeyName:
+          type: string
+          description: Display name for the API key
+        metadata:
+          type: object
+          description: Custom metadata for the API key
+          additionalProperties:
+            type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token passed in the Authorization header
+    identityToken:
+      type: apiKey
+      in: cookie
+      name: id_token
+      description: id_token cookie set by the identity provider after OIDC login
+    accessToken:
+      type: apiKey
+      in: cookie
+      name: access_token
+      description: access_token cookie set by the identity provider after OIDC login
