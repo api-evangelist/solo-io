@@ -39,6 +39,19 @@ tags:
 - Envoy
 - AI Gateway
 - Agentic AI
+- MCP
+- Developer Portal
+- Cloud-Native
+- Open-Source
+tags_raw:
+- Company
+- API Gateway
+- Service Mesh
+- Kubernetes
+- Istio
+- Envoy
+- AI Gateway
+- Agentic AI
 - Model Context Protocol
 - Developer Portal
 - Cloud Native
@@ -50,6 +63,8 @@ apis:
   humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
   baseURL: https://portal.example.com/v1
   tags:
+  - APIKeys
+  tags_raw:
   - api-keys
   properties:
   - type: OpenAPI
@@ -70,6 +85,8 @@ apis:
   humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
   baseURL: https://portal.example.com/v1
   tags:
+  - API Products
+  tags_raw:
   - api-products
   properties:
   - type: OpenAPI
@@ -89,7 +106,8 @@ apis:
   description: The APIs API from Solo.io — 5 operation(s) for apis.
   humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
   baseURL: https://portal.example.com/v1
-  tags:
+  tags: []
+  tags_raw:
   - APIs
   properties:
   - type: OpenAPI
@@ -110,6 +128,8 @@ apis:
   humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
   baseURL: https://portal.example.com/v1
   tags:
+  - Application
+  tags_raw:
   - Applications
   properties:
   - type: OpenAPI
@@ -130,6 +150,8 @@ apis:
   humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
   baseURL: https://portal.example.com/v1
   tags:
+  - Application
+  tags_raw:
   - apps
   properties:
   - type: OpenAPI
@@ -150,6 +172,8 @@ apis:
   humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
   baseURL: https://portal.example.com/v1
   tags:
+  - Authentication
+  tags_raw:
   - auth
   properties:
   - type: OpenAPI
@@ -170,6 +194,8 @@ apis:
   humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
   baseURL: https://portal.example.com/v1
   tags:
+  - Health
+  tags_raw:
   - health
   properties:
   - type: OpenAPI
@@ -210,6 +236,8 @@ apis:
   humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
   baseURL: https://portal.example.com/v1
   tags:
+  - Metadata
+  tags_raw:
   - metadata
   properties:
   - type: OpenAPI
@@ -250,6 +278,8 @@ apis:
   humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
   baseURL: https://portal.example.com/v1
   tags:
+  - Subscription
+  tags_raw:
   - subscriptions
   properties:
   - type: OpenAPI
@@ -270,6 +300,8 @@ apis:
   humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
   baseURL: https://portal.example.com/v1
   tags:
+  - Team
+  tags_raw:
   - teams
   properties:
   - type: OpenAPI
@@ -310,6 +342,8 @@ apis:
   humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
   baseURL: https://portal.example.com/v1
   tags:
+  - User
+  tags_raw:
   - users
   properties:
   - type: OpenAPI
@@ -330,6 +364,8 @@ apis:
   humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
   baseURL: https://portal.example.com/v1
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
