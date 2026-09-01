@@ -85,7 +85,7 @@ apis:
   humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
   baseURL: https://portal.example.com/v1
   tags:
-  - api-products
+  - API Products
   tags_raw:
   - api-products
   properties:
