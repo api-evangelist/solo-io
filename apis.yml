@@ -24,6 +24,21 @@ deliveryModel:
   - pricing
   generated: '2026-08-28'
   method: derived
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: medium
+  try_now_blocked_by: example-domain
+  source:
+  - plans
+  - authentication
+  - security
+  generated: '2026-09-03'
+  method: derived
 image: https://cdn.prod.website-files.com/66dba20a96c0aa281999f399/6704540db9215a5c14c38c6c_Webclip.png
 x-type: company
 x-source: harvest:secondary-market
