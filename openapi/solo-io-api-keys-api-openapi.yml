@@ -159,30 +159,6 @@ components:
           type: string
           format: date-time
           description: Timestamp when the entity was last updated
-    ApiKeyWithSecret:
-      description: API key with the actual key value (only returned at creation time)
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - type: object
-        required:
-        - appId
-        - name
-        - apiKey
-        properties:
-          appId:
-            type: string
-            description: ID of the application this key belongs to
-          name:
-            type: string
-            description: Display name for the API key
-          apiKey:
-            type: string
-            description: The raw API key value (only returned at creation time)
-          metadata:
-            type: object
-            description: Custom metadata for the API key
-            additionalProperties:
-              type: string
     ApiKey:
       description: API key information (without the actual key value)
       allOf:
@@ -202,6 +178,30 @@ components:
             type: string
             format: date-time
             description: Timestamp when the key expires
+          metadata:
+            type: object
+            description: Custom metadata for the API key
+            additionalProperties:
+              type: string
+    ApiKeyWithSecret:
+      description: API key with the actual key value (only returned at creation time)
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - appId
+        - name
+        - apiKey
+        properties:
+          appId:
+            type: string
+            description: ID of the application this key belongs to
+          name:
+            type: string
+            description: Display name for the API key
+          apiKey:
+            type: string
+            description: The raw API key value (only returned at creation time)
           metadata:
             type: object
             description: Custom metadata for the API key

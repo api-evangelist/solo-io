@@ -156,29 +156,20 @@ paths:
       - api-products
 components:
   schemas:
-    ApiProductSummary:
-      description: API product summary for listing
+    APIProduct:
       allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - type: object
-        required:
-        - name
-        - versionsCount
-        properties:
-          name:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - properties:
+          apiProductMetadata:
+            description: Metadata for the API product.
+            type: object
+          contactEmail:
             type: string
-            description: API product display name
           description:
             type: string
-            description: API product description
-          apiProductMetadata:
-            type: object
-            description: Custom metadata for the API product
-            additionalProperties:
-              type: string
-          versionsCount:
-            type: integer
-            description: Number of versions available
+          name:
+            type: string
+        type: object
     ApiProductDetails:
       description: API product detailed information
       allOf:
@@ -202,41 +193,6 @@ components:
             type: string
             format: email
             description: Contact email for the API product
-    BaseEntity_2:
-      properties:
-        createdAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-        deletedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-        id:
-          example: uuid
-          readOnly: true
-          type: string
-        updatedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-    APIProduct:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity_2'
-      - properties:
-          apiProductMetadata:
-            description: Metadata for the API product.
-            type: object
-          contactEmail:
-            type: string
-          description:
-            type: string
-          name:
-            type: string
-        type: object
     ApiProductVersion:
       description: API product version with OpenAPI spec
       allOf:
@@ -273,24 +229,29 @@ components:
           apiSpecError:
             type: string
             description: Error message if API spec could not be loaded
-    BaseEntity:
-      type: object
-      description: Base entity with common fields
-      required:
-      - id
-      - createdAt
-      properties:
-        id:
-          type: string
-          description: Unique identifier
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the entity was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the entity was last updated
+    ApiProductSummary:
+      description: API product summary for listing
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - name
+        - versionsCount
+        properties:
+          name:
+            type: string
+            description: API product display name
+          description:
+            type: string
+            description: API product description
+          apiProductMetadata:
+            type: object
+            description: Custom metadata for the API product
+            additionalProperties:
+              type: string
+          versionsCount:
+            type: integer
+            description: Number of versions available
     ProductVersion:
       allOf:
       - $ref: '#/components/schemas/BaseEntity_2'
@@ -313,6 +274,45 @@ components:
           title:
             type: string
         type: object
+    BaseEntity:
+      type: object
+      description: Base entity with common fields
+      required:
+      - id
+      - createdAt
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was last updated
+    BaseEntity_2:
+      properties:
+        createdAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        deletedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          example: uuid
+          readOnly: true
+          type: string
+        updatedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

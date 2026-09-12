@@ -302,6 +302,31 @@ paths:
       - subscriptions
 components:
   schemas:
+    SubscriptionStatus:
+      type: string
+      description: Subscription status
+      enum:
+      - pending
+      - approved
+      - rejected
+    BaseEntity:
+      type: object
+      description: Base entity with common fields
+      required:
+      - id
+      - createdAt
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was last updated
     CreateSubscriptionRequest:
       type: object
       description: Request body for creating a subscription
@@ -311,30 +336,6 @@ components:
         apiProductId:
           type: string
           description: ID of the API product to subscribe to
-    ResourceMetadata:
-      type: object
-      description: Metadata attached to a resource (app or subscription) including rate limits and custom key-value pairs
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          description: Metadata record ID (resource ID + "-metadata" suffix)
-        customMetadata:
-          type: object
-          description: Custom metadata key-value pairs
-          additionalProperties:
-            type: string
-        rateLimit:
-          $ref: '#/components/schemas/RateLimit'
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the parent resource was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the parent resource was last updated
     Subscription:
       description: Subscription to an API product
       allOf:
@@ -395,31 +396,30 @@ components:
           - DAY
           - MONTH
           - YEAR
-    SubscriptionStatus:
-      type: string
-      description: Subscription status
-      enum:
-      - pending
-      - approved
-      - rejected
-    BaseEntity:
+    ResourceMetadata:
       type: object
-      description: Base entity with common fields
+      description: Metadata attached to a resource (app or subscription) including rate limits and custom key-value pairs
       required:
       - id
-      - createdAt
       properties:
         id:
           type: string
-          description: Unique identifier
+          description: Metadata record ID (resource ID + "-metadata" suffix)
+        customMetadata:
+          type: object
+          description: Custom metadata key-value pairs
+          additionalProperties:
+            type: string
+        rateLimit:
+          $ref: '#/components/schemas/RateLimit'
         createdAt:
           type: string
           format: date-time
-          description: Timestamp when the entity was created
+          description: Timestamp when the parent resource was created
         updatedAt:
           type: string
           format: date-time
-          description: Timestamp when the entity was last updated
+          description: Timestamp when the parent resource was last updated
   securitySchemes:
     bearerAuth:
       type: http

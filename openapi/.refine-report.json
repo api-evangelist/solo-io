@@ -38,21 +38,6 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "solo-io-api-keys-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "solo-io-api-products-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "solo-io-apis-api-openapi.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
-    "solo-io-applications-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "solo-io-apps-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "solo-io-auth-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "solo-io-health-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "solo-io-me-api-openapi.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
-    "solo-io-metadata-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "solo-io-oauth-credentials-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "solo-io-subscriptions-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "solo-io-teams-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "solo-io-user-api-openapi.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
-    "solo-io-users-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "solo-io-webhooks-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
   "skipped": []

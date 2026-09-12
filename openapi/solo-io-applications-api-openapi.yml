@@ -470,42 +470,6 @@ paths:
       - Applications
 components:
   schemas:
-    ApplicationMetadata:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - properties:
-          customMetadata:
-            example:
-              key: value
-            type: object
-          rateLimit:
-            $ref: '#/components/schemas/RateLimit'
-        type: object
-    Application:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - properties:
-          description:
-            example: app description
-            type: string
-          metadata:
-            $ref: '#/components/schemas/ApplicationMetadata'
-          name:
-            example: app
-            type: string
-          teamId:
-            example: 2frepq0mjp841i3jfd030dhtmn
-            readOnly: true
-            type: string
-        type: object
-    ApplicationUpdate:
-      properties:
-        description:
-          example: the app description
-          type: string
-        name:
-          example: app
-          type: string
     SubscriptionMetadata:
       allOf:
       - $ref: '#/components/schemas/BaseEntity'
@@ -517,20 +481,84 @@ components:
           rateLimit:
             $ref: '#/components/schemas/RateLimit'
         type: object
-    Error:
-      required:
-      - code
-      - message
-      - reason
+    APIKey:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - properties:
+          apiKey:
+            description: Is returned only once when the API key is created
+            example: 4f357f4f-cd56-41d2-aca8-301c999bb8a4
+            type: string
+          id:
+            example: ae8261d2-4e16-4a06-b1f3-1af71464a8dd
+            type: string
+          metadata:
+            example:
+              key: value
+            type: object
+          name:
+            example: api-key-name-1
+            type: string
+        type: object
+    OAuthCredential:
       properties:
-        code:
-          type: integer
-        message:
+        id:
+          example: uuid
+          readOnly: true
           type: string
-          example: Status Code Message
-        reason:
+        idpClientId:
+          example: generated-client-id
+          readOnly: true
           type: string
-          example: Error reason
+        idpClientName:
+          example: client-name
+          readOnly: true
+          type: string
+        idpClientSecret:
+          example: generated-client-secret
+          readOnly: true
+          type: string
+      type: object
+    BaseEntity:
+      properties:
+        createdAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        deletedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          example: uuid
+          readOnly: true
+          type: string
+        updatedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+    ApplicationMetadata:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - properties:
+          customMetadata:
+            example:
+              key: value
+            type: object
+          rateLimit:
+            $ref: '#/components/schemas/RateLimit'
+        type: object
+    SubscriptionCreate:
+      properties:
+        apiProductId:
+          description: The API Product ID that we are subscribing to
+          type: string
+      required:
+      - apiProductId
+      type: object
     Subscription:
       allOf:
       - $ref: '#/components/schemas/BaseEntity'
@@ -568,47 +596,13 @@ components:
             readOnly: true
             type: string
         type: object
-    SubscriptionCreate:
+    ApplicationUpdate:
       properties:
-        apiProductId:
-          description: The API Product ID that we are subscribing to
+        description:
+          example: the app description
           type: string
-      required:
-      - apiProductId
-      type: object
-    OAuthCredential:
-      properties:
-        id:
-          example: uuid
-          readOnly: true
-          type: string
-        idpClientId:
-          example: generated-client-id
-          readOnly: true
-          type: string
-        idpClientName:
-          example: client-name
-          readOnly: true
-          type: string
-        idpClientSecret:
-          example: generated-client-secret
-          readOnly: true
-          type: string
-      type: object
-    RateLimit:
-      properties:
-        requestsPerUnit:
-          example: 5
-          type: string
-        unit:
-          enum:
-          - SECOND
-          - MINUTE
-          - HOUR
-          - DAY
-          - MONTH
-          - YEAR
-          example: SECOND
+        name:
+          example: app
           type: string
     OAuthApplication:
       required:
@@ -624,46 +618,52 @@ components:
         clientName:
           type: string
           example: example-user-pool-developer-1
-    BaseEntity:
+    Error:
+      required:
+      - code
+      - message
+      - reason
       properties:
-        createdAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
+        code:
+          type: integer
+        message:
           type: string
-        deletedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
+          example: Status Code Message
+        reason:
           type: string
-        id:
-          example: uuid
-          readOnly: true
-          type: string
-        updatedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-    APIKey:
+          example: Error reason
+    Application:
       allOf:
       - $ref: '#/components/schemas/BaseEntity'
       - properties:
-          apiKey:
-            description: Is returned only once when the API key is created
-            example: 4f357f4f-cd56-41d2-aca8-301c999bb8a4
-            type: string
-          id:
-            example: ae8261d2-4e16-4a06-b1f3-1af71464a8dd
+          description:
+            example: app description
             type: string
           metadata:
-            example:
-              key: value
-            type: object
+            $ref: '#/components/schemas/ApplicationMetadata'
           name:
-            example: api-key-name-1
+            example: app
+            type: string
+          teamId:
+            example: 2frepq0mjp841i3jfd030dhtmn
+            readOnly: true
             type: string
         type: object
+    RateLimit:
+      properties:
+        requestsPerUnit:
+          example: 5
+          type: string
+        unit:
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
+          example: SECOND
+          type: string
   securitySchemes:
     identityToken:
       description: id token cookie from the identity provider used to authenticate the user
