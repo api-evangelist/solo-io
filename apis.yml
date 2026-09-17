@@ -116,27 +116,6 @@ apis:
     url: https://github.com/solo-io/gloo-portal-idp-connect
   - type: Documentation
     url: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
-- aid: solo-io:solo-io-apis-api
-  name: Solo.io AP Is API
-  description: The APIs API from Solo.io — 5 operation(s) for apis.
-  humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
-  baseURL: https://portal.example.com/v1
-  tags: []
-  tags_raw:
-  - APIs
-  properties:
-  - type: OpenAPI
-    url: openapi/solo-io-apis-api-openapi.yml
-  - type: Documentation
-    url: https://docs.solo.io/gateway/latest/portal/
-  - type: APIReference
-    url: https://docs.solo.io/gateway/latest/portal/openapi/
-  - type: Documentation
-    url: https://docs.solo.io/kgateway/latest/portal/
-  - type: SourceCode
-    url: https://github.com/solo-io/gloo-portal-idp-connect
-  - type: Documentation
-    url: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
 - aid: solo-io:solo-io-applications-api
   name: Solo.io Applications API
   description: The Applications API from Solo.io — 8 operation(s) for applications.
@@ -385,6 +364,26 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/solo-io-webhooks-api-openapi.yml
+  - type: Documentation
+    url: https://docs.solo.io/gateway/latest/portal/
+  - type: APIReference
+    url: https://docs.solo.io/gateway/latest/portal/openapi/
+  - type: Documentation
+    url: https://docs.solo.io/kgateway/latest/portal/
+  - type: SourceCode
+    url: https://github.com/solo-io/gloo-portal-idp-connect
+  - type: Documentation
+    url: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
+- aid: solo-io:solo-io-apis-api
+  name: Solo.io AP Is API
+  description: The APIs API from Solo.io — 5 operation(s) for apis.
+  humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
+  baseURL: https://portal.example.com/v1
+  tags:
+  - APIs
+  properties:
+  - type: OpenAPI
+    url: openapi/solo-io-apis-api-openapi.yml
   - type: Documentation
     url: https://docs.solo.io/gateway/latest/portal/
   - type: APIReference
