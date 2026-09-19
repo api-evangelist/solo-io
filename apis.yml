@@ -379,7 +379,8 @@ apis:
   description: The APIs API from Solo.io — 5 operation(s) for apis.
   humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
   baseURL: https://portal.example.com/v1
-  tags:
+  tags: []
+  tags_raw:
   - APIs
   properties:
   - type: OpenAPI
