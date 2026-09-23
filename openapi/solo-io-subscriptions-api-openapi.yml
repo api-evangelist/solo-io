@@ -8,19 +8,16 @@ servers:
   description: API v1 base path
 - url: http://portal.example.com/v1
 tags:
-- name: subscriptions
+- name: Subscriptions
   description: Subscription management endpoints
 paths:
   /apps/{appID}/subscriptions:
-    servers:
-    - url: /v1
-      description: API v1 base path
     get:
       summary: List app subscriptions
       description: Returns all subscriptions for an application
       operationId: ListAppSubscriptions
       tags:
-      - subscriptions
+      - Subscriptions
       security:
       - bearerAuth: []
       - identityToken: []
@@ -52,7 +49,7 @@ paths:
       description: Creates a new subscription for an application to an API product. The subscription starts in pending status.
       operationId: CreateAppSubscription
       tags:
-      - subscriptions
+      - Subscriptions
       security:
       - bearerAuth: []
       - identityToken: []
@@ -87,16 +84,16 @@ paths:
           description: Subscription already exists
         '500':
           description: Internal server error
-  /apps/{appID}/subscriptions/{subscriptionID}:
     servers:
     - url: /v1
       description: API v1 base path
+  /apps/{appID}/subscriptions/{subscriptionID}:
     delete:
       summary: Delete app subscription
       description: Deletes a subscription from an application
       operationId: DeleteAppSubscription
       tags:
-      - subscriptions
+      - Subscriptions
       security:
       - bearerAuth: []
       - identityToken: []
@@ -121,16 +118,16 @@ paths:
           description: Authentication required
         '500':
           description: Internal server error
-  /subscriptions:
     servers:
     - url: /v1
       description: API v1 base path
+  /subscriptions:
     get:
       summary: List all subscriptions
       description: Returns all subscriptions across all apps. Optionally filtered by status.
       operationId: ListSubscriptions
       tags:
-      - subscriptions
+      - Subscriptions
       security:
       - bearerAuth: []
       - identityToken: []
@@ -154,16 +151,16 @@ paths:
           description: Authentication required
         '500':
           description: Internal server error
-  /subscriptions/{subscriptionID}:
     servers:
     - url: /v1
       description: API v1 base path
+  /subscriptions/{subscriptionID}:
     delete:
       summary: Delete subscription
       description: Deletes a subscription by ID
       operationId: DeleteSubscription
       tags:
-      - subscriptions
+      - Subscriptions
       security:
       - bearerAuth: []
       - identityToken: []
@@ -182,16 +179,16 @@ paths:
           description: Authentication required
         '500':
           description: Internal server error
-  /subscriptions/{subscriptionID}/metadata:
     servers:
     - url: /v1
       description: API v1 base path
+  /subscriptions/{subscriptionID}/metadata:
     post:
       summary: Set subscription metadata (Admin)
       description: Sets rate limit and custom metadata on a subscription. Requires admin privileges.
       operationId: SetSubscriptionMetadata
       tags:
-      - subscriptions
+      - Subscriptions
       security:
       - bearerAuth: []
       - identityToken: []
@@ -226,16 +223,16 @@ paths:
           description: Subscription not found
         '500':
           description: Internal server error
-  /subscriptions/{subscriptionID}/{action}:
     servers:
     - url: /v1
       description: API v1 base path
+  /subscriptions/{subscriptionID}/{action}:
     post:
       summary: Approve or reject subscription (Admin)
       description: Approves or rejects a pending subscription. Requires admin privileges.
       operationId: SubscriptionAction
       tags:
-      - subscriptions
+      - Subscriptions
       security:
       - bearerAuth: []
       - identityToken: []
@@ -273,9 +270,10 @@ paths:
           description: Subscription not found
         '500':
           description: Internal server error
-  /subscriptions/{subscriptionId}:
     servers:
-    - url: http://portal.example.com/v1
+    - url: /v1
+      description: API v1 base path
+  /subscriptions/{subscriptionId}:
     delete:
       description: Deletes a subscription, revoking the associated application's access to the specified API product.
       operationId: DeleteApplicationProductSubscription
@@ -299,43 +297,11 @@ paths:
           description: Internal server error.
       summary: Delete subscription
       tags:
-      - subscriptions
+      - Subscriptions
+    servers:
+    - url: http://portal.example.com/v1
 components:
   schemas:
-    SubscriptionStatus:
-      type: string
-      description: Subscription status
-      enum:
-      - pending
-      - approved
-      - rejected
-    BaseEntity:
-      type: object
-      description: Base entity with common fields
-      required:
-      - id
-      - createdAt
-      properties:
-        id:
-          type: string
-          description: Unique identifier
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the entity was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the entity was last updated
-    CreateSubscriptionRequest:
-      type: object
-      description: Request body for creating a subscription
-      required:
-      - apiProductId
-      properties:
-        apiProductId:
-          type: string
-          description: ID of the API product to subscribe to
     Subscription:
       description: Subscription to an API product
       allOf:
@@ -365,6 +331,15 @@ components:
             description: Timestamp when the subscription was requested
           metadata:
             $ref: '#/components/schemas/ResourceMetadata'
+    CreateSubscriptionRequest:
+      type: object
+      description: Request body for creating a subscription
+      required:
+      - apiProductId
+      properties:
+        apiProductId:
+          type: string
+          description: ID of the API product to subscribe to
     SetMetadataRequest:
       type: object
       description: Request body for setting metadata (rate limit and/or custom metadata) on a resource
@@ -376,26 +351,13 @@ components:
           description: Custom metadata key-value pairs
           additionalProperties:
             type: string
-    RateLimit:
-      type: object
-      description: Rate limit configuration
-      required:
-      - requestsPerUnit
-      - unit
-      properties:
-        requestsPerUnit:
-          type: string
-          description: Number of requests allowed per unit
-        unit:
-          type: string
-          description: Time unit for rate limiting
-          enum:
-          - SECOND
-          - MINUTE
-          - HOUR
-          - DAY
-          - MONTH
-          - YEAR
+    SubscriptionStatus:
+      type: string
+      description: Subscription status
+      enum:
+      - pending
+      - approved
+      - rejected
     ResourceMetadata:
       type: object
       description: Metadata attached to a resource (app or subscription) including rate limits and custom key-value pairs
@@ -420,6 +382,128 @@ components:
           type: string
           format: date-time
           description: Timestamp when the parent resource was last updated
+    BaseEntity:
+      type: object
+      description: Base entity with common fields
+      required:
+      - id
+      - createdAt
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was last updated
+    RateLimit:
+      type: object
+      description: Rate limit configuration
+      required:
+      - requestsPerUnit
+      - unit
+      properties:
+        requestsPerUnit:
+          type: string
+          description: Number of requests allowed per unit
+        unit:
+          type: string
+          description: Time unit for rate limiting
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
+    SubscriptionMetadata:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - properties:
+          customMetadata:
+            example:
+              key: value
+            type: object
+          rateLimit:
+            $ref: '#/components/schemas/RateLimit_2'
+        type: object
+    Subscription_2:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - properties:
+          apiProductId:
+            description: The ID of the API product associated with the subscription.
+            type: string
+          applicationId:
+            description: The ID of the application to which the subscription is associated.
+            readOnly: true
+            type: string
+          approved:
+            description: Indicates whether the subscription has been approved.
+            readOnly: true
+            type: boolean
+          approvedAt:
+            description: The timestamp when the subscription was approved.
+            format: date-time
+            readOnly: true
+            type: string
+          metadata:
+            $ref: '#/components/schemas/SubscriptionMetadata'
+          rejected:
+            description: Indicates whether the subscription has been rejected.
+            readOnly: true
+            type: boolean
+          rejectedAt:
+            description: The timestamp when the subscription was rejected.
+            format: date-time
+            readOnly: true
+            type: string
+          requestedAt:
+            description: The timestamp when the subscription was requested.
+            format: date-time
+            readOnly: true
+            type: string
+        type: object
+    BaseEntity_2:
+      properties:
+        createdAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        deletedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          example: uuid
+          readOnly: true
+          type: string
+        updatedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+    RateLimit_2:
+      properties:
+        requestsPerUnit:
+          example: 5
+          type: string
+        unit:
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
+          example: SECOND
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

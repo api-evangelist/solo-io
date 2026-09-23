@@ -26,13 +26,13 @@ paths:
           description: Successfully listed APIs.
         '500':
           description: Unexpected error fetching APIs
-      summary: Lists APIs visible to the current user.
+      summary: Lists APIs visible to the current user
       tags:
       - APIs
   /apis/{id}/schema:
     get:
       description: Gets the details of the schema for a specific API ID, if the API ID exists. When authentication and authorization are enforced, returns the schema only if the user has access to the API.
-      summary: Gets the schema for an API.
+      summary: Gets the schema for an API
       operationId: GetApiSchema
       security:
       - identityToken: []
@@ -143,7 +143,7 @@ paths:
           description: Successfully got usage plans and the APIs that the usage plans apply to.
         '500':
           description: Unexpected error fetching Usage plans. Try again in a few moments.
-      summary: Lists all usage plans for the developer portal.
+      summary: Lists all usage plans for the developer portal
       tags:
       - APIs
   /api-keys:
@@ -178,7 +178,7 @@ paths:
           description: Forbidden. The user's identity token is valid, but the user has missing claims required by this method.
         '500':
           description: Unexpected error fetching API keys. Try again in a few moments.
-      summary: Lists API keys for the current user, filterable by usage plans or API IDs.
+      summary: Lists API keys for the current user, filterable by usage plans or API IDs
       tags:
       - APIs
     post:
@@ -215,7 +215,7 @@ paths:
           description: Forbidden. The user's identity token is valid, but the user has missing claims required by this method.
         '500':
           description: Unexpected error creating API key. Try again in a few moments.
-      summary: Creates an API key for the current user for a specific API ID and usage plan.
+      summary: Creates an API key for the current user for a specific API ID and usage plan
       tags:
       - APIs
   /api-keys/{id}:
@@ -243,20 +243,42 @@ paths:
           description: API Key with the specified UUID was not found.
         '500':
           description: Unexpected error deleting API keys. Try again in a few moments.
-      summary: Deletes the current user's API key(s) for a specified API ID.
+      summary: Deletes the current user's API key(s) for a specified API ID
       tags:
       - APIs
 components:
   schemas:
-    UsagePlanKeys:
+    UsagePlan:
       properties:
-        usagePlan:
-          type: string
+        name:
           example: bronze plan
-        apiKeys:
+          type: string
+        authPolicies:
           type: array
           items:
-            $ref: '#/components/schemas/APIKey'
+            $ref: '#/components/schemas/AuthPolicy'
+        rateLimitPolicy:
+          $ref: '#/components/schemas/RateLimitPolicy'
+        apiIds:
+          type: array
+          items:
+            type: string
+            example: petstoreAPI-petstoreNamespace-cluster-1
+      type: object
+    AuthPolicy:
+      properties:
+        authType:
+          type: string
+          example: apiKeyAuth
+      type: object
+    RateLimitPolicy:
+      properties:
+        unit:
+          type: string
+          example: MINUTE
+        requestsPerUnit:
+          type: integer
+          example: 1
       type: object
     APIKey:
       properties:
@@ -310,37 +332,15 @@ components:
             type: customers
             region: us-east-1
       type: object
-    AuthPolicy:
+    UsagePlanKeys:
       properties:
-        authType:
+        usagePlan:
           type: string
-          example: apiKeyAuth
-      type: object
-    RateLimitPolicy:
-      properties:
-        unit:
-          type: string
-          example: MINUTE
-        requestsPerUnit:
-          type: integer
-          example: 1
-      type: object
-    UsagePlan:
-      properties:
-        name:
           example: bronze plan
-          type: string
-        authPolicies:
+        apiKeys:
           type: array
           items:
-            $ref: '#/components/schemas/AuthPolicy'
-        rateLimitPolicy:
-          $ref: '#/components/schemas/RateLimitPolicy'
-        apiIds:
-          type: array
-          items:
-            type: string
-            example: petstoreAPI-petstoreNamespace-cluster-1
+            $ref: '#/components/schemas/APIKey'
       type: object
   securitySchemes:
     identityToken:

@@ -7,18 +7,16 @@ servers:
 - url: /v1
   description: API v1 base path
 tags:
-- name: metadata
+- name: Metadata
   description: Internal credential metadata endpoints
 paths:
   /metadata:
     get:
       summary: Get credential metadata (Internal)
-      description: 'Internal endpoint used by ExtAuth to validate API keys and access tokens. Returns whether the credential is allowed and any associated metadata.
-
-        '
+      description: Internal endpoint used by ExtAuth to validate API keys and access tokens. Returns whether the credential is allowed and any associated metadata.
       operationId: GetCredentialMetadata
       tags:
-      - metadata
+      - Metadata
       parameters:
       - name: apiKey
         in: query

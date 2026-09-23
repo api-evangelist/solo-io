@@ -8,19 +8,16 @@ servers:
   description: API v1 base path
 - url: http://portal.example.com/v1
 tags:
-- name: api-products
+- name: API Products
   description: API product catalog endpoints
 paths:
   /api-products:
-    servers:
-    - url: /v1
-      description: API v1 base path
     get:
       summary: List API products
       description: Retrieve a list of all API products accessible by the user
       operationId: ListApiProducts
       tags:
-      - api-products
+      - API Products
       responses:
         '200':
           description: List of API products
@@ -32,16 +29,16 @@ paths:
                   $ref: '#/components/schemas/ApiProductSummary'
         '503':
           description: API products not loaded
-  /api-products/{productID}:
     servers:
     - url: /v1
       description: API v1 base path
+  /api-products/{productID}:
     get:
       summary: Get API product details
       description: Returns detailed information about a specific API product
       operationId: GetApiProduct
       tags:
-      - api-products
+      - API Products
       parameters:
       - name: productID
         in: path
@@ -60,16 +57,16 @@ paths:
           description: Product not found
         '503':
           description: API products not loaded
-  /api-products/{productID}/versions:
     servers:
     - url: /v1
       description: API v1 base path
+  /api-products/{productID}/versions:
     get:
       summary: List API product versions
       description: Returns all versions of a specific API product including OpenAPI specs
       operationId: ListApiProductVersions
       tags:
-      - api-products
+      - API Products
       parameters:
       - name: productID
         in: path
@@ -88,9 +85,10 @@ paths:
                   $ref: '#/components/schemas/ApiProductVersion'
         '503':
           description: API products not loaded
-  /api-products/{productId}:
     servers:
-    - url: http://portal.example.com/v1
+    - url: /v1
+      description: API v1 base path
+  /api-products/{productId}:
     get:
       description: Retrieve a specific API product by its ID.
       operationId: GetApiProductById
@@ -119,10 +117,12 @@ paths:
         '500':
           description: Unexpected error fetching api product.
       tags:
-      - api-products
-  /api-products/{productId}/versions:
+      - API Products
+      summary: Get api product by id
+      x-summary-source: derived
     servers:
     - url: http://portal.example.com/v1
+  /api-products/{productId}/versions:
     get:
       description: Retrieve all versions for a specific API product.
       operationId: ListProductVersions
@@ -153,30 +153,21 @@ paths:
         '500':
           description: Unexpected error fetching api product.
       tags:
-      - api-products
+      - API Products
+      summary: List product versions
+      x-summary-source: derived
+    servers:
+    - url: http://portal.example.com/v1
 components:
   schemas:
-    APIProduct:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity_2'
-      - properties:
-          apiProductMetadata:
-            description: Metadata for the API product.
-            type: object
-          contactEmail:
-            type: string
-          description:
-            type: string
-          name:
-            type: string
-        type: object
-    ApiProductDetails:
-      description: API product detailed information
+    ApiProductSummary:
+      description: API product summary for listing
       allOf:
       - $ref: '#/components/schemas/BaseEntity'
       - type: object
         required:
         - name
+        - versionsCount
         properties:
           name:
             type: string
@@ -189,10 +180,9 @@ components:
             description: Custom metadata for the API product
             additionalProperties:
               type: string
-          contactEmail:
-            type: string
-            format: email
-            description: Contact email for the API product
+          versionsCount:
+            type: integer
+            description: Number of versions available
     ApiProductVersion:
       description: API product version with OpenAPI spec
       allOf:
@@ -229,14 +219,13 @@ components:
           apiSpecError:
             type: string
             description: Error message if API spec could not be loaded
-    ApiProductSummary:
-      description: API product summary for listing
+    ApiProductDetails:
+      description: API product detailed information
       allOf:
       - $ref: '#/components/schemas/BaseEntity'
       - type: object
         required:
         - name
-        - versionsCount
         properties:
           name:
             type: string
@@ -249,9 +238,50 @@ components:
             description: Custom metadata for the API product
             additionalProperties:
               type: string
+          contactEmail:
+            type: string
+            format: email
+            description: Contact email for the API product
+    BaseEntity:
+      type: object
+      description: Base entity with common fields
+      required:
+      - id
+      - createdAt
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was last updated
+    APIProductSummary:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - properties:
+          apiKeyEnabled:
+            description: Indicates whether `ApiKey` is enabled as an authentication mechanism for the API product.
+            type: boolean
+          apiProductMetadata:
+            description: Metadata for the API product.
+            type: object
+          description:
+            type: string
+          name:
+            type: string
+          oauthEnabled:
+            description: Indicates whether `OAuth` is enabled as an authentication mechanism for the API product.
+            type: boolean
           versionsCount:
+            description: The version count of the API product.
+            example: 2
             type: integer
-            description: Number of versions available
+        type: object
     ProductVersion:
       allOf:
       - $ref: '#/components/schemas/BaseEntity_2'
@@ -274,24 +304,20 @@ components:
           title:
             type: string
         type: object
-    BaseEntity:
-      type: object
-      description: Base entity with common fields
-      required:
-      - id
-      - createdAt
-      properties:
-        id:
-          type: string
-          description: Unique identifier
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the entity was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the entity was last updated
+    APIProduct:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - properties:
+          apiProductMetadata:
+            description: Metadata for the API product.
+            type: object
+          contactEmail:
+            type: string
+          description:
+            type: string
+          name:
+            type: string
+        type: object
     BaseEntity_2:
       properties:
         createdAt:

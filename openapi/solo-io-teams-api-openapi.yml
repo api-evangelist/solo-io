@@ -8,19 +8,16 @@ servers:
   description: API v1 base path
 - url: http://portal.example.com/v1
 tags:
-- name: teams
+- name: Teams
   description: Team management endpoints
 paths:
   /teams:
-    servers:
-    - url: /v1
-      description: API v1 base path
     get:
       summary: List teams
       description: Returns a list of all teams
       operationId: ListTeams
       tags:
-      - teams
+      - Teams
       security:
       - bearerAuth: []
       - identityToken: []
@@ -43,7 +40,7 @@ paths:
       description: Creates a new team. The creator is automatically added as a member.
       operationId: CreateTeam
       tags:
-      - teams
+      - Teams
       security:
       - bearerAuth: []
       - identityToken: []
@@ -69,16 +66,16 @@ paths:
           description: Team already exists
         '500':
           description: Internal server error
-  /teams/{teamID}:
     servers:
     - url: /v1
       description: API v1 base path
+  /teams/{teamID}:
     get:
       summary: Get team details
       description: Returns detailed information about a team including its members
       operationId: GetTeam
       tags:
-      - teams
+      - Teams
       security:
       - bearerAuth: []
       - identityToken: []
@@ -108,7 +105,7 @@ paths:
       description: Updates a team's name and description
       operationId: UpdateTeam
       tags:
-      - teams
+      - Teams
       security:
       - bearerAuth: []
       - identityToken: []
@@ -144,7 +141,7 @@ paths:
       description: Deletes a team and removes all member associations
       operationId: DeleteTeam
       tags:
-      - teams
+      - Teams
       security:
       - bearerAuth: []
       - identityToken: []
@@ -165,16 +162,16 @@ paths:
           description: Team has apps or members that must be removed first
         '500':
           description: Internal server error
-  /teams/{teamID}/apps:
     servers:
     - url: /v1
       description: API v1 base path
+  /teams/{teamID}/apps:
     get:
       summary: List team apps
       description: Returns all applications belonging to a team
       operationId: ListTeamApps
       tags:
-      - teams
+      - Teams
       security:
       - bearerAuth: []
       - identityToken: []
@@ -204,7 +201,7 @@ paths:
       description: Creates a new application for a team
       operationId: CreateTeamApp
       tags:
-      - teams
+      - Teams
       security:
       - bearerAuth: []
       - identityToken: []
@@ -237,16 +234,16 @@ paths:
           description: App already exists
         '500':
           description: Internal server error
-  /teams/{teamID}/members:
     servers:
     - url: /v1
       description: API v1 base path
+  /teams/{teamID}/members:
     get:
       summary: List team members
       description: Returns all members of a team with their user details
       operationId: ListTeamMembers
       tags:
-      - teams
+      - Teams
       security:
       - bearerAuth: []
       - identityToken: []
@@ -276,7 +273,7 @@ paths:
       description: Adds a user to a team by userId or email
       operationId: AddTeamMember
       tags:
-      - teams
+      - Teams
       security:
       - bearerAuth: []
       - identityToken: []
@@ -311,16 +308,16 @@ paths:
           description: User already a member
         '500':
           description: Internal server error
-  /teams/{teamID}/members/{memberID}:
     servers:
     - url: /v1
       description: API v1 base path
+  /teams/{teamID}/members/{memberID}:
     delete:
       summary: Remove team member
       description: Removes a user from a team
       operationId: RemoveTeamMember
       tags:
-      - teams
+      - Teams
       security:
       - bearerAuth: []
       - identityToken: []
@@ -345,9 +342,10 @@ paths:
           description: Authentication required
         '500':
           description: Internal server error
-  /teams/{teamId}:
     servers:
-    - url: http://portal.example.com/v1
+    - url: /v1
+      description: API v1 base path
+  /teams/{teamId}:
     delete:
       description: 'Delete a team.
 
@@ -378,7 +376,7 @@ paths:
       - identityToken: []
       summary: Deletes a team
       tags:
-      - teams
+      - Teams
     get:
       description: Retrieve detailed information about a team by its ID
       operationId: GetTeamById
@@ -409,7 +407,7 @@ paths:
       - identityToken: []
       summary: Gets a team
       tags:
-      - teams
+      - Teams
     put:
       description: Update an existing team
       operationId: UpdateTeam
@@ -448,10 +446,10 @@ paths:
       - identityToken: []
       summary: Updates a team
       tags:
-      - teams
-  /teams/{teamId}/apps:
+      - Teams
     servers:
     - url: http://portal.example.com/v1
+  /teams/{teamId}/apps:
     get:
       description: Retrieve all team applications
       operationId: ListTeamApplications
@@ -483,9 +481,8 @@ paths:
       - identityToken: []
       summary: Lists all team apps
       tags:
-      - teams
+      - Teams
     post:
-      description: Creates an application
       operationId: CreateTeamApplication
       parameters:
       - description: Unique identifier of the team
@@ -524,10 +521,10 @@ paths:
       - identityToken: []
       summary: Creates an application
       tags:
-      - teams
-  /teams/{teamId}/members:
+      - Teams
     servers:
     - url: http://portal.example.com/v1
+  /teams/{teamId}/members:
     get:
       description: Retrieve all team members
       operationId: ListTeamMembers
@@ -557,13 +554,11 @@ paths:
       - identityToken: []
       summary: List of team users
       tags:
-      - teams
+      - Teams
     post:
       description: 'Assign a user as a member to the team. If the user doesn''t exist within the system, an account will be automatically created and assigned.
 
-        In order for this change to take effect, the client-side application has to send a `PUT` request to the `/me` endpoint with the user''s `id_token`, after they login.
-
-        '
+        In order for this change to take effect, the client-side application has to send a `PUT` request to the `/me` endpoint with the user''s `id_token`, after they login.'
       operationId: AddTeamMember
       parameters:
       - description: Unique identifier of the team
@@ -604,16 +599,14 @@ paths:
       - identityToken: []
       summary: Adds a member to a team
       tags:
-      - teams
-  /teams/{teamId}/members/{userId}:
+      - Teams
     servers:
     - url: http://portal.example.com/v1
+  /teams/{teamId}/members/{userId}:
     delete:
       description: 'Remove user from the team. The user will lose access to the team and its apps.
 
-        However, if he has access to the app credentials he can still use those.
-
-        '
+        However, if he has access to the app credentials he can still use those.'
       operationId: RemoveTeamMember
       parameters:
       - description: Unique identifier of the team
@@ -644,9 +637,31 @@ paths:
       - identityToken: []
       summary: Removes a member from a team
       tags:
-      - teams
+      - Teams
+    servers:
+    - url: http://portal.example.com/v1
 components:
   schemas:
+    TeamDetails:
+      description: Team details including member list
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - name
+        - members
+        properties:
+          name:
+            type: string
+            description: Team name
+          description:
+            type: string
+            description: Team description
+          members:
+            type: array
+            description: List of team members
+            items:
+              $ref: '#/components/schemas/TeamMember'
     CreateAppRequest:
       description: Request body for creating an application
       type: object
@@ -659,35 +674,6 @@ components:
         description:
           type: string
           description: Application description
-    ApplicationCreate:
-      description: Create
-      properties:
-        description:
-          example: app description
-          type: string
-        name:
-          example: app
-          type: string
-      required:
-      - name
-    BaseEntity:
-      type: object
-      description: Base entity with common fields
-      required:
-      - id
-      - createdAt
-      properties:
-        id:
-          type: string
-          description: Unique identifier
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the entity was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the entity was last updated
     UpdateTeamRequest:
       description: Request body for updating a team
       type: object
@@ -712,96 +698,6 @@ components:
           description:
             type: string
             description: Team description
-    RateLimit:
-      type: object
-      description: Rate limit configuration
-      required:
-      - requestsPerUnit
-      - unit
-      properties:
-        requestsPerUnit:
-          type: string
-          description: Number of requests allowed per unit
-        unit:
-          type: string
-          description: Time unit for rate limiting
-          enum:
-          - SECOND
-          - MINUTE
-          - HOUR
-          - DAY
-          - MONTH
-          - YEAR
-    RateLimit_2:
-      properties:
-        requestsPerUnit:
-          example: 5
-          type: string
-        unit:
-          enum:
-          - SECOND
-          - MINUTE
-          - HOUR
-          - DAY
-          - MONTH
-          - YEAR
-          example: SECOND
-          type: string
-    TeamDetails:
-      description: Team details including member list
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - type: object
-        required:
-        - name
-        - members
-        properties:
-          name:
-            type: string
-            description: Team name
-          description:
-            type: string
-            description: Team description
-          members:
-            type: array
-            description: List of team members
-            items:
-              $ref: '#/components/schemas/TeamMember'
-    BaseEntity_2:
-      properties:
-        createdAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-        deletedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-        id:
-          example: uuid
-          readOnly: true
-          type: string
-        updatedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-    TeamCreate:
-      description: Create a new team
-      properties:
-        description:
-          example: team description
-          type: string
-        name:
-          example: ACME Team
-          type: string
-      required:
-      - name
-    TeamUpdate:
-      allOf:
-      - $ref: '#/components/schemas/TeamCreate'
     CreateTeamRequest:
       description: Request body for creating a team
       type: object
@@ -814,39 +710,26 @@ components:
         description:
           type: string
           description: Team description
-    ApplicationMetadata:
+    App:
+      description: Application information
       allOf:
-      - $ref: '#/components/schemas/BaseEntity_2'
-      - properties:
-          customMetadata:
-            example:
-              key: value
-            type: object
-          rateLimit:
-            $ref: '#/components/schemas/RateLimit_2'
-        type: object
-    User:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity_2'
-      - properties:
-          email:
-            example: johndoe@email.com
-            type: string
-          isAdmin:
-            example: false
-            type: boolean
-          name:
-            example: John Doe
-            type: string
-          synced:
-            example: true
-            type: boolean
-          username:
-            example: johndoe
-            type: string
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
         required:
-        - email
-        type: object
+        - teamId
+        - name
+        properties:
+          teamId:
+            type: string
+            description: ID of the team that owns this app
+          name:
+            type: string
+            description: Application name
+          description:
+            type: string
+            description: Application description
+          metadata:
+            $ref: '#/components/schemas/ResourceMetadata'
     TeamMember:
       description: Team member information
       allOf:
@@ -882,47 +765,6 @@ components:
           type: string
           format: email
           description: Email of user to add
-    Team:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity_2'
-      - $ref: '#/components/schemas/TeamCreate'
-    App:
-      description: Application information
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - type: object
-        required:
-        - teamId
-        - name
-        properties:
-          teamId:
-            type: string
-            description: ID of the team that owns this app
-          name:
-            type: string
-            description: Application name
-          description:
-            type: string
-            description: Application description
-          metadata:
-            $ref: '#/components/schemas/ResourceMetadata'
-    Application:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity_2'
-      - properties:
-          description:
-            example: app description
-            type: string
-          metadata:
-            $ref: '#/components/schemas/ApplicationMetadata'
-          name:
-            example: app
-            type: string
-          teamId:
-            example: 2frepq0mjp841i3jfd030dhtmn
-            readOnly: true
-            type: string
-        type: object
     ResourceMetadata:
       type: object
       description: Metadata attached to a resource (app or subscription) including rate limits and custom key-value pairs
@@ -947,6 +789,159 @@ components:
           type: string
           format: date-time
           description: Timestamp when the parent resource was last updated
+    BaseEntity:
+      type: object
+      description: Base entity with common fields
+      required:
+      - id
+      - createdAt
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was last updated
+    RateLimit:
+      type: object
+      description: Rate limit configuration
+      required:
+      - requestsPerUnit
+      - unit
+      properties:
+        requestsPerUnit:
+          type: string
+          description: Number of requests allowed per unit
+        unit:
+          type: string
+          description: Time unit for rate limiting
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
+    TeamCreate:
+      description: Create a new team
+      properties:
+        description:
+          example: team description
+          type: string
+        name:
+          example: ACME Team
+          type: string
+      required:
+      - name
+    BaseEntity_2:
+      properties:
+        createdAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        deletedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          example: uuid
+          readOnly: true
+          type: string
+        updatedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+    ApplicationMetadata:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - properties:
+          customMetadata:
+            example:
+              key: value
+            type: object
+          rateLimit:
+            $ref: '#/components/schemas/RateLimit_2'
+        type: object
+    Team:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - $ref: '#/components/schemas/TeamCreate'
+    TeamUpdate:
+      allOf:
+      - $ref: '#/components/schemas/TeamCreate'
+    ApplicationCreate:
+      description: Create
+      properties:
+        description:
+          example: app description
+          type: string
+        name:
+          example: app
+          type: string
+      required:
+      - name
+    Application:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - properties:
+          description:
+            example: app description
+            type: string
+          metadata:
+            $ref: '#/components/schemas/ApplicationMetadata'
+          name:
+            example: app
+            type: string
+          teamId:
+            example: 2frepq0mjp841i3jfd030dhtmn
+            readOnly: true
+            type: string
+        type: object
+    User:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - properties:
+          email:
+            example: johndoe@email.com
+            type: string
+          isAdmin:
+            example: false
+            type: boolean
+          name:
+            example: John Doe
+            type: string
+          synced:
+            example: true
+            type: boolean
+          username:
+            example: johndoe
+            type: string
+        required:
+        - email
+        type: object
+    RateLimit_2:
+      properties:
+        requestsPerUnit:
+          example: 5
+          type: string
+        unit:
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
+          example: SECOND
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

@@ -7,7 +7,7 @@ servers:
 - url: /v1
   description: API v1 base path
 tags:
-- name: auth
+- name: Auth
   description: Authentication redirect endpoints
 paths:
   /login:
@@ -16,7 +16,7 @@ paths:
       description: Redirects to the app root after successful OIDC authentication. The actual OIDC flow is handled by extauth.
       operationId: LoginRedirect
       tags:
-      - auth
+      - Auth
       responses:
         '302':
           description: Redirect to app root
@@ -26,7 +26,7 @@ paths:
       description: Redirects to the app root after logout. The actual logout flow is handled by extauth.
       operationId: LogoutRedirect
       tags:
-      - auth
+      - Auth
       responses:
         '302':
           description: Redirect to app root

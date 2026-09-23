@@ -11,7 +11,7 @@ paths:
   /me:
     get:
       description: Looks up the user for the current session. Returns your user information if the user session exists and is not expired. You might use this endpoint to confirm your identity before performing other actions for the developer portal, like issuing an API key.
-      summary: Gets the user for the current session.
+      summary: Gets the user for the current session
       operationId: GetCurrentUser
       security:
       - identityToken: []

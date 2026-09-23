@@ -7,7 +7,7 @@ servers:
 - url: /v1
   description: API v1 base path
 tags:
-- name: health
+- name: Health
   description: Health check endpoints
 paths:
   /healthz:
@@ -19,7 +19,7 @@ paths:
       description: Returns OK if the server is healthy
       operationId: HealthCheck
       tags:
-      - health
+      - Health
       responses:
         '200':
           description: Server is healthy
@@ -32,7 +32,7 @@ paths:
       description: Returns OK if the server is ready to accept requests
       operationId: ReadinessCheck
       tags:
-      - health
+      - Health
       responses:
         '200':
           description: Server is ready

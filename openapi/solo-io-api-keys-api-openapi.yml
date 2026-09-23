@@ -7,7 +7,7 @@ servers:
 - url: /v1
   description: API v1 base path
 tags:
-- name: api-keys
+- name: API Keys
   description: API key management endpoints
 paths:
   /apps/{appID}/api-keys:
@@ -16,7 +16,7 @@ paths:
       description: Returns all API keys for an application (without the actual key values)
       operationId: ListAppApiKeys
       tags:
-      - api-keys
+      - API Keys
       security:
       - bearerAuth: []
       - identityToken: []
@@ -48,7 +48,7 @@ paths:
       description: Creates a new API key for an application. The raw API key value is only returned once at creation time.
       operationId: CreateAppApiKey
       tags:
-      - api-keys
+      - API Keys
       security:
       - bearerAuth: []
       - identityToken: []
@@ -89,7 +89,7 @@ paths:
       description: Deletes an API key from an application
       operationId: DeleteAppApiKey
       tags:
-      - api-keys
+      - API Keys
       security:
       - bearerAuth: []
       - identityToken: []
@@ -120,7 +120,7 @@ paths:
       description: Deletes an API key by ID
       operationId: DeleteApiKey
       tags:
-      - api-keys
+      - API Keys
       security:
       - bearerAuth: []
       - identityToken: []
@@ -141,24 +141,20 @@ paths:
           description: Internal server error
 components:
   schemas:
-    BaseEntity:
+    CreateApiKeyRequest:
       type: object
-      description: Base entity with common fields
+      description: Request body for creating an API key
       required:
-      - id
-      - createdAt
+      - apiKeyName
       properties:
-        id:
+        apiKeyName:
           type: string
-          description: Unique identifier
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the entity was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the entity was last updated
+          description: Display name for the API key
+        metadata:
+          type: object
+          description: Custom metadata for the API key
+          additionalProperties:
+            type: string
     ApiKey:
       description: API key information (without the actual key value)
       allOf:
@@ -183,6 +179,24 @@ components:
             description: Custom metadata for the API key
             additionalProperties:
               type: string
+    BaseEntity:
+      type: object
+      description: Base entity with common fields
+      required:
+      - id
+      - createdAt
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was last updated
     ApiKeyWithSecret:
       description: API key with the actual key value (only returned at creation time)
       allOf:
@@ -207,20 +221,6 @@ components:
             description: Custom metadata for the API key
             additionalProperties:
               type: string
-    CreateApiKeyRequest:
-      type: object
-      description: Request body for creating an API key
-      required:
-      - apiKeyName
-      properties:
-        apiKeyName:
-          type: string
-          description: Display name for the API key
-        metadata:
-          type: object
-          description: Custom metadata for the API key
-          additionalProperties:
-            type: string
   securitySchemes:
     bearerAuth:
       type: http

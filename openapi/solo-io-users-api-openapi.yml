@@ -7,7 +7,7 @@ servers:
 - url: /v1
   description: API v1 base path
 tags:
-- name: users
+- name: Users
   description: User management endpoints
 paths:
   /me:
@@ -16,7 +16,7 @@ paths:
       description: Returns the authenticated user's information. Creates a new user record if this is the first access.
       operationId: GetCurrentUser
       tags:
-      - users
+      - Users
       security:
       - bearerAuth: []
       - identityToken: []
@@ -37,7 +37,7 @@ paths:
       description: Updates the authenticated user's information
       operationId: UpdateCurrentUser
       tags:
-      - users
+      - Users
       security:
       - bearerAuth: []
       - identityToken: []
@@ -59,7 +59,7 @@ paths:
       description: Returns a list of all registered users
       operationId: ListUsers
       tags:
-      - users
+      - Users
       security:
       - bearerAuth: []
       - identityToken: []
@@ -79,24 +79,6 @@ paths:
           description: Internal server error
 components:
   schemas:
-    BaseEntity:
-      type: object
-      description: Base entity with common fields
-      required:
-      - id
-      - createdAt
-      properties:
-        id:
-          type: string
-          description: Unique identifier
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the entity was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the entity was last updated
     User:
       description: User account information
       allOf:
@@ -121,6 +103,24 @@ components:
           isAdmin:
             type: boolean
             description: Whether the user has admin privileges
+    BaseEntity:
+      type: object
+      description: Base entity with common fields
+      required:
+      - id
+      - createdAt
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was last updated
   securitySchemes:
     bearerAuth:
       type: http

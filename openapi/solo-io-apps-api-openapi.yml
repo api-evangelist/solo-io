@@ -7,7 +7,7 @@ servers:
 - url: /v1
   description: API v1 base path
 tags:
-- name: apps
+- name: Apps
   description: Application management endpoints
 paths:
   /teams/{teamID}/apps:
@@ -16,7 +16,7 @@ paths:
       description: Returns all applications belonging to a team
       operationId: ListTeamApps
       tags:
-      - apps
+      - Apps
       security:
       - bearerAuth: []
       - identityToken: []
@@ -46,7 +46,7 @@ paths:
       description: Creates a new application for a team
       operationId: CreateTeamApp
       tags:
-      - apps
+      - Apps
       security:
       - bearerAuth: []
       - identityToken: []
@@ -85,7 +85,7 @@ paths:
       description: Returns detailed information about an application
       operationId: GetApp
       tags:
-      - apps
+      - Apps
       security:
       - bearerAuth: []
       - identityToken: []
@@ -115,7 +115,7 @@ paths:
       description: Updates an application's name and description
       operationId: UpdateApp
       tags:
-      - apps
+      - Apps
       security:
       - bearerAuth: []
       - identityToken: []
@@ -153,7 +153,7 @@ paths:
       description: Deletes an application and all associated resources (subscriptions, API keys, OAuth credentials)
       operationId: DeleteApp
       tags:
-      - apps
+      - Apps
       security:
       - bearerAuth: []
       - identityToken: []
@@ -180,7 +180,7 @@ paths:
       description: Sets rate limit and custom metadata on an application. Requires admin privileges.
       operationId: SetAppMetadata
       tags:
-      - apps
+      - Apps
       security:
       - bearerAuth: []
       - identityToken: []
@@ -221,7 +221,7 @@ paths:
       description: Returns all subscriptions for an application
       operationId: ListAppSubscriptions
       tags:
-      - apps
+      - Apps
       security:
       - bearerAuth: []
       - identityToken: []
@@ -253,7 +253,7 @@ paths:
       description: Creates a new subscription for an application to an API product. The subscription starts in pending status.
       operationId: CreateAppSubscription
       tags:
-      - apps
+      - Apps
       security:
       - bearerAuth: []
       - identityToken: []
@@ -294,7 +294,7 @@ paths:
       description: Deletes a subscription from an application
       operationId: DeleteAppSubscription
       tags:
-      - apps
+      - Apps
       security:
       - bearerAuth: []
       - identityToken: []
@@ -325,7 +325,7 @@ paths:
       description: Returns all API keys for an application (without the actual key values)
       operationId: ListAppApiKeys
       tags:
-      - apps
+      - Apps
       security:
       - bearerAuth: []
       - identityToken: []
@@ -357,7 +357,7 @@ paths:
       description: Creates a new API key for an application. The raw API key value is only returned once at creation time.
       operationId: CreateAppApiKey
       tags:
-      - apps
+      - Apps
       security:
       - bearerAuth: []
       - identityToken: []
@@ -398,7 +398,7 @@ paths:
       description: Deletes an API key from an application
       operationId: DeleteAppApiKey
       tags:
-      - apps
+      - Apps
       security:
       - bearerAuth: []
       - identityToken: []
@@ -429,7 +429,7 @@ paths:
       description: Returns the OAuth credential for an application (without the client secret)
       operationId: GetAppOAuthCredential
       tags:
-      - apps
+      - Apps
       security:
       - bearerAuth: []
       - identityToken: []
@@ -459,7 +459,7 @@ paths:
       description: Creates a new OAuth credential for an application. The client secret is only returned once at creation time.
       operationId: CreateAppOAuthCredential
       tags:
-      - apps
+      - Apps
       security:
       - bearerAuth: []
       - identityToken: []
@@ -488,30 +488,35 @@ paths:
           description: Internal server error
 components:
   schemas:
-    ApiKey:
-      description: API key information (without the actual key value)
+    Subscription:
+      description: Subscription to an API product
       allOf:
       - $ref: '#/components/schemas/BaseEntity'
       - type: object
         required:
-        - appId
-        - name
+        - applicationId
+        - apiProductId
+        - approved
+        - rejected
         properties:
-          appId:
+          applicationId:
             type: string
-            description: ID of the application this key belongs to
-          name:
+            description: ID of the subscribing application
+          apiProductId:
             type: string
-            description: Display name for the API key
-          expiresAt:
+            description: ID of the subscribed API product
+          approved:
+            type: boolean
+            description: Whether the subscription is approved
+          rejected:
+            type: boolean
+            description: Whether the subscription is rejected
+          requestedAt:
             type: string
             format: date-time
-            description: Timestamp when the key expires
+            description: Timestamp when the subscription was requested
           metadata:
-            type: object
-            description: Custom metadata for the API key
-            additionalProperties:
-              type: string
+            $ref: '#/components/schemas/ResourceMetadata'
     CreateAppRequest:
       description: Request body for creating an application
       type: object
@@ -524,41 +529,6 @@ components:
         description:
           type: string
           description: Application description
-    OAuthCredential:
-      type: object
-      description: OAuth credential information (without the client secret)
-      required:
-      - id
-      - idpClientId
-      - idpClientName
-      properties:
-        id:
-          type: string
-          description: Unique OAuth credential identifier
-        idpClientId:
-          type: string
-          description: OAuth client ID
-        idpClientName:
-          type: string
-          description: OAuth client display name
-    BaseEntity:
-      type: object
-      description: Base entity with common fields
-      required:
-      - id
-      - createdAt
-      properties:
-        id:
-          type: string
-          description: Unique identifier
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the entity was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the entity was last updated
     CreateSubscriptionRequest:
       type: object
       description: Request body for creating a subscription
@@ -592,26 +562,6 @@ components:
             description: Custom metadata for the API key
             additionalProperties:
               type: string
-    App:
-      description: Application information
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - type: object
-        required:
-        - teamId
-        - name
-        properties:
-          teamId:
-            type: string
-            description: ID of the team that owns this app
-          name:
-            type: string
-            description: Application name
-          description:
-            type: string
-            description: Application description
-          metadata:
-            $ref: '#/components/schemas/ResourceMetadata'
     OAuthCredentialWithSecret:
       type: object
       description: OAuth credential with the client secret (only returned at creation time)
@@ -633,49 +583,26 @@ components:
         idpClientName:
           type: string
           description: OAuth client display name
-    Subscription:
-      description: Subscription to an API product
+    App:
+      description: Application information
       allOf:
       - $ref: '#/components/schemas/BaseEntity'
       - type: object
         required:
-        - applicationId
-        - apiProductId
-        - approved
-        - rejected
+        - teamId
+        - name
         properties:
-          applicationId:
+          teamId:
             type: string
-            description: ID of the subscribing application
-          apiProductId:
+            description: ID of the team that owns this app
+          name:
             type: string
-            description: ID of the subscribed API product
-          approved:
-            type: boolean
-            description: Whether the subscription is approved
-          rejected:
-            type: boolean
-            description: Whether the subscription is rejected
-          requestedAt:
+            description: Application name
+          description:
             type: string
-            format: date-time
-            description: Timestamp when the subscription was requested
+            description: Application description
           metadata:
             $ref: '#/components/schemas/ResourceMetadata'
-    CreateApiKeyRequest:
-      type: object
-      description: Request body for creating an API key
-      required:
-      - apiKeyName
-      properties:
-        apiKeyName:
-          type: string
-          description: Display name for the API key
-        metadata:
-          type: object
-          description: Custom metadata for the API key
-          additionalProperties:
-            type: string
     SetMetadataRequest:
       type: object
       description: Request body for setting metadata (rate limit and/or custom metadata) on a resource
@@ -687,36 +614,23 @@ components:
           description: Custom metadata key-value pairs
           additionalProperties:
             type: string
-    UpdateAppRequest:
+    OAuthCredential:
       type: object
-      description: Request body for updating an application
-      properties:
-        name:
-          type: string
-          description: Application name
-        description:
-          type: string
-          description: Application description
-    RateLimit:
-      type: object
-      description: Rate limit configuration
+      description: OAuth credential information (without the client secret)
       required:
-      - requestsPerUnit
-      - unit
+      - id
+      - idpClientId
+      - idpClientName
       properties:
-        requestsPerUnit:
+        id:
           type: string
-          description: Number of requests allowed per unit
-        unit:
+          description: Unique OAuth credential identifier
+        idpClientId:
           type: string
-          description: Time unit for rate limiting
-          enum:
-          - SECOND
-          - MINUTE
-          - HOUR
-          - DAY
-          - MONTH
-          - YEAR
+          description: OAuth client ID
+        idpClientName:
+          type: string
+          description: OAuth client display name
     ResourceMetadata:
       type: object
       description: Metadata attached to a resource (app or subscription) including rate limits and custom key-value pairs
@@ -741,6 +655,92 @@ components:
           type: string
           format: date-time
           description: Timestamp when the parent resource was last updated
+    CreateApiKeyRequest:
+      type: object
+      description: Request body for creating an API key
+      required:
+      - apiKeyName
+      properties:
+        apiKeyName:
+          type: string
+          description: Display name for the API key
+        metadata:
+          type: object
+          description: Custom metadata for the API key
+          additionalProperties:
+            type: string
+    ApiKey:
+      description: API key information (without the actual key value)
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - appId
+        - name
+        properties:
+          appId:
+            type: string
+            description: ID of the application this key belongs to
+          name:
+            type: string
+            description: Display name for the API key
+          expiresAt:
+            type: string
+            format: date-time
+            description: Timestamp when the key expires
+          metadata:
+            type: object
+            description: Custom metadata for the API key
+            additionalProperties:
+              type: string
+    RateLimit:
+      type: object
+      description: Rate limit configuration
+      required:
+      - requestsPerUnit
+      - unit
+      properties:
+        requestsPerUnit:
+          type: string
+          description: Number of requests allowed per unit
+        unit:
+          type: string
+          description: Time unit for rate limiting
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
+    BaseEntity:
+      type: object
+      description: Base entity with common fields
+      required:
+      - id
+      - createdAt
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was last updated
+    UpdateAppRequest:
+      type: object
+      description: Request body for updating an application
+      properties:
+        name:
+          type: string
+          description: Application name
+        description:
+          type: string
+          description: Application description
   securitySchemes:
     bearerAuth:
       type: http

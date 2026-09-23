@@ -10,8 +10,6 @@ tags:
 - name: Applications
 paths:
   /applications:
-    servers:
-    - url: https://api.gloo-platform-portal.com/v1
     post:
       description: Create an OAuth2 client in the OIDC provider that you set up to protect your Gloo Portal APIs. This secret is shown to you only once at creation time, so keep this secret to make future requests to API products in the Portal. If you lose this secret, your admin can retrieve it in the OIDC provider. Note that the secret is not stored in the Portal database.
       operationId: CreateOAuthApplication
@@ -53,12 +51,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      summary: Creates an OAuth2 client.
+      summary: Creates an OAuth2 client
       tags:
       - Applications
-  /applications/{id}:
     servers:
     - url: https://api.gloo-platform-portal.com/v1
+  /applications/{id}:
     delete:
       description: Delete an OAuth2 client.
       operationId: DeleteOAuthApplication
@@ -89,12 +87,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      summary: Delete a client in the OIDC provider.
+      summary: Delete a client in the OIDC provider
       tags:
       - Applications
-  /api-keys/{keyId}:
     servers:
-    - url: http://portal.example.com/v1
+    - url: https://api.gloo-platform-portal.com/v1
+  /api-keys/{keyId}:
     delete:
       description: Deletes an API Key by API Key ID (UUID).
       operationId: DeleteAPIKey
@@ -121,12 +119,12 @@ paths:
           description: Unexpected error deleting API keys. Try again in a few moments.
       security:
       - identityToken: []
-      summary: Deletes the current user's API key(s) for a specified API ID.
+      summary: Deletes the current user's API key(s) for a specified API ID
       tags:
       - Applications
-  /apps/{appId}:
     servers:
     - url: http://portal.example.com/v1
+  /apps/{appId}:
     delete:
       description: Delete Application
       operationId: DeleteApplication
@@ -222,9 +220,9 @@ paths:
       summary: Updates an application
       tags:
       - Applications
-  /apps/{appId}/api-keys:
     servers:
     - url: http://portal.example.com/v1
+  /apps/{appId}/api-keys:
     get:
       description: Lists the API keys for the current user, filterable by usage plans or API IDs. A usage plan can have multiple API keys, which can each be tied to multiple API IDs. An API key belongs to only one usage plan. To check the current user, use the GET /me endpoint. To create an API key, use the POST /api-keys endpoint.
       operationId: ListApplicationAPIKeys
@@ -252,7 +250,7 @@ paths:
           description: Unexpected error fetching API keys. Try again in a few moments.
       security:
       - identityToken: []
-      summary: Lists API keys for the current user, filterable by usage plans or API IDs.
+      summary: Lists API keys for the current user, filterable by usage plans or API IDs
       tags:
       - Applications
     post:
@@ -295,12 +293,12 @@ paths:
           description: Unexpected error creating API key. Try again in a few moments.
       security:
       - identityToken: []
-      summary: Creates an API key for the current user for a specific API ID and usage plan.
+      summary: Creates an API key for the current user for a specific API ID and usage plan
       tags:
       - Applications
-  /apps/{appId}/oauth-credentials:
     servers:
     - url: http://portal.example.com/v1
+  /apps/{appId}/oauth-credentials:
     get:
       description: Gets the OAuth client credentials for the application
       operationId: GetApplicationOAuthCredential
@@ -328,6 +326,8 @@ paths:
       - identityToken: []
       tags:
       - Applications
+      summary: Get application OAuth credential
+      x-summary-source: derived
     post:
       description: Generates new credentials for the specified application and pushes them to the Identity Provider. If credentials already exist a for the application, then a `409 Conflict` error will be returned.
       operationId: GenerateApplicationOAuthCredential
@@ -362,9 +362,9 @@ paths:
       summary: Generate and push application credentials to the Identity Provider
       tags:
       - Applications
-  /apps/{appId}/subscriptions:
     servers:
     - url: http://portal.example.com/v1
+  /apps/{appId}/subscriptions:
     get:
       description: Retrieve all subscriptions for an application
       operationId: ListApplicationProductSubscriptions
@@ -436,9 +436,9 @@ paths:
       summary: Subscribes to an API product
       tags:
       - Applications
-  /oauth-credentials/{credentialId}:
     servers:
     - url: http://portal.example.com/v1
+  /oauth-credentials/{credentialId}:
     delete:
       description: Deletes an OAuth client credential by its client ID
       operationId: DeleteOAuthCredential
@@ -468,97 +468,38 @@ paths:
       summary: Deletes an OAuth client credential
       tags:
       - Applications
+    servers:
+    - url: http://portal.example.com/v1
 components:
   schemas:
-    SubscriptionMetadata:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - properties:
-          customMetadata:
-            example:
-              key: value
-            type: object
-          rateLimit:
-            $ref: '#/components/schemas/RateLimit'
-        type: object
-    APIKey:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - properties:
-          apiKey:
-            description: Is returned only once when the API key is created
-            example: 4f357f4f-cd56-41d2-aca8-301c999bb8a4
-            type: string
-          id:
-            example: ae8261d2-4e16-4a06-b1f3-1af71464a8dd
-            type: string
-          metadata:
-            example:
-              key: value
-            type: object
-          name:
-            example: api-key-name-1
-            type: string
-        type: object
-    OAuthCredential:
-      properties:
-        id:
-          example: uuid
-          readOnly: true
-          type: string
-        idpClientId:
-          example: generated-client-id
-          readOnly: true
-          type: string
-        idpClientName:
-          example: client-name
-          readOnly: true
-          type: string
-        idpClientSecret:
-          example: generated-client-secret
-          readOnly: true
-          type: string
-      type: object
-    BaseEntity:
-      properties:
-        createdAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-        deletedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-        id:
-          example: uuid
-          readOnly: true
-          type: string
-        updatedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-    ApplicationMetadata:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - properties:
-          customMetadata:
-            example:
-              key: value
-            type: object
-          rateLimit:
-            $ref: '#/components/schemas/RateLimit'
-        type: object
-    SubscriptionCreate:
-      properties:
-        apiProductId:
-          description: The API Product ID that we are subscribing to
-          type: string
+    Error:
       required:
-      - apiProductId
-      type: object
+      - code
+      - message
+      - reason
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+          example: Status Code Message
+        reason:
+          type: string
+          example: Error reason
+    OAuthApplication:
+      required:
+      - clientId
+      - clientSecret
+      properties:
+        clientId:
+          type: string
+          example: a0897e6d0ea94f589c38278bca4e9342
+        clientSecret:
+          type: string
+          example: c94dbd582d594e8aa04934f9c7ef0f52
+        clientName:
+          type: string
+          example: example-user-pool-developer-1
     Subscription:
       allOf:
       - $ref: '#/components/schemas/BaseEntity'
@@ -596,42 +537,74 @@ components:
             readOnly: true
             type: string
         type: object
-    ApplicationUpdate:
+    SubscriptionMetadata:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - properties:
+          customMetadata:
+            example:
+              key: value
+            type: object
+          rateLimit:
+            $ref: '#/components/schemas/RateLimit'
+        type: object
+    ApplicationMetadata:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - properties:
+          customMetadata:
+            example:
+              key: value
+            type: object
+          rateLimit:
+            $ref: '#/components/schemas/RateLimit'
+        type: object
+    SubscriptionCreate:
       properties:
-        description:
-          example: the app description
+        apiProductId:
+          description: The API Product ID that we are subscribing to
           type: string
-        name:
-          example: app
-          type: string
-    OAuthApplication:
       required:
-      - clientId
-      - clientSecret
+      - apiProductId
+      type: object
+    OAuthCredential:
       properties:
-        clientId:
+        id:
+          example: uuid
+          readOnly: true
           type: string
-          example: a0897e6d0ea94f589c38278bca4e9342
-        clientSecret:
+        idpClientId:
+          example: generated-client-id
+          readOnly: true
           type: string
-          example: c94dbd582d594e8aa04934f9c7ef0f52
-        clientName:
+        idpClientName:
+          example: client-name
+          readOnly: true
           type: string
-          example: example-user-pool-developer-1
-    Error:
-      required:
-      - code
-      - message
-      - reason
-      properties:
-        code:
-          type: integer
-        message:
+        idpClientSecret:
+          example: generated-client-secret
+          readOnly: true
           type: string
-          example: Status Code Message
-        reason:
-          type: string
-          example: Error reason
+      type: object
+    APIKey:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - properties:
+          apiKey:
+            description: Is returned only once when the API key is created
+            example: 4f357f4f-cd56-41d2-aca8-301c999bb8a4
+            type: string
+          id:
+            example: ae8261d2-4e16-4a06-b1f3-1af71464a8dd
+            type: string
+          metadata:
+            example:
+              key: value
+            type: object
+          name:
+            example: api-key-name-1
+            type: string
+        type: object
     Application:
       allOf:
       - $ref: '#/components/schemas/BaseEntity'
@@ -649,6 +622,35 @@ components:
             readOnly: true
             type: string
         type: object
+    ApplicationUpdate:
+      properties:
+        description:
+          example: the app description
+          type: string
+        name:
+          example: app
+          type: string
+    BaseEntity:
+      properties:
+        createdAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        deletedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          example: uuid
+          readOnly: true
+          type: string
+        updatedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
     RateLimit:
       properties:
         requestsPerUnit:
