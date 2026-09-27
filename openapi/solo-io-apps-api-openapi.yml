@@ -488,6 +488,142 @@ paths:
           description: Internal server error
 components:
   schemas:
+    RateLimit:
+      type: object
+      description: Rate limit configuration
+      required:
+      - requestsPerUnit
+      - unit
+      properties:
+        requestsPerUnit:
+          type: string
+          description: Number of requests allowed per unit
+        unit:
+          type: string
+          description: Time unit for rate limiting
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
+    CreateSubscriptionRequest:
+      type: object
+      description: Request body for creating a subscription
+      required:
+      - apiProductId
+      properties:
+        apiProductId:
+          type: string
+          description: ID of the API product to subscribe to
+    CreateAppRequest:
+      description: Request body for creating an application
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Application name
+        description:
+          type: string
+          description: Application description
+    ResourceMetadata:
+      type: object
+      description: Metadata attached to a resource (app or subscription) including rate limits and custom key-value pairs
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          description: Metadata record ID (resource ID + "-metadata" suffix)
+        customMetadata:
+          type: object
+          description: Custom metadata key-value pairs
+          additionalProperties:
+            type: string
+        rateLimit:
+          $ref: '#/components/schemas/RateLimit'
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the parent resource was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the parent resource was last updated
+    App:
+      description: Application information
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - teamId
+        - name
+        properties:
+          teamId:
+            type: string
+            description: ID of the team that owns this app
+          name:
+            type: string
+            description: Application name
+          description:
+            type: string
+            description: Application description
+          metadata:
+            $ref: '#/components/schemas/ResourceMetadata'
+    UpdateAppRequest:
+      type: object
+      description: Request body for updating an application
+      properties:
+        name:
+          type: string
+          description: Application name
+        description:
+          type: string
+          description: Application description
+    OAuthCredential:
+      type: object
+      description: OAuth credential information (without the client secret)
+      required:
+      - id
+      - idpClientId
+      - idpClientName
+      properties:
+        id:
+          type: string
+          description: Unique OAuth credential identifier
+        idpClientId:
+          type: string
+          description: OAuth client ID
+        idpClientName:
+          type: string
+          description: OAuth client display name
+    ApiKey:
+      description: API key information (without the actual key value)
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - appId
+        - name
+        properties:
+          appId:
+            type: string
+            description: ID of the application this key belongs to
+          name:
+            type: string
+            description: Display name for the API key
+          expiresAt:
+            type: string
+            format: date-time
+            description: Timestamp when the key expires
+          metadata:
+            type: object
+            description: Custom metadata for the API key
+            additionalProperties:
+              type: string
     Subscription:
       description: Subscription to an API product
       allOf:
@@ -517,27 +653,35 @@ components:
             description: Timestamp when the subscription was requested
           metadata:
             $ref: '#/components/schemas/ResourceMetadata'
-    CreateAppRequest:
-      description: Request body for creating an application
+    SetMetadataRequest:
       type: object
-      required:
-      - name
+      description: Request body for setting metadata (rate limit and/or custom metadata) on a resource
       properties:
-        name:
-          type: string
-          description: Application name
-        description:
-          type: string
-          description: Application description
-    CreateSubscriptionRequest:
+        rateLimit:
+          $ref: '#/components/schemas/RateLimit'
+        customMetadata:
+          type: object
+          description: Custom metadata key-value pairs
+          additionalProperties:
+            type: string
+    BaseEntity:
       type: object
-      description: Request body for creating a subscription
+      description: Base entity with common fields
       required:
-      - apiProductId
+      - id
+      - createdAt
       properties:
-        apiProductId:
+        id:
           type: string
-          description: ID of the API product to subscribe to
+          description: Unique identifier
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was last updated
     ApiKeyWithSecret:
       description: API key with the actual key value (only returned at creation time)
       allOf:
@@ -562,6 +706,20 @@ components:
             description: Custom metadata for the API key
             additionalProperties:
               type: string
+    CreateApiKeyRequest:
+      type: object
+      description: Request body for creating an API key
+      required:
+      - apiKeyName
+      properties:
+        apiKeyName:
+          type: string
+          description: Display name for the API key
+        metadata:
+          type: object
+          description: Custom metadata for the API key
+          additionalProperties:
+            type: string
     OAuthCredentialWithSecret:
       type: object
       description: OAuth credential with the client secret (only returned at creation time)
@@ -583,164 +741,6 @@ components:
         idpClientName:
           type: string
           description: OAuth client display name
-    App:
-      description: Application information
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - type: object
-        required:
-        - teamId
-        - name
-        properties:
-          teamId:
-            type: string
-            description: ID of the team that owns this app
-          name:
-            type: string
-            description: Application name
-          description:
-            type: string
-            description: Application description
-          metadata:
-            $ref: '#/components/schemas/ResourceMetadata'
-    SetMetadataRequest:
-      type: object
-      description: Request body for setting metadata (rate limit and/or custom metadata) on a resource
-      properties:
-        rateLimit:
-          $ref: '#/components/schemas/RateLimit'
-        customMetadata:
-          type: object
-          description: Custom metadata key-value pairs
-          additionalProperties:
-            type: string
-    OAuthCredential:
-      type: object
-      description: OAuth credential information (without the client secret)
-      required:
-      - id
-      - idpClientId
-      - idpClientName
-      properties:
-        id:
-          type: string
-          description: Unique OAuth credential identifier
-        idpClientId:
-          type: string
-          description: OAuth client ID
-        idpClientName:
-          type: string
-          description: OAuth client display name
-    ResourceMetadata:
-      type: object
-      description: Metadata attached to a resource (app or subscription) including rate limits and custom key-value pairs
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          description: Metadata record ID (resource ID + "-metadata" suffix)
-        customMetadata:
-          type: object
-          description: Custom metadata key-value pairs
-          additionalProperties:
-            type: string
-        rateLimit:
-          $ref: '#/components/schemas/RateLimit'
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the parent resource was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the parent resource was last updated
-    CreateApiKeyRequest:
-      type: object
-      description: Request body for creating an API key
-      required:
-      - apiKeyName
-      properties:
-        apiKeyName:
-          type: string
-          description: Display name for the API key
-        metadata:
-          type: object
-          description: Custom metadata for the API key
-          additionalProperties:
-            type: string
-    ApiKey:
-      description: API key information (without the actual key value)
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - type: object
-        required:
-        - appId
-        - name
-        properties:
-          appId:
-            type: string
-            description: ID of the application this key belongs to
-          name:
-            type: string
-            description: Display name for the API key
-          expiresAt:
-            type: string
-            format: date-time
-            description: Timestamp when the key expires
-          metadata:
-            type: object
-            description: Custom metadata for the API key
-            additionalProperties:
-              type: string
-    RateLimit:
-      type: object
-      description: Rate limit configuration
-      required:
-      - requestsPerUnit
-      - unit
-      properties:
-        requestsPerUnit:
-          type: string
-          description: Number of requests allowed per unit
-        unit:
-          type: string
-          description: Time unit for rate limiting
-          enum:
-          - SECOND
-          - MINUTE
-          - HOUR
-          - DAY
-          - MONTH
-          - YEAR
-    BaseEntity:
-      type: object
-      description: Base entity with common fields
-      required:
-      - id
-      - createdAt
-      properties:
-        id:
-          type: string
-          description: Unique identifier
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the entity was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the entity was last updated
-    UpdateAppRequest:
-      type: object
-      description: Request body for updating an application
-      properties:
-        name:
-          type: string
-          description: Application name
-        description:
-          type: string
-          description: Application description
   securitySchemes:
     bearerAuth:
       type: http

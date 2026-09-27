@@ -24,9 +24,7 @@
     "solo-io-applications-api-openapi.yml",
     "solo-io-me-api-openapi.yml"
   ],
-  "archived": [
-    "deleted 1 superseded output(s) from the previous generation"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -49,13 +47,12 @@
     "tag 'subscriptions' spans 2 source specs (solo-io-portal-backend-openapi.yml, solo-io-portal-server-openapi.yml): per-path servers applied",
     "tag 'teams' spans 2 source specs (solo-io-portal-backend-openapi.yml, solo-io-portal-server-openapi.yml): per-path servers applied",
     "tag 'Applications' spans 2 source specs (solo-io-portal-idp-connect-openapi.yml, solo-io-portal-server-openapi.yml): per-path servers applied",
-    "superseded outputs removed: solo-io-ap-is-api-openapi.yml",
-    "apis.yml register: written (+1 apis, 15 total)"
+    "apis.yml register: already-registered"
   ],
   "skipped": [
-    "solo-io-ap-is-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "solo-io-api-keys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "solo-io-api-products-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "solo-io-apis-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "solo-io-applications-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "solo-io-apps-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "solo-io-auth-api-openapi.yml: previously refined output, superseded by openapi/_original/",

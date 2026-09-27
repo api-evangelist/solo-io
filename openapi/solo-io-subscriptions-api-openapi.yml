@@ -302,6 +302,59 @@ paths:
     - url: http://portal.example.com/v1
 components:
   schemas:
+    RateLimit:
+      type: object
+      description: Rate limit configuration
+      required:
+      - requestsPerUnit
+      - unit
+      properties:
+        requestsPerUnit:
+          type: string
+          description: Number of requests allowed per unit
+        unit:
+          type: string
+          description: Time unit for rate limiting
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
+    CreateSubscriptionRequest:
+      type: object
+      description: Request body for creating a subscription
+      required:
+      - apiProductId
+      properties:
+        apiProductId:
+          type: string
+          description: ID of the API product to subscribe to
+    ResourceMetadata:
+      type: object
+      description: Metadata attached to a resource (app or subscription) including rate limits and custom key-value pairs
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          description: Metadata record ID (resource ID + "-metadata" suffix)
+        customMetadata:
+          type: object
+          description: Custom metadata key-value pairs
+          additionalProperties:
+            type: string
+        rateLimit:
+          $ref: '#/components/schemas/RateLimit'
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the parent resource was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the parent resource was last updated
     Subscription:
       description: Subscription to an API product
       allOf:
@@ -331,15 +384,13 @@ components:
             description: Timestamp when the subscription was requested
           metadata:
             $ref: '#/components/schemas/ResourceMetadata'
-    CreateSubscriptionRequest:
-      type: object
-      description: Request body for creating a subscription
-      required:
-      - apiProductId
-      properties:
-        apiProductId:
-          type: string
-          description: ID of the API product to subscribe to
+    SubscriptionStatus:
+      type: string
+      description: Subscription status
+      enum:
+      - pending
+      - approved
+      - rejected
     SetMetadataRequest:
       type: object
       description: Request body for setting metadata (rate limit and/or custom metadata) on a resource
@@ -351,37 +402,6 @@ components:
           description: Custom metadata key-value pairs
           additionalProperties:
             type: string
-    SubscriptionStatus:
-      type: string
-      description: Subscription status
-      enum:
-      - pending
-      - approved
-      - rejected
-    ResourceMetadata:
-      type: object
-      description: Metadata attached to a resource (app or subscription) including rate limits and custom key-value pairs
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          description: Metadata record ID (resource ID + "-metadata" suffix)
-        customMetadata:
-          type: object
-          description: Custom metadata key-value pairs
-          additionalProperties:
-            type: string
-        rateLimit:
-          $ref: '#/components/schemas/RateLimit'
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the parent resource was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the parent resource was last updated
     BaseEntity:
       type: object
       description: Base entity with common fields
@@ -400,19 +420,12 @@ components:
           type: string
           format: date-time
           description: Timestamp when the entity was last updated
-    RateLimit:
-      type: object
-      description: Rate limit configuration
-      required:
-      - requestsPerUnit
-      - unit
+    RateLimit_2:
       properties:
         requestsPerUnit:
+          example: 5
           type: string
-          description: Number of requests allowed per unit
         unit:
-          type: string
-          description: Time unit for rate limiting
           enum:
           - SECOND
           - MINUTE
@@ -420,17 +433,8 @@ components:
           - DAY
           - MONTH
           - YEAR
-    SubscriptionMetadata:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity_2'
-      - properties:
-          customMetadata:
-            example:
-              key: value
-            type: object
-          rateLimit:
-            $ref: '#/components/schemas/RateLimit_2'
-        type: object
+          example: SECOND
+          type: string
     Subscription_2:
       allOf:
       - $ref: '#/components/schemas/BaseEntity_2'
@@ -468,6 +472,17 @@ components:
             readOnly: true
             type: string
         type: object
+    SubscriptionMetadata:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - properties:
+          customMetadata:
+            example:
+              key: value
+            type: object
+          rateLimit:
+            $ref: '#/components/schemas/RateLimit_2'
+        type: object
     BaseEntity_2:
       properties:
         createdAt:
@@ -488,21 +503,6 @@ components:
           example: '2021-08-25T20:00:00Z'
           format: date-time
           readOnly: true
-          type: string
-    RateLimit_2:
-      properties:
-        requestsPerUnit:
-          example: 5
-          type: string
-        unit:
-          enum:
-          - SECOND
-          - MINUTE
-          - HOUR
-          - DAY
-          - MONTH
-          - YEAR
-          example: SECOND
           type: string
   securitySchemes:
     bearerAuth:

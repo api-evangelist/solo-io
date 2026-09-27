@@ -500,55 +500,41 @@ components:
         clientName:
           type: string
           example: example-user-pool-developer-1
-    Subscription:
+    RateLimit:
+      properties:
+        requestsPerUnit:
+          example: 5
+          type: string
+        unit:
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
+          example: SECOND
+          type: string
+    APIKey:
       allOf:
       - $ref: '#/components/schemas/BaseEntity'
       - properties:
-          apiProductId:
-            description: The ID of the API product associated with the subscription.
+          apiKey:
+            description: Is returned only once when the API key is created
+            example: 4f357f4f-cd56-41d2-aca8-301c999bb8a4
             type: string
-          applicationId:
-            description: The ID of the application to which the subscription is associated.
-            readOnly: true
-            type: string
-          approved:
-            description: Indicates whether the subscription has been approved.
-            readOnly: true
-            type: boolean
-          approvedAt:
-            description: The timestamp when the subscription was approved.
-            format: date-time
-            readOnly: true
+          id:
+            example: ae8261d2-4e16-4a06-b1f3-1af71464a8dd
             type: string
           metadata:
-            $ref: '#/components/schemas/SubscriptionMetadata'
-          rejected:
-            description: Indicates whether the subscription has been rejected.
-            readOnly: true
-            type: boolean
-          rejectedAt:
-            description: The timestamp when the subscription was rejected.
-            format: date-time
-            readOnly: true
-            type: string
-          requestedAt:
-            description: The timestamp when the subscription was requested.
-            format: date-time
-            readOnly: true
-            type: string
-        type: object
-    SubscriptionMetadata:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - properties:
-          customMetadata:
             example:
               key: value
             type: object
-          rateLimit:
-            $ref: '#/components/schemas/RateLimit'
+          name:
+            example: api-key-name-1
+            type: string
         type: object
-    ApplicationMetadata:
+    SubscriptionMetadata:
       allOf:
       - $ref: '#/components/schemas/BaseEntity'
       - properties:
@@ -586,25 +572,6 @@ components:
           readOnly: true
           type: string
       type: object
-    APIKey:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - properties:
-          apiKey:
-            description: Is returned only once when the API key is created
-            example: 4f357f4f-cd56-41d2-aca8-301c999bb8a4
-            type: string
-          id:
-            example: ae8261d2-4e16-4a06-b1f3-1af71464a8dd
-            type: string
-          metadata:
-            example:
-              key: value
-            type: object
-          name:
-            example: api-key-name-1
-            type: string
-        type: object
     Application:
       allOf:
       - $ref: '#/components/schemas/BaseEntity'
@@ -630,6 +597,54 @@ components:
         name:
           example: app
           type: string
+    Subscription:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - properties:
+          apiProductId:
+            description: The ID of the API product associated with the subscription.
+            type: string
+          applicationId:
+            description: The ID of the application to which the subscription is associated.
+            readOnly: true
+            type: string
+          approved:
+            description: Indicates whether the subscription has been approved.
+            readOnly: true
+            type: boolean
+          approvedAt:
+            description: The timestamp when the subscription was approved.
+            format: date-time
+            readOnly: true
+            type: string
+          metadata:
+            $ref: '#/components/schemas/SubscriptionMetadata'
+          rejected:
+            description: Indicates whether the subscription has been rejected.
+            readOnly: true
+            type: boolean
+          rejectedAt:
+            description: The timestamp when the subscription was rejected.
+            format: date-time
+            readOnly: true
+            type: string
+          requestedAt:
+            description: The timestamp when the subscription was requested.
+            format: date-time
+            readOnly: true
+            type: string
+        type: object
+    ApplicationMetadata:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - properties:
+          customMetadata:
+            example:
+              key: value
+            type: object
+          rateLimit:
+            $ref: '#/components/schemas/RateLimit'
+        type: object
     BaseEntity:
       properties:
         createdAt:
@@ -650,21 +665,6 @@ components:
           example: '2021-08-25T20:00:00Z'
           format: date-time
           readOnly: true
-          type: string
-    RateLimit:
-      properties:
-        requestsPerUnit:
-          example: 5
-          type: string
-        unit:
-          enum:
-          - SECOND
-          - MINUTE
-          - HOUR
-          - DAY
-          - MONTH
-          - YEAR
-          example: SECOND
           type: string
   securitySchemes:
     identityToken:

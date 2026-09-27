@@ -160,14 +160,13 @@ paths:
     - url: http://portal.example.com/v1
 components:
   schemas:
-    ApiProductSummary:
-      description: API product summary for listing
+    ApiProductDetails:
+      description: API product detailed information
       allOf:
       - $ref: '#/components/schemas/BaseEntity'
       - type: object
         required:
         - name
-        - versionsCount
         properties:
           name:
             type: string
@@ -180,9 +179,10 @@ components:
             description: Custom metadata for the API product
             additionalProperties:
               type: string
-          versionsCount:
-            type: integer
-            description: Number of versions available
+          contactEmail:
+            type: string
+            format: email
+            description: Contact email for the API product
     ApiProductVersion:
       description: API product version with OpenAPI spec
       allOf:
@@ -219,13 +219,14 @@ components:
           apiSpecError:
             type: string
             description: Error message if API spec could not be loaded
-    ApiProductDetails:
-      description: API product detailed information
+    ApiProductSummary:
+      description: API product summary for listing
       allOf:
       - $ref: '#/components/schemas/BaseEntity'
       - type: object
         required:
         - name
+        - versionsCount
         properties:
           name:
             type: string
@@ -238,10 +239,9 @@ components:
             description: Custom metadata for the API product
             additionalProperties:
               type: string
-          contactEmail:
-            type: string
-            format: email
-            description: Contact email for the API product
+          versionsCount:
+            type: integer
+            description: Number of versions available
     BaseEntity:
       type: object
       description: Base entity with common fields
@@ -260,28 +260,6 @@ components:
           type: string
           format: date-time
           description: Timestamp when the entity was last updated
-    APIProductSummary:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity_2'
-      - properties:
-          apiKeyEnabled:
-            description: Indicates whether `ApiKey` is enabled as an authentication mechanism for the API product.
-            type: boolean
-          apiProductMetadata:
-            description: Metadata for the API product.
-            type: object
-          description:
-            type: string
-          name:
-            type: string
-          oauthEnabled:
-            description: Indicates whether `OAuth` is enabled as an authentication mechanism for the API product.
-            type: boolean
-          versionsCount:
-            description: The version count of the API product.
-            example: 2
-            type: integer
-        type: object
     ProductVersion:
       allOf:
       - $ref: '#/components/schemas/BaseEntity_2'
@@ -317,6 +295,28 @@ components:
             type: string
           name:
             type: string
+        type: object
+    APIProductSummary:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - properties:
+          apiKeyEnabled:
+            description: Indicates whether `ApiKey` is enabled as an authentication mechanism for the API product.
+            type: boolean
+          apiProductMetadata:
+            description: Metadata for the API product.
+            type: object
+          description:
+            type: string
+          name:
+            type: string
+          oauthEnabled:
+            description: Indicates whether `OAuth` is enabled as an authentication mechanism for the API product.
+            type: boolean
+          versionsCount:
+            description: The version count of the API product.
+            example: 2
+            type: integer
         type: object
     BaseEntity_2:
       properties:

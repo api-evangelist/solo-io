@@ -53,11 +53,11 @@ tags:
 - Istio
 - Envoy
 - AI Gateway
-- Agentic AI
+- AI Agents
 - MCP
 - Developer Portal
 - Cloud-Native
-- Open-Source
+- Open Source
 tags_raw:
 - Company
 - API Gateway
@@ -71,6 +71,7 @@ tags_raw:
 - Developer Portal
 - Cloud Native
 - Open Source
+- Open-Source
 apis:
 - aid: solo-io:solo-io-api-keys-api
   name: Solo.io API Keys API
@@ -375,7 +376,7 @@ apis:
   - type: Documentation
     url: https://docs.solo.io/agentgateway/2.3.x/llm/guardrails/webhook/
 - aid: solo-io:solo-io-apis-api
-  name: Solo.io AP Is API
+  name: Solo.io APIs API
   description: The APIs API from Solo.io — 5 operation(s) for apis.
   humanURL: https://docs.solo.io/gateway/latest/portal/openapi/
   baseURL: https://portal.example.com/v1
