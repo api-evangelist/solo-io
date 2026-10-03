@@ -160,29 +160,6 @@ paths:
     - url: http://portal.example.com/v1
 components:
   schemas:
-    ApiProductDetails:
-      description: API product detailed information
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - type: object
-        required:
-        - name
-        properties:
-          name:
-            type: string
-            description: API product display name
-          description:
-            type: string
-            description: API product description
-          apiProductMetadata:
-            type: object
-            description: Custom metadata for the API product
-            additionalProperties:
-              type: string
-          contactEmail:
-            type: string
-            format: email
-            description: Contact email for the API product
     ApiProductVersion:
       description: API product version with OpenAPI spec
       allOf:
@@ -219,6 +196,24 @@ components:
           apiSpecError:
             type: string
             description: Error message if API spec could not be loaded
+    BaseEntity:
+      type: object
+      description: Base entity with common fields
+      required:
+      - id
+      - createdAt
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was last updated
     ApiProductSummary:
       description: API product summary for listing
       allOf:
@@ -242,24 +237,50 @@ components:
           versionsCount:
             type: integer
             description: Number of versions available
-    BaseEntity:
-      type: object
-      description: Base entity with common fields
-      required:
-      - id
-      - createdAt
+    ApiProductDetails:
+      description: API product detailed information
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - name
+        properties:
+          name:
+            type: string
+            description: API product display name
+          description:
+            type: string
+            description: API product description
+          apiProductMetadata:
+            type: object
+            description: Custom metadata for the API product
+            additionalProperties:
+              type: string
+          contactEmail:
+            type: string
+            format: email
+            description: Contact email for the API product
+    BaseEntity_2:
       properties:
-        id:
-          type: string
-          description: Unique identifier
         createdAt:
-          type: string
+          example: '2021-08-25T20:00:00Z'
           format: date-time
-          description: Timestamp when the entity was created
+          readOnly: true
+          type: string
+        deletedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          example: uuid
+          readOnly: true
+          type: string
         updatedAt:
-          type: string
+          example: '2021-08-25T20:00:00Z'
           format: date-time
-          description: Timestamp when the entity was last updated
+          readOnly: true
+          type: string
     ProductVersion:
       allOf:
       - $ref: '#/components/schemas/BaseEntity_2'
@@ -318,27 +339,6 @@ components:
             example: 2
             type: integer
         type: object
-    BaseEntity_2:
-      properties:
-        createdAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-        deletedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-        id:
-          example: uuid
-          readOnly: true
-          type: string
-        updatedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
   securitySchemes:
     bearerAuth:
       type: http

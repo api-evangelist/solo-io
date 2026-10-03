@@ -322,15 +322,17 @@ components:
           - DAY
           - MONTH
           - YEAR
-    CreateSubscriptionRequest:
+    SetMetadataRequest:
       type: object
-      description: Request body for creating a subscription
-      required:
-      - apiProductId
+      description: Request body for setting metadata (rate limit and/or custom metadata) on a resource
       properties:
-        apiProductId:
-          type: string
-          description: ID of the API product to subscribe to
+        rateLimit:
+          $ref: '#/components/schemas/RateLimit'
+        customMetadata:
+          type: object
+          description: Custom metadata key-value pairs
+          additionalProperties:
+            type: string
     ResourceMetadata:
       type: object
       description: Metadata attached to a resource (app or subscription) including rate limits and custom key-value pairs
@@ -355,6 +357,40 @@ components:
           type: string
           format: date-time
           description: Timestamp when the parent resource was last updated
+    BaseEntity:
+      type: object
+      description: Base entity with common fields
+      required:
+      - id
+      - createdAt
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was last updated
+    SubscriptionStatus:
+      type: string
+      description: Subscription status
+      enum:
+      - pending
+      - approved
+      - rejected
+    CreateSubscriptionRequest:
+      type: object
+      description: Request body for creating a subscription
+      required:
+      - apiProductId
+      properties:
+        apiProductId:
+          type: string
+          description: ID of the API product to subscribe to
     Subscription:
       description: Subscription to an API product
       allOf:
@@ -384,42 +420,27 @@ components:
             description: Timestamp when the subscription was requested
           metadata:
             $ref: '#/components/schemas/ResourceMetadata'
-    SubscriptionStatus:
-      type: string
-      description: Subscription status
-      enum:
-      - pending
-      - approved
-      - rejected
-    SetMetadataRequest:
-      type: object
-      description: Request body for setting metadata (rate limit and/or custom metadata) on a resource
+    BaseEntity_2:
       properties:
-        rateLimit:
-          $ref: '#/components/schemas/RateLimit'
-        customMetadata:
-          type: object
-          description: Custom metadata key-value pairs
-          additionalProperties:
-            type: string
-    BaseEntity:
-      type: object
-      description: Base entity with common fields
-      required:
-      - id
-      - createdAt
-      properties:
-        id:
-          type: string
-          description: Unique identifier
         createdAt:
-          type: string
+          example: '2021-08-25T20:00:00Z'
           format: date-time
-          description: Timestamp when the entity was created
+          readOnly: true
+          type: string
+        deletedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          example: uuid
+          readOnly: true
+          type: string
         updatedAt:
-          type: string
+          example: '2021-08-25T20:00:00Z'
           format: date-time
-          description: Timestamp when the entity was last updated
+          readOnly: true
+          type: string
     RateLimit_2:
       properties:
         requestsPerUnit:
@@ -435,6 +456,17 @@ components:
           - YEAR
           example: SECOND
           type: string
+    SubscriptionMetadata:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - properties:
+          customMetadata:
+            example:
+              key: value
+            type: object
+          rateLimit:
+            $ref: '#/components/schemas/RateLimit_2'
+        type: object
     Subscription_2:
       allOf:
       - $ref: '#/components/schemas/BaseEntity_2'
@@ -472,38 +504,6 @@ components:
             readOnly: true
             type: string
         type: object
-    SubscriptionMetadata:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity_2'
-      - properties:
-          customMetadata:
-            example:
-              key: value
-            type: object
-          rateLimit:
-            $ref: '#/components/schemas/RateLimit_2'
-        type: object
-    BaseEntity_2:
-      properties:
-        createdAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-        deletedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-        id:
-          example: uuid
-          readOnly: true
-          type: string
-        updatedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
   securitySchemes:
     bearerAuth:
       type: http

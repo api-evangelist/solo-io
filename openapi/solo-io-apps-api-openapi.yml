@@ -488,6 +488,26 @@ paths:
           description: Internal server error
 components:
   schemas:
+    App:
+      description: Application information
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - teamId
+        - name
+        properties:
+          teamId:
+            type: string
+            description: ID of the team that owns this app
+          name:
+            type: string
+            description: Application name
+          description:
+            type: string
+            description: Application description
+          metadata:
+            $ref: '#/components/schemas/ResourceMetadata'
     RateLimit:
       type: object
       description: Rate limit configuration
@@ -508,27 +528,58 @@ components:
           - DAY
           - MONTH
           - YEAR
-    CreateSubscriptionRequest:
+    SetMetadataRequest:
       type: object
-      description: Request body for creating a subscription
-      required:
-      - apiProductId
+      description: Request body for setting metadata (rate limit and/or custom metadata) on a resource
       properties:
-        apiProductId:
-          type: string
-          description: ID of the API product to subscribe to
-    CreateAppRequest:
-      description: Request body for creating an application
+        rateLimit:
+          $ref: '#/components/schemas/RateLimit'
+        customMetadata:
+          type: object
+          description: Custom metadata key-value pairs
+          additionalProperties:
+            type: string
+    ApiKeyWithSecret:
+      description: API key with the actual key value (only returned at creation time)
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - appId
+        - name
+        - apiKey
+        properties:
+          appId:
+            type: string
+            description: ID of the application this key belongs to
+          name:
+            type: string
+            description: Display name for the API key
+          apiKey:
+            type: string
+            description: The raw API key value (only returned at creation time)
+          metadata:
+            type: object
+            description: Custom metadata for the API key
+            additionalProperties:
+              type: string
+    OAuthCredential:
       type: object
+      description: OAuth credential information (without the client secret)
       required:
-      - name
+      - id
+      - idpClientId
+      - idpClientName
       properties:
-        name:
+        id:
           type: string
-          description: Application name
-        description:
+          description: Unique OAuth credential identifier
+        idpClientId:
           type: string
-          description: Application description
+          description: OAuth client ID
+        idpClientName:
+          type: string
+          description: OAuth client display name
     ResourceMetadata:
       type: object
       description: Metadata attached to a resource (app or subscription) including rate limits and custom key-value pairs
@@ -553,53 +604,20 @@ components:
           type: string
           format: date-time
           description: Timestamp when the parent resource was last updated
-    App:
-      description: Application information
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - type: object
-        required:
-        - teamId
-        - name
-        properties:
-          teamId:
-            type: string
-            description: ID of the team that owns this app
-          name:
-            type: string
-            description: Application name
-          description:
-            type: string
-            description: Application description
-          metadata:
-            $ref: '#/components/schemas/ResourceMetadata'
-    UpdateAppRequest:
+    CreateApiKeyRequest:
       type: object
-      description: Request body for updating an application
-      properties:
-        name:
-          type: string
-          description: Application name
-        description:
-          type: string
-          description: Application description
-    OAuthCredential:
-      type: object
-      description: OAuth credential information (without the client secret)
+      description: Request body for creating an API key
       required:
-      - id
-      - idpClientId
-      - idpClientName
+      - apiKeyName
       properties:
-        id:
+        apiKeyName:
           type: string
-          description: Unique OAuth credential identifier
-        idpClientId:
-          type: string
-          description: OAuth client ID
-        idpClientName:
-          type: string
-          description: OAuth client display name
+          description: Display name for the API key
+        metadata:
+          type: object
+          description: Custom metadata for the API key
+          additionalProperties:
+            type: string
     ApiKey:
       description: API key information (without the actual key value)
       allOf:
@@ -624,6 +642,76 @@ components:
             description: Custom metadata for the API key
             additionalProperties:
               type: string
+    BaseEntity:
+      type: object
+      description: Base entity with common fields
+      required:
+      - id
+      - createdAt
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was last updated
+    CreateSubscriptionRequest:
+      type: object
+      description: Request body for creating a subscription
+      required:
+      - apiProductId
+      properties:
+        apiProductId:
+          type: string
+          description: ID of the API product to subscribe to
+    UpdateAppRequest:
+      type: object
+      description: Request body for updating an application
+      properties:
+        name:
+          type: string
+          description: Application name
+        description:
+          type: string
+          description: Application description
+    CreateAppRequest:
+      description: Request body for creating an application
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Application name
+        description:
+          type: string
+          description: Application description
+    OAuthCredentialWithSecret:
+      type: object
+      description: OAuth credential with the client secret (only returned at creation time)
+      required:
+      - id
+      - idpClientId
+      - idpClientSecret
+      - idpClientName
+      properties:
+        id:
+          type: string
+          description: Unique OAuth credential identifier
+        idpClientId:
+          type: string
+          description: OAuth client ID
+        idpClientSecret:
+          type: string
+          description: OAuth client secret (only returned at creation time)
+        idpClientName:
+          type: string
+          description: OAuth client display name
     Subscription:
       description: Subscription to an API product
       allOf:
@@ -653,94 +741,6 @@ components:
             description: Timestamp when the subscription was requested
           metadata:
             $ref: '#/components/schemas/ResourceMetadata'
-    SetMetadataRequest:
-      type: object
-      description: Request body for setting metadata (rate limit and/or custom metadata) on a resource
-      properties:
-        rateLimit:
-          $ref: '#/components/schemas/RateLimit'
-        customMetadata:
-          type: object
-          description: Custom metadata key-value pairs
-          additionalProperties:
-            type: string
-    BaseEntity:
-      type: object
-      description: Base entity with common fields
-      required:
-      - id
-      - createdAt
-      properties:
-        id:
-          type: string
-          description: Unique identifier
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the entity was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the entity was last updated
-    ApiKeyWithSecret:
-      description: API key with the actual key value (only returned at creation time)
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - type: object
-        required:
-        - appId
-        - name
-        - apiKey
-        properties:
-          appId:
-            type: string
-            description: ID of the application this key belongs to
-          name:
-            type: string
-            description: Display name for the API key
-          apiKey:
-            type: string
-            description: The raw API key value (only returned at creation time)
-          metadata:
-            type: object
-            description: Custom metadata for the API key
-            additionalProperties:
-              type: string
-    CreateApiKeyRequest:
-      type: object
-      description: Request body for creating an API key
-      required:
-      - apiKeyName
-      properties:
-        apiKeyName:
-          type: string
-          description: Display name for the API key
-        metadata:
-          type: object
-          description: Custom metadata for the API key
-          additionalProperties:
-            type: string
-    OAuthCredentialWithSecret:
-      type: object
-      description: OAuth credential with the client secret (only returned at creation time)
-      required:
-      - id
-      - idpClientId
-      - idpClientSecret
-      - idpClientName
-      properties:
-        id:
-          type: string
-          description: Unique OAuth credential identifier
-        idpClientId:
-          type: string
-          description: OAuth client ID
-        idpClientSecret:
-          type: string
-          description: OAuth client secret (only returned at creation time)
-        idpClientName:
-          type: string
-          description: OAuth client display name
   securitySchemes:
     bearerAuth:
       type: http

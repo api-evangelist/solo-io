@@ -248,58 +248,6 @@ paths:
       - APIs
 components:
   schemas:
-    API:
-      properties:
-        apiId:
-          example: petstoreAPI-petstoreNamespace-cluster-1
-          type: string
-        title:
-          example: pet store
-          type: string
-        description:
-          example: list of pet store apis
-          type: string
-        termsOfService:
-          example: example terms of service
-          type: string
-        contact:
-          example: 123@email.com
-          type: string
-        license:
-          example: MIT
-          type: string
-        usagePlans:
-          type: array
-          items:
-            type: string
-          example:
-          - bronze plan
-          - silver plan
-          - gold plan
-        customMetadata:
-          type: object
-          additionalProperties:
-            type: string
-          example:
-            type: customers
-            region: us-east-1
-      type: object
-    APIKey:
-      properties:
-        apiKey:
-          description: Is returned only once when the API key is created
-          example: 4f357f4f-cd56-41d2-aca8-301c999bb8a4
-          type: string
-        id:
-          example: ae8261d2-4e16-4a06-b1f3-1af71464a8dd
-          type: string
-        name:
-          example: api-key-name-1
-          type: string
-        metadata:
-          type: object
-          example:
-            key: value
     UsagePlanKeys:
       properties:
         usagePlan:
@@ -341,6 +289,58 @@ components:
         authType:
           type: string
           example: apiKeyAuth
+      type: object
+    APIKey:
+      properties:
+        apiKey:
+          description: Is returned only once when the API key is created
+          example: 4f357f4f-cd56-41d2-aca8-301c999bb8a4
+          type: string
+        id:
+          example: ae8261d2-4e16-4a06-b1f3-1af71464a8dd
+          type: string
+        name:
+          example: api-key-name-1
+          type: string
+        metadata:
+          type: object
+          example:
+            key: value
+    API:
+      properties:
+        apiId:
+          example: petstoreAPI-petstoreNamespace-cluster-1
+          type: string
+        title:
+          example: pet store
+          type: string
+        description:
+          example: list of pet store apis
+          type: string
+        termsOfService:
+          example: example terms of service
+          type: string
+        contact:
+          example: 123@email.com
+          type: string
+        license:
+          example: MIT
+          type: string
+        usagePlans:
+          type: array
+          items:
+            type: string
+          example:
+          - bronze plan
+          - silver plan
+          - gold plan
+        customMetadata:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            type: customers
+            region: us-east-1
       type: object
   securitySchemes:
     identityToken:
