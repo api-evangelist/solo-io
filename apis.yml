@@ -402,6 +402,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/solo-io-capability-edges.yml
+  name: Solo.io Business Capability Map
 - type: IssueTracker
   url: https://github.com/solo-io/gloo-portal-idp-connect/issues
 - type: Releases
