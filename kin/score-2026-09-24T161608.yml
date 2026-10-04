@@ -1,22 +1,20 @@
-# Kin Score artifact — solo-io — 2026-08-24T171257
+# Kin Score artifact — solo-io — 2026-09-24T161608
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: solo-io
-  schema_version: 0.13.0
-  scored_at: '2026-08-24'
-  run_ts: 2026-08-24T171257
-  composite: 68.4
-  band: exemplar
+  schema_version: 0.22.0
+  scored_at: '2026-09-24'
+  run_ts: 2026-09-24T161608
+  composite: 62.4
+  band: strong
   facets:
     discoverability: 81.5
     contract_quality: 69.7
-    governance: 41.7
+    contract_governance: 29.5
     operational_transparency: 52.6
     developer_ergonomics: 78.6
-    commercial_clarity: 76.3
-    contract_governance: 41.7
-    access_clarity: 76.3
+    access_clarity: 65.8
   agent_readiness:
     score: 37.6
     band: agent-ready
@@ -40,6 +38,9 @@ kin_score:
       protected_resource_metadata: false
       dynamic_client_registration: false
       agentic_commerce: false
+  open_source:
+    applies: true
+    score: 25.0
   provenance:
     mcp: first-party
     skills: first-party
@@ -48,4 +49,4 @@ kin_score:
       total: 15
       derived: 0
       coverage: 0.0
-      callable: 20.0
+      callable: 0.0
