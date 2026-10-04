@@ -62,27 +62,6 @@ paths:
       - Me
 components:
   schemas:
-    BaseEntity:
-      properties:
-        createdAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-        deletedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-        id:
-          example: uuid
-          readOnly: true
-          type: string
-        updatedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
     User:
       allOf:
       - $ref: '#/components/schemas/BaseEntity'
@@ -105,6 +84,27 @@ components:
         required:
         - email
         type: object
+    BaseEntity:
+      properties:
+        createdAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        deletedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          example: uuid
+          readOnly: true
+          type: string
+        updatedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
   securitySchemes:
     identityToken:
       description: id token cookie from the identity provider used to authenticate the user

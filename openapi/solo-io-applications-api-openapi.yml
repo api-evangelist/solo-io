@@ -500,135 +500,6 @@ components:
         reason:
           type: string
           example: Error reason
-    ApplicationMetadata:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - properties:
-          customMetadata:
-            example:
-              key: value
-            type: object
-          rateLimit:
-            $ref: '#/components/schemas/RateLimit'
-        type: object
-    RateLimit:
-      properties:
-        requestsPerUnit:
-          example: 5
-          type: string
-        unit:
-          enum:
-          - SECOND
-          - MINUTE
-          - HOUR
-          - DAY
-          - MONTH
-          - YEAR
-          example: SECOND
-          type: string
-    SubscriptionMetadata:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - properties:
-          customMetadata:
-            example:
-              key: value
-            type: object
-          rateLimit:
-            $ref: '#/components/schemas/RateLimit'
-        type: object
-    SubscriptionCreate:
-      properties:
-        apiProductId:
-          description: The API Product ID that we are subscribing to
-          type: string
-      required:
-      - apiProductId
-      type: object
-    Application:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - properties:
-          description:
-            example: app description
-            type: string
-          metadata:
-            $ref: '#/components/schemas/ApplicationMetadata'
-          name:
-            example: app
-            type: string
-          teamId:
-            example: 2frepq0mjp841i3jfd030dhtmn
-            readOnly: true
-            type: string
-        type: object
-    BaseEntity:
-      properties:
-        createdAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-        deletedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-        id:
-          example: uuid
-          readOnly: true
-          type: string
-        updatedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-    ApplicationUpdate:
-      properties:
-        description:
-          example: the app description
-          type: string
-        name:
-          example: app
-          type: string
-    OAuthCredential:
-      properties:
-        id:
-          example: uuid
-          readOnly: true
-          type: string
-        idpClientId:
-          example: generated-client-id
-          readOnly: true
-          type: string
-        idpClientName:
-          example: client-name
-          readOnly: true
-          type: string
-        idpClientSecret:
-          example: generated-client-secret
-          readOnly: true
-          type: string
-      type: object
-    APIKey:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - properties:
-          apiKey:
-            description: Is returned only once when the API key is created
-            example: 4f357f4f-cd56-41d2-aca8-301c999bb8a4
-            type: string
-          id:
-            example: ae8261d2-4e16-4a06-b1f3-1af71464a8dd
-            type: string
-          metadata:
-            example:
-              key: value
-            type: object
-          name:
-            example: api-key-name-1
-            type: string
-        type: object
     Subscription:
       allOf:
       - $ref: '#/components/schemas/BaseEntity'
@@ -666,6 +537,135 @@ components:
             readOnly: true
             type: string
         type: object
+    SubscriptionMetadata:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - properties:
+          customMetadata:
+            example:
+              key: value
+            type: object
+          rateLimit:
+            $ref: '#/components/schemas/RateLimit'
+        type: object
+    SubscriptionCreate:
+      properties:
+        apiProductId:
+          description: The API Product ID that we are subscribing to
+          type: string
+      required:
+      - apiProductId
+      type: object
+    RateLimit:
+      properties:
+        requestsPerUnit:
+          example: 5
+          type: string
+        unit:
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
+          example: SECOND
+          type: string
+    Application:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - properties:
+          description:
+            example: app description
+            type: string
+          metadata:
+            $ref: '#/components/schemas/ApplicationMetadata'
+          name:
+            example: app
+            type: string
+          teamId:
+            example: 2frepq0mjp841i3jfd030dhtmn
+            readOnly: true
+            type: string
+        type: object
+    APIKey:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - properties:
+          apiKey:
+            description: Is returned only once when the API key is created
+            example: 4f357f4f-cd56-41d2-aca8-301c999bb8a4
+            type: string
+          id:
+            example: ae8261d2-4e16-4a06-b1f3-1af71464a8dd
+            type: string
+          metadata:
+            example:
+              key: value
+            type: object
+          name:
+            example: api-key-name-1
+            type: string
+        type: object
+    ApplicationMetadata:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - properties:
+          customMetadata:
+            example:
+              key: value
+            type: object
+          rateLimit:
+            $ref: '#/components/schemas/RateLimit'
+        type: object
+    ApplicationUpdate:
+      properties:
+        description:
+          example: the app description
+          type: string
+        name:
+          example: app
+          type: string
+    BaseEntity:
+      properties:
+        createdAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        deletedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          example: uuid
+          readOnly: true
+          type: string
+        updatedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+    OAuthCredential:
+      properties:
+        id:
+          example: uuid
+          readOnly: true
+          type: string
+        idpClientId:
+          example: generated-client-id
+          readOnly: true
+          type: string
+        idpClientName:
+          example: client-name
+          readOnly: true
+          type: string
+        idpClientSecret:
+          example: generated-client-secret
+          readOnly: true
+          type: string
+      type: object
   securitySchemes:
     identityToken:
       description: id token cookie from the identity provider used to authenticate the user

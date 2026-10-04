@@ -258,15 +258,6 @@ components:
           items:
             $ref: '#/components/schemas/APIKey'
       type: object
-    RateLimitPolicy:
-      properties:
-        unit:
-          type: string
-          example: MINUTE
-        requestsPerUnit:
-          type: integer
-          example: 1
-      type: object
     UsagePlan:
       properties:
         name:
@@ -289,6 +280,15 @@ components:
         authType:
           type: string
           example: apiKeyAuth
+      type: object
+    RateLimitPolicy:
+      properties:
+        unit:
+          type: string
+          example: MINUTE
+        requestsPerUnit:
+          type: integer
+          example: 1
       type: object
     APIKey:
       properties:

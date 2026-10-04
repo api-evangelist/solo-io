@@ -160,6 +160,52 @@ paths:
     - url: http://portal.example.com/v1
 components:
   schemas:
+    ApiProductSummary:
+      description: API product summary for listing
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - name
+        - versionsCount
+        properties:
+          name:
+            type: string
+            description: API product display name
+          description:
+            type: string
+            description: API product description
+          apiProductMetadata:
+            type: object
+            description: Custom metadata for the API product
+            additionalProperties:
+              type: string
+          versionsCount:
+            type: integer
+            description: Number of versions available
+    ApiProductDetails:
+      description: API product detailed information
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - name
+        properties:
+          name:
+            type: string
+            description: API product display name
+          description:
+            type: string
+            description: API product description
+          apiProductMetadata:
+            type: object
+            description: Custom metadata for the API product
+            additionalProperties:
+              type: string
+          contactEmail:
+            type: string
+            format: email
+            description: Contact email for the API product
     ApiProductVersion:
       description: API product version with OpenAPI spec
       allOf:
@@ -214,73 +260,28 @@ components:
           type: string
           format: date-time
           description: Timestamp when the entity was last updated
-    ApiProductSummary:
-      description: API product summary for listing
+    APIProductSummary:
       allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - type: object
-        required:
-        - name
-        - versionsCount
-        properties:
-          name:
-            type: string
-            description: API product display name
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - properties:
+          apiKeyEnabled:
+            description: Indicates whether `ApiKey` is enabled as an authentication mechanism for the API product.
+            type: boolean
+          apiProductMetadata:
+            description: Metadata for the API product.
+            type: object
           description:
             type: string
-            description: API product description
-          apiProductMetadata:
-            type: object
-            description: Custom metadata for the API product
-            additionalProperties:
-              type: string
+          name:
+            type: string
+          oauthEnabled:
+            description: Indicates whether `OAuth` is enabled as an authentication mechanism for the API product.
+            type: boolean
           versionsCount:
+            description: The version count of the API product.
+            example: 2
             type: integer
-            description: Number of versions available
-    ApiProductDetails:
-      description: API product detailed information
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - type: object
-        required:
-        - name
-        properties:
-          name:
-            type: string
-            description: API product display name
-          description:
-            type: string
-            description: API product description
-          apiProductMetadata:
-            type: object
-            description: Custom metadata for the API product
-            additionalProperties:
-              type: string
-          contactEmail:
-            type: string
-            format: email
-            description: Contact email for the API product
-    BaseEntity_2:
-      properties:
-        createdAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-        deletedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-        id:
-          example: uuid
-          readOnly: true
-          type: string
-        updatedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
+        type: object
     ProductVersion:
       allOf:
       - $ref: '#/components/schemas/BaseEntity_2'
@@ -317,28 +318,27 @@ components:
           name:
             type: string
         type: object
-    APIProductSummary:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity_2'
-      - properties:
-          apiKeyEnabled:
-            description: Indicates whether `ApiKey` is enabled as an authentication mechanism for the API product.
-            type: boolean
-          apiProductMetadata:
-            description: Metadata for the API product.
-            type: object
-          description:
-            type: string
-          name:
-            type: string
-          oauthEnabled:
-            description: Indicates whether `OAuth` is enabled as an authentication mechanism for the API product.
-            type: boolean
-          versionsCount:
-            description: The version count of the API product.
-            example: 2
-            type: integer
-        type: object
+    BaseEntity_2:
+      properties:
+        createdAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        deletedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          example: uuid
+          readOnly: true
+          type: string
+        updatedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

@@ -302,6 +302,35 @@ paths:
     - url: http://portal.example.com/v1
 components:
   schemas:
+    Subscription:
+      description: Subscription to an API product
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - applicationId
+        - apiProductId
+        - approved
+        - rejected
+        properties:
+          applicationId:
+            type: string
+            description: ID of the subscribing application
+          apiProductId:
+            type: string
+            description: ID of the subscribed API product
+          approved:
+            type: boolean
+            description: Whether the subscription is approved
+          rejected:
+            type: boolean
+            description: Whether the subscription is rejected
+          requestedAt:
+            type: string
+            format: date-time
+            description: Timestamp when the subscription was requested
+          metadata:
+            $ref: '#/components/schemas/ResourceMetadata'
     RateLimit:
       type: object
       description: Rate limit configuration
@@ -357,6 +386,13 @@ components:
           type: string
           format: date-time
           description: Timestamp when the parent resource was last updated
+    SubscriptionStatus:
+      type: string
+      description: Subscription status
+      enum:
+      - pending
+      - approved
+      - rejected
     BaseEntity:
       type: object
       description: Base entity with common fields
@@ -375,13 +411,6 @@ components:
           type: string
           format: date-time
           description: Timestamp when the entity was last updated
-    SubscriptionStatus:
-      type: string
-      description: Subscription status
-      enum:
-      - pending
-      - approved
-      - rejected
     CreateSubscriptionRequest:
       type: object
       description: Request body for creating a subscription
@@ -391,82 +420,6 @@ components:
         apiProductId:
           type: string
           description: ID of the API product to subscribe to
-    Subscription:
-      description: Subscription to an API product
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - type: object
-        required:
-        - applicationId
-        - apiProductId
-        - approved
-        - rejected
-        properties:
-          applicationId:
-            type: string
-            description: ID of the subscribing application
-          apiProductId:
-            type: string
-            description: ID of the subscribed API product
-          approved:
-            type: boolean
-            description: Whether the subscription is approved
-          rejected:
-            type: boolean
-            description: Whether the subscription is rejected
-          requestedAt:
-            type: string
-            format: date-time
-            description: Timestamp when the subscription was requested
-          metadata:
-            $ref: '#/components/schemas/ResourceMetadata'
-    BaseEntity_2:
-      properties:
-        createdAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-        deletedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-        id:
-          example: uuid
-          readOnly: true
-          type: string
-        updatedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-    RateLimit_2:
-      properties:
-        requestsPerUnit:
-          example: 5
-          type: string
-        unit:
-          enum:
-          - SECOND
-          - MINUTE
-          - HOUR
-          - DAY
-          - MONTH
-          - YEAR
-          example: SECOND
-          type: string
-    SubscriptionMetadata:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity_2'
-      - properties:
-          customMetadata:
-            example:
-              key: value
-            type: object
-          rateLimit:
-            $ref: '#/components/schemas/RateLimit_2'
-        type: object
     Subscription_2:
       allOf:
       - $ref: '#/components/schemas/BaseEntity_2'
@@ -504,6 +457,53 @@ components:
             readOnly: true
             type: string
         type: object
+    SubscriptionMetadata:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - properties:
+          customMetadata:
+            example:
+              key: value
+            type: object
+          rateLimit:
+            $ref: '#/components/schemas/RateLimit_2'
+        type: object
+    RateLimit_2:
+      properties:
+        requestsPerUnit:
+          example: 5
+          type: string
+        unit:
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
+          example: SECOND
+          type: string
+    BaseEntity_2:
+      properties:
+        createdAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        deletedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          example: uuid
+          readOnly: true
+          type: string
+        updatedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
   securitySchemes:
     bearerAuth:
       type: http
