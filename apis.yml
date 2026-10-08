@@ -402,6 +402,12 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Plans
+  url: plans/solo-io-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/solo-io-rate-limits.yml
+- type: FinOps
+  url: finops/solo-io-finops.yml
 - type: CapabilityMap
   url: capabilities/solo-io-capability-edges.yml
   name: Solo.io Business Capability Map
