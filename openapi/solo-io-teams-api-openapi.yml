@@ -652,6 +652,42 @@ paths:
     - url: http://portal.example.com/v1
 components:
   schemas:
+    TeamSummary:
+      description: Team summary information
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - name
+        properties:
+          name:
+            type: string
+            description: Team name
+          description:
+            type: string
+            description: Team description
+    UpdateTeamRequest:
+      description: Request body for updating a team
+      type: object
+      properties:
+        name:
+          type: string
+          description: Team name
+        description:
+          type: string
+          description: Team description
+    CreateTeamRequest:
+      description: Request body for creating a team
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Team name
+        description:
+          type: string
+          description: Team description
     RateLimit:
       type: object
       description: Rate limit configuration
@@ -683,6 +719,56 @@ components:
           type: string
           format: email
           description: Email of user to add
+    TeamDetails:
+      description: Team details including member list
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity'
+      - type: object
+        required:
+        - name
+        - members
+        properties:
+          name:
+            type: string
+            description: Team name
+          description:
+            type: string
+            description: Team description
+          members:
+            type: array
+            description: List of team members
+            items:
+              $ref: '#/components/schemas/TeamMember'
+    BaseEntity:
+      type: object
+      description: Base entity with common fields
+      required:
+      - id
+      - createdAt
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was last updated
+    CreateAppRequest:
+      description: Request body for creating an application
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Application name
+        description:
+          type: string
+          description: Application description
     ResourceMetadata:
       type: object
       description: Metadata attached to a resource (app or subscription) including rate limits and custom key-value pairs
@@ -727,32 +813,6 @@ components:
             description: Application description
           metadata:
             $ref: '#/components/schemas/ResourceMetadata'
-    CreateTeamRequest:
-      description: Request body for creating a team
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: Team name
-        description:
-          type: string
-          description: Team description
-    TeamSummary:
-      description: Team summary information
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - type: object
-        required:
-        - name
-        properties:
-          name:
-            type: string
-            description: Team name
-          description:
-            type: string
-            description: Team description
     TeamMember:
       description: Team member information
       allOf:
@@ -777,98 +837,21 @@ components:
           synced:
             type: boolean
             description: Whether the user is synced from external provider
-    UpdateTeamRequest:
-      description: Request body for updating a team
-      type: object
-      properties:
-        name:
-          type: string
-          description: Team name
-        description:
-          type: string
-          description: Team description
-    BaseEntity:
-      type: object
-      description: Base entity with common fields
-      required:
-      - id
-      - createdAt
-      properties:
-        id:
-          type: string
-          description: Unique identifier
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the entity was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the entity was last updated
-    CreateAppRequest:
-      description: Request body for creating an application
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: Application name
-        description:
-          type: string
-          description: Application description
-    TeamDetails:
-      description: Team details including member list
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity'
-      - type: object
-        required:
-        - name
-        - members
-        properties:
-          name:
-            type: string
-            description: Team name
-          description:
-            type: string
-            description: Team description
-          members:
-            type: array
-            description: List of team members
-            items:
-              $ref: '#/components/schemas/TeamMember'
-    RateLimit_2:
-      properties:
-        requestsPerUnit:
-          example: 5
-          type: string
-        unit:
-          enum:
-          - SECOND
-          - MINUTE
-          - HOUR
-          - DAY
-          - MONTH
-          - YEAR
-          example: SECOND
-          type: string
-    Application:
+    ApplicationMetadata:
       allOf:
       - $ref: '#/components/schemas/BaseEntity_2'
       - properties:
-          description:
-            example: app description
-            type: string
-          metadata:
-            $ref: '#/components/schemas/ApplicationMetadata'
-          name:
-            example: app
-            type: string
-          teamId:
-            example: 2frepq0mjp841i3jfd030dhtmn
-            readOnly: true
-            type: string
+          customMetadata:
+            example:
+              key: value
+            type: object
+          rateLimit:
+            $ref: '#/components/schemas/RateLimit_2'
         type: object
+    Team:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - $ref: '#/components/schemas/TeamCreate'
     User:
       allOf:
       - $ref: '#/components/schemas/BaseEntity_2'
@@ -891,9 +874,6 @@ components:
         required:
         - email
         type: object
-    TeamUpdate:
-      allOf:
-      - $ref: '#/components/schemas/TeamCreate'
     TeamCreate:
       description: Create a new team
       properties:
@@ -905,21 +885,21 @@ components:
           type: string
       required:
       - name
-    ApplicationMetadata:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity_2'
-      - properties:
-          customMetadata:
-            example:
-              key: value
-            type: object
-          rateLimit:
-            $ref: '#/components/schemas/RateLimit_2'
-        type: object
-    Team:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity_2'
-      - $ref: '#/components/schemas/TeamCreate'
+    RateLimit_2:
+      properties:
+        requestsPerUnit:
+          example: 5
+          type: string
+        unit:
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
+          example: SECOND
+          type: string
     BaseEntity_2:
       properties:
         createdAt:
@@ -941,6 +921,26 @@ components:
           format: date-time
           readOnly: true
           type: string
+    TeamUpdate:
+      allOf:
+      - $ref: '#/components/schemas/TeamCreate'
+    Application:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - properties:
+          description:
+            example: app description
+            type: string
+          metadata:
+            $ref: '#/components/schemas/ApplicationMetadata'
+          name:
+            example: app
+            type: string
+          teamId:
+            example: 2frepq0mjp841i3jfd030dhtmn
+            readOnly: true
+            type: string
+        type: object
     ApplicationCreate:
       description: Create
       properties:

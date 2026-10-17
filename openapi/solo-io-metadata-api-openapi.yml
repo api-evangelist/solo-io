@@ -45,6 +45,22 @@ paths:
           description: Missing required query parameters
 components:
   schemas:
+    CredentialMetadataResponse:
+      type: object
+      description: Response from credential metadata validation (internal endpoint used by ExtAuth)
+      required:
+      - allowed
+      properties:
+        allowed:
+          type: boolean
+          description: Whether the credential is valid and allowed
+        customMetadata:
+          type: object
+          description: Custom metadata associated with the credential
+          additionalProperties:
+            type: string
+        rateLimit:
+          $ref: '#/components/schemas/RateLimit'
     RateLimit:
       type: object
       description: Rate limit configuration
@@ -65,22 +81,6 @@ components:
           - DAY
           - MONTH
           - YEAR
-    CredentialMetadataResponse:
-      type: object
-      description: Response from credential metadata validation (internal endpoint used by ExtAuth)
-      required:
-      - allowed
-      properties:
-        allowed:
-          type: boolean
-          description: Whether the credential is valid and allowed
-        customMetadata:
-          type: object
-          description: Custom metadata associated with the credential
-          additionalProperties:
-            type: string
-        rateLimit:
-          $ref: '#/components/schemas/RateLimit'
   securitySchemes:
     bearerAuth:
       type: http

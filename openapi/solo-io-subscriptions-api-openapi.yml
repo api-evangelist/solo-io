@@ -302,6 +302,42 @@ paths:
     - url: http://portal.example.com/v1
 components:
   schemas:
+    CreateSubscriptionRequest:
+      type: object
+      description: Request body for creating a subscription
+      required:
+      - apiProductId
+      properties:
+        apiProductId:
+          type: string
+          description: ID of the API product to subscribe to
+    SubscriptionStatus:
+      type: string
+      description: Subscription status
+      enum:
+      - pending
+      - approved
+      - rejected
+    RateLimit:
+      type: object
+      description: Rate limit configuration
+      required:
+      - requestsPerUnit
+      - unit
+      properties:
+        requestsPerUnit:
+          type: string
+          description: Number of requests allowed per unit
+        unit:
+          type: string
+          description: Time unit for rate limiting
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
     Subscription:
       description: Subscription to an API product
       allOf:
@@ -331,37 +367,24 @@ components:
             description: Timestamp when the subscription was requested
           metadata:
             $ref: '#/components/schemas/ResourceMetadata'
-    RateLimit:
+    BaseEntity:
       type: object
-      description: Rate limit configuration
+      description: Base entity with common fields
       required:
-      - requestsPerUnit
-      - unit
+      - id
+      - createdAt
       properties:
-        requestsPerUnit:
+        id:
           type: string
-          description: Number of requests allowed per unit
-        unit:
+          description: Unique identifier
+        createdAt:
           type: string
-          description: Time unit for rate limiting
-          enum:
-          - SECOND
-          - MINUTE
-          - HOUR
-          - DAY
-          - MONTH
-          - YEAR
-    SetMetadataRequest:
-      type: object
-      description: Request body for setting metadata (rate limit and/or custom metadata) on a resource
-      properties:
-        rateLimit:
-          $ref: '#/components/schemas/RateLimit'
-        customMetadata:
-          type: object
-          description: Custom metadata key-value pairs
-          additionalProperties:
-            type: string
+          format: date-time
+          description: Timestamp when the entity was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the entity was last updated
     ResourceMetadata:
       type: object
       description: Metadata attached to a resource (app or subscription) including rate limits and custom key-value pairs
@@ -386,40 +409,64 @@ components:
           type: string
           format: date-time
           description: Timestamp when the parent resource was last updated
-    SubscriptionStatus:
-      type: string
-      description: Subscription status
-      enum:
-      - pending
-      - approved
-      - rejected
-    BaseEntity:
+    SetMetadataRequest:
       type: object
-      description: Base entity with common fields
-      required:
-      - id
-      - createdAt
+      description: Request body for setting metadata (rate limit and/or custom metadata) on a resource
       properties:
-        id:
+        rateLimit:
+          $ref: '#/components/schemas/RateLimit'
+        customMetadata:
+          type: object
+          description: Custom metadata key-value pairs
+          additionalProperties:
+            type: string
+    RateLimit_2:
+      properties:
+        requestsPerUnit:
+          example: 5
           type: string
-          description: Unique identifier
+        unit:
+          enum:
+          - SECOND
+          - MINUTE
+          - HOUR
+          - DAY
+          - MONTH
+          - YEAR
+          example: SECOND
+          type: string
+    SubscriptionMetadata:
+      allOf:
+      - $ref: '#/components/schemas/BaseEntity_2'
+      - properties:
+          customMetadata:
+            example:
+              key: value
+            type: object
+          rateLimit:
+            $ref: '#/components/schemas/RateLimit_2'
+        type: object
+    BaseEntity_2:
+      properties:
         createdAt:
-          type: string
+          example: '2021-08-25T20:00:00Z'
           format: date-time
-          description: Timestamp when the entity was created
+          readOnly: true
+          type: string
+        deletedAt:
+          example: '2021-08-25T20:00:00Z'
+          format: date-time
+          readOnly: true
+          type: string
+        id:
+          example: uuid
+          readOnly: true
+          type: string
         updatedAt:
-          type: string
+          example: '2021-08-25T20:00:00Z'
           format: date-time
-          description: Timestamp when the entity was last updated
-    CreateSubscriptionRequest:
-      type: object
-      description: Request body for creating a subscription
-      required:
-      - apiProductId
-      properties:
-        apiProductId:
+          readOnly: true
           type: string
-          description: ID of the API product to subscribe to
     Subscription_2:
       allOf:
       - $ref: '#/components/schemas/BaseEntity_2'
@@ -457,53 +504,6 @@ components:
             readOnly: true
             type: string
         type: object
-    SubscriptionMetadata:
-      allOf:
-      - $ref: '#/components/schemas/BaseEntity_2'
-      - properties:
-          customMetadata:
-            example:
-              key: value
-            type: object
-          rateLimit:
-            $ref: '#/components/schemas/RateLimit_2'
-        type: object
-    RateLimit_2:
-      properties:
-        requestsPerUnit:
-          example: 5
-          type: string
-        unit:
-          enum:
-          - SECOND
-          - MINUTE
-          - HOUR
-          - DAY
-          - MONTH
-          - YEAR
-          example: SECOND
-          type: string
-    BaseEntity_2:
-      properties:
-        createdAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-        deletedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
-        id:
-          example: uuid
-          readOnly: true
-          type: string
-        updatedAt:
-          example: '2021-08-25T20:00:00Z'
-          format: date-time
-          readOnly: true
-          type: string
   securitySchemes:
     bearerAuth:
       type: http
