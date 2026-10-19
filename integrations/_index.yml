@@ -38,3 +38,52 @@
     detected: '2026-10-15'
   status: not-a-workflow
   arazzo: null
+- slug: solo-io-npm-registry
+  label: npm registry
+  partner: npm
+  partner_name: npm registry
+  category: official SDK (JavaScript/TypeScript)
+  type: register
+  channel: package-registry
+  evidence: https://www.npmjs.com/package/@solo-io/proxy-runtime
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public registry JSON)
+    spec_file: null
+    language: JavaScript/TypeScript
+    packages:
+    - name: '@solo-io/proxy-runtime'
+      version: 0.1.15
+      released: '2026-07-10'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@solo-io/proxy-runtime
+      repo_leg: shared-github-org:solo-io
+      publisher_leg: email:solo.io
+      matched_by: domain+name-among-holders
+    - name: '@solo.io/graphql-schema-viewer'
+      version: 0.0.3
+      released: '2026-07-13'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@solo.io/graphql-schema-viewer
+      repo_leg: shared-github-org:solo-io
+      publisher_leg: email:solo.io
+      matched_by: domain+name-among-holders
+    - name: '@solo.io/platform-portal-backstage-plugin-backend'
+      version: 0.0.76
+      released: '2026-10-14'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@solo.io/platform-portal-backstage-plugin-backend
+      repo_leg: shared-github-org:solo-io
+      publisher_leg: email:solo.io
+      matched_by: domain+name-among-holders
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
